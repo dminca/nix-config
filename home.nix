@@ -101,4 +101,5 @@
       "root"
     ];
   };
+  programs.nnn.enable = true;
 }

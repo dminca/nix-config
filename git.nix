@@ -4,7 +4,7 @@
     enable = true;
     difftastic = {
       enable = true;
-      display = "inline";
+      display = "side-by-side";
     };
     extraConfig = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {

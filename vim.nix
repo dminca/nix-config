@@ -12,6 +12,7 @@
       vim-nix
       ctrlp-vim
       vim-gitgutter
+      nnn-vim
     ];
   };
 }

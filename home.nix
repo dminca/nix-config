@@ -17,7 +17,6 @@
     #################
     fzf
     zoxide
-    python3
     go
     gnupg
     bat

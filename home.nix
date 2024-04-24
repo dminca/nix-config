@@ -5,28 +5,37 @@
   home.homeDirectory = "/Users/dminca";
   home.stateVersion = "23.11";
   home.packages = with pkgs; [
+    ################
+    # core tooling #
+    ################
     git
     git-lfs
     nil
     nixpkgs-fmt
-    warp-terminal
-    vscodium
-    element-desktop
+    #################
+    # shell tooling #
+    #################
     fzf
     zoxide
+    python3
     go
     gnupg
+    bat
     jsonnet
+    exercism
     sipcalc
     hugo
     nodejs_21
     openssl
     operator-sdk
-    python3
-    exercism
-    bat
-    lsd
     gum
+    lsd
+    ########
+    # Apps #
+    ########
+    warp-terminal
+    vscodium
+    element-desktop
   ];
 
   nixpkgs.config.allowUnfree = true;

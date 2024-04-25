@@ -12,6 +12,7 @@
     git-lfs
     nil
     nixpkgs-fmt
+    fd
     #################
     # shell tooling #
     #################
@@ -73,6 +74,7 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    fileWidgetCommand = "fd --type file --follow --hidden --exclude .git";
   };
   programs.zoxide = {
     enable = true;

@@ -2,10 +2,7 @@
 {
   programs.git = {
     enable = true;
-    difftastic = {
-      enable = true;
-      display = "side-by-side";
-    };
+    delta.enable = true;
     extraConfig = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
         path = "${config.xdg.configHome}/git/github";
@@ -18,6 +15,10 @@
       };
       includeIf."gitdir:${config.home.homeDirectory}/Projects/gitlab.com/" = {
         path = "${config.xdg.configHome}/git/gitlab";
+      };
+      delta = {
+        navigate = true;
+        side-by-side = true;
       };
       core = {
         editor = "nvim";

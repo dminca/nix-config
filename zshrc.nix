@@ -57,8 +57,6 @@
       grba = "git rebase --abort";
       grbc = "git rebase --continue";
       gbd = "git branch | gum choose --no-limit | xargs git branch -D";
-      l = "lsd --all --human-readable --icon auto --icon-theme fancy --long";
-      lt = "l --tree";
     };
   };
 }

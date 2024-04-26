@@ -29,7 +29,6 @@
     openssl
     operator-sdk
     gum
-    lsd
     ########
     # Apps #
     ########
@@ -113,4 +112,15 @@
     ];
   };
   programs.nnn.enable = true;
+  programs.lsd = {
+    enable = true;
+    enableAliases = true;
+    settings = {
+      date = "relative";
+      ignore-globs = [
+        ".git"
+        ".hg"
+      ];
+    };
+  };
 }

@@ -16,8 +16,6 @@
     #################
     # shell tooling #
     #################
-    fzf
-    zoxide
     go
     gnupg
     bat

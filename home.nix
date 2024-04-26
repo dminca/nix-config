@@ -72,7 +72,6 @@
     enable = true;
     enableZshIntegration = true;
     fileWidgetCommand = "fd --type file --follow --hidden --exclude .git";
-    changeDirWidgetCommand = "fd --type directory --follow --hidden --exclude .git";
   };
   programs.zoxide = {
     enable = true;

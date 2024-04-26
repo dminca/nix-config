@@ -91,7 +91,6 @@
     terminal = "screen-256color";
     historyLimit = 5000;
     baseIndex = 1;
-    mouse = true;
     secureSocket = true;
   };
   programs.powerline-go = {

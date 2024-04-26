@@ -89,9 +89,12 @@
     clock24 = true;
     keyMode = "vi";
     prefix = "C-a";
-    historyLimit = 5000;
-    terminal = "screen-256color";
     extraConfig = lib.fileContents ./dotfiles/tmux.conf;
+    terminal = "screen-256color";
+    historyLimit = 5000;
+    baseIndex = 1;
+    mouse = true;
+    secureSocket = true;
   };
   programs.powerline-go = {
     enable = true;

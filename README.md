@@ -10,14 +10,14 @@ At the current point in time, this configuration is aimed at aarch64-darwin arch
 
 ### Install `nix`
 
-- [NixOS docs](https://nixos.org/download)
+- [&nearr;&nbsp;NixOS docs][1]
 
 ```sh
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 ### Install `nix-darwin`
 
-- [nix-darwin](https://github.com/LnL7/nix-darwin)
+- [&nearr;&nbsp;nix-darwin][2]
 
 ```sh
 nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
@@ -25,6 +25,8 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ```
 
 ### Install `home-manager`
+
+- [&nearr;&nbsp;home-manager][3]
 
 ```sh
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -51,7 +53,7 @@ nix run . -- switch --flake .
 
 #### Day-1
 
-- sample `.sops.yaml` & `secrets/example.yaml` [source](https://github.com/Mic92/sops-nix)
+- sample `.sops.yaml` & `secrets/example.yaml` [&nearr;&nbsp;source][4]
 
 ```sh
 # create dir where key will be added
@@ -78,11 +80,15 @@ nix-shell -p sops --run "sops secrets/example.yaml"
 
 ## Roadmap
 - [ ] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
-- [ ] port dotfiles (zshrc, neovim etc.)
+- [x] port dotfiles (zshrc, neovim etc.)
 - [x] install `kubectl` for user profile
 - [x] install `helm` for user profile
 - [x] install `kubectx` for user profile
 
+[1]: https://nixos.org/download
+[2]: https://github.com/LnL7/nix-darwin
+[3]: https://github.com/nix-community/home-manager
+[4]: https://github.com/Mic92/sops-nix
 <!--
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.

@@ -36,7 +36,6 @@
           };
         };
         "codeLens.enable" = true;
-        #"coc.preferences.formatOnSaveFiletypes" = [ "haskell" "lhaskell" ];
         "coc.preferences.currentFunctionSymbolAutoUpdate" = true;
         "suggest.noselect" = true;
       };

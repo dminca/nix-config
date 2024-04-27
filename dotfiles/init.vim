@@ -10,6 +10,28 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_winsize = 25
 
+" coc settings * ----------------------------------------------------------- *
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+" https://github.com/weirongxu/coc-explorer#usage
+nmap <space>f :CocCommand explorer<CR>
+" endof coc settings * ----------------------------------------------------- *
+
 " Show vertical line guide width
 set colorcolumn=79
 

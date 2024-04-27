@@ -13,6 +13,7 @@
     nil
     nixpkgs-fmt
     fd
+    nodePackages.bash-language-server
     #################
     # shell tooling #
     #################

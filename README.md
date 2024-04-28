@@ -81,7 +81,7 @@ nix-shell -p sops --run "sops secrets/example.yaml"
 ### Searching for `tmux` or `vim` plugins
 
 > [!IMPORTANT]
-> This works only within `home-manager` setup (it's the only way I tested).
+> These plugins can only be used within `home-manager` setup (it's the only way I tested).
 > The search will retrieve a list of packages from the Nix Store, this means
 > you can add them in the `plugins = []` section
 

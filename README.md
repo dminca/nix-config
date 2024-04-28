@@ -78,6 +78,21 @@ nix-shell -p sops --run "sops --encrypt secrets/example.yaml" | pbcopy
 nix-shell -p sops --run "sops secrets/example.yaml"
 ```
 
+### Searching for `tmux` or `vim` plugins
+
+> [!IMPORTANT]
+> This works only within `home-manager` setup (it's the only way I tested).
+> The search will retrieve a list of packages from the Nix Store, this means
+> you can add them in the `plugins = []` section
+
+```sh
+nix-env -f '<nixpkgs>' -qaP -A vimPlugins
+```
+
+```sh
+nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
+```
+
 ## Roadmap
 - [ ] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)

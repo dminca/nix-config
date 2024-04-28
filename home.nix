@@ -92,6 +92,9 @@
     historyLimit = 5000;
     baseIndex = 1;
     secureSocket = true;
+    plugins = with pkgs.tmuxPlugins; [
+      nord
+    ];
   };
   programs.powerline-go = {
     enable = true;

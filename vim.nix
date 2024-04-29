@@ -54,8 +54,6 @@
           enable = true,
         },
       }
-      -- Share clipboard with MacOS
-      vim.o.clipboard = 'unnamed'
     '';
   };
 }

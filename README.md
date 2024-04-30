@@ -93,6 +93,27 @@ nix-env -f '<nixpkgs>' -qaP -A vimPlugins
 nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
 ```
 
+### Installing fonts
+
+It's just not straightforward. This case covers only fonts installed via
+`Home-Manager`
+
+After `nix run -- switch --flake .` this needs to be executed
+
+```sh
+# reload font cache
+fc-cache
+```
+
+```sh
+# check font was installed; in this case 'Hack' (part of nerdfonts family)
+fc-list -v | grep -i 'hack'
+```
+
+Should retrieve a list of garbled stuff referencing 'Hack' in there.
+
+More info [here][5].
+
 ## Roadmap
 - [ ] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)
@@ -104,4 +125,5 @@ nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
 [2]: https://github.com/LnL7/nix-darwin
 [3]: https://github.com/nix-community/home-manager
 [4]: https://github.com/Mic92/sops-nix
+[5]: https://nixos.wiki/wiki/Fonts
 

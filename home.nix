@@ -14,6 +14,7 @@
     nixpkgs-fmt
     fd
     nodePackages.bash-language-server
+    (nerdfonts.override { fonts = [ "Hack" ]; })
     #################
     # shell tooling #
     #################
@@ -36,6 +37,8 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+
+  fonts.fontconfig.enable = true;
 
   sops = {
     defaultSopsFile = ./secrets/example.yaml;

@@ -24,7 +24,6 @@
     exercism
     sipcalc
     hugo
-    nodejs_21
     openssl
     operator-sdk
     gum

@@ -112,7 +112,7 @@ fc-list -v | grep -i 'hack'
 
 Should retrieve a list of garbled stuff referencing 'Hack' in there.
 
-More info [here][5].
+More info [&nearr;&nbsp;here][5].
 
 ## Roadmap
 - [ ] port all brew packages (all packages are listed in [Brewfile](./Brewfile)

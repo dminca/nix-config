@@ -11,7 +11,7 @@
     git
     git-lfs
     nil
-    nixpkgs-fmt
+    nixfmt-classic
     fd
     nodePackages.bash-language-server
     (nerdfonts.override { fonts = [ "Hack" ]; })

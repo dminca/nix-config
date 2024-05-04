@@ -12,7 +12,6 @@
     git-lfs
     nil
     nixfmt-classic
-    fd
     nodePackages.bash-language-server
     (nerdfonts.override { fonts = [ "Hack" ]; })
     #################
@@ -125,6 +124,17 @@
     extraOptions = [
       "--group-directories-first"
       "--header"
+    ];
+  };
+  programs.fd = {
+    enable = true;
+    extraOptions = [
+      "--no-ignore"
+      "--absolute-path"
+    ];
+    ignores = [
+      ".git"
+      ".hg"
     ];
   };
 }

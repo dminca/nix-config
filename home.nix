@@ -117,15 +117,14 @@
     ];
   };
   programs.nnn.enable = true;
-  programs.lsd = {
+  programs.eza = {
     enable = true;
-    enableAliases = true;
-    settings = {
-      date = "relative";
-      ignore-globs = [
-        ".git"
-        ".hg"
-      ];
-    };
+    git = true;
+    icons = true;
+    enableZshIntegration = true;
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+    ];
   };
 }

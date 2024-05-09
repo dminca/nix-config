@@ -1,4 +1,4 @@
-colorscheme murphy
+colorscheme nord
 set number
 set relativenumber
 

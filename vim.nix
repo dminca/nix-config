@@ -47,11 +47,18 @@
       nvim-treesitter.withAllGrammars
       coc-json
       coc-explorer
+      nord-nvim
+      lualine-nvim
     ];
     extraLuaConfig = ''
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
+        },
+      }
+      require('lualine').setup {
+        options = {
+          theme  = 'nord',
         },
       }
     '';

@@ -30,7 +30,7 @@
             rootPatterns = ["flake.nix"];
             settings.nil.formatting = {
               command = [
-                (lib.getExe pkgs.nixfmt)
+                (lib.getExe pkgs.nixfmt-classic)
               ];
             };
           };

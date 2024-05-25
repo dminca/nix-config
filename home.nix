@@ -33,7 +33,6 @@
     warp-terminal
     vscodium
     element-desktop
-    arc-browser
   ];
 
   nixpkgs.config.allowUnfree = true;

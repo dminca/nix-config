@@ -1,6 +1,7 @@
 colorscheme retrobox
 set number
 set relativenumber
+set shellcmdflag+=i
 
 " file manager settings: netrw
 let g:netrw_keepdir=0

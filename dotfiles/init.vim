@@ -1,4 +1,4 @@
-colorscheme nord
+colorscheme retrobox
 set number
 set relativenumber
 

@@ -16,42 +16,26 @@
   };
 
   outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }:
-    let
-      configuration = { pkgs, ... }: {
-        environment.systemPackages = [ pkgs.neovim ];
+  {
+    system.configurationRevision = self.rev or self.dirtyRev or null;
+    darwinConfigurations."ne0byte" = nix-darwin.lib.darwinSystem {
+      modules = [ ./system.nix ];
+    };
 
-        services.nix-daemon.enable = true;
-        nix.settings.experimental-features = "nix-command flakes";
-        programs.zsh.enable = true;
+    darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
 
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-        system.stateVersion = 4;
-        system.keyboard.enableKeyMapping = true;
-        system.keyboard.remapCapsLockToEscape = true;
-        system.defaults.NSGlobalDomain.InitialKeyRepeat = 14;
-        system.defaults.NSGlobalDomain.KeyRepeat = 1;
-        nixpkgs.hostPlatform = "aarch64-darwin";
-      };
-    in
-    {
-      darwinConfigurations."ne0byte" = nix-darwin.lib.darwinSystem {
-        modules = [ configuration ];
-      };
-
-      darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
-
-      defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
-      homeConfigurations = {
-        "dminca" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { system = "aarch64-darwin"; };
-          modules = [
-            sops-nix.homeManagerModules.sops
-            ./home.nix
-            ./vim.nix
-            ./git.nix
-            ./zshrc.nix
-          ];
-        };
+    defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
+    homeConfigurations = {
+      "dminca" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-darwin"; };
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./home.nix
+          ./vim.nix
+          ./git.nix
+          ./zshrc.nix
+        ];
       };
     };
+  };
 }

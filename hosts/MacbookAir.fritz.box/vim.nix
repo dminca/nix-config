@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 {
   # https://nixos.wiki/wiki/Neovim
   programs.neovim = {

@@ -15,7 +15,13 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }:
+  outputs = {
+    self,
+    nix-darwin,
+    nixpkgs,
+    home-manager,
+    sops-nix
+  }:
   {
     system.configurationRevision = self.rev or self.dirtyRev or null;
     darwinConfigurations = {
@@ -28,10 +34,10 @@
 
     darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
 
-    # TODO: do we need this?
-    #defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
+    defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
+    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     homeConfigurations = {
-      "MacbookAir.fritz.box" = home-manager.lib.homeManagerConfiguration {
+      "dminca" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "aarch64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops

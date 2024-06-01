@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 {
   environment.systemPackages = [ pkgs.neovim ];
   services.nix-daemon.enable = true;

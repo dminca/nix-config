@@ -27,12 +27,22 @@
     darwinConfigurations = {
       "ne0byte" = nix-darwin.lib.darwinSystem {
         modules = [
+          ./hosts/common/system.nix
           ./hosts/MacbookAir.fritz.box/system.nix
+        ];
+      };
+
+      "M-C02FX3JUML85" = nix-darwin.lib.darwinSystem {
+        modules = [
+          ./hosts/common/system.nix
+          ./hosts/M-C02FX3JUML85/system.nix
         ];
       };
     };
 
-    darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
+    # TODO: are these still needed?
+    #darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
+    #darwinPackages = self.darwinConfigurations."M-C02FX3JUML85".pkgs;
 
     defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
     defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
@@ -45,6 +55,17 @@
           ./hosts/MacbookAir.fritz.box/vim.nix
           ./hosts/MacbookAir.fritz.box/git.nix
           ./hosts/MacbookAir.fritz.box/zshrc.nix
+        ];
+      };
+
+      "DanielAndrei.Minca" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { system = "x86_64-darwin"; };
+        modules = [
+          sops-nix.homeManagerModules.sops
+          ./hosts/M-C02FX3JUML85/home-manager/home.nix
+          ./hosts/M-C02FX3JUML85/home-manager/zshrc.nix
+          ./hosts/M-C02FX3JUML85/home-manager/neovim.nix
+          ./hosts/M-C02FX3JUML85/home-manager/git.nix
         ];
       };
     };

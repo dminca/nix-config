@@ -1,8 +1,13 @@
 keys:
-  - &admin_daniel age1lw0uetqnw87rxwrvpd7vjrm0zuhcljkln27rek746q3leqf9dfsqnalt30
+  - &admin_dminca age1lw0uetqnw87rxwrvpd7vjrm0zuhcljkln27rek746q3leqf9dfsqnalt30
+  - &admin_diminc age1lnnxnx32fhkzr8ukyvaw3ghtddf9gyujewk4h8kxrn0fzk9ds9jqq9quxa
 creation_rules:
   - path_regex: hosts/MacbookAir.fritz.box/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *admin_daniel
+        - *admin_dminca
+  - path_regex: hosts/M-C02FX3JUML85/home-manager/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *admin_diminc
 

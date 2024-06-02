@@ -62,13 +62,13 @@
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common/home.nix
-          ./hosts/M-C02FX3JUML85/home-manager/home.nix
+          ./hosts/M-C02FX3JUML85/home.nix
           ./hosts/common/neovim.nix
-          ./hosts/M-C02FX3JUML85/home-manager/neovim.nix
+          ./hosts/M-C02FX3JUML85/neovim.nix
           ./hosts/common/git.nix
-          ./hosts/M-C02FX3JUML85/home-manager/git.nix
+          ./hosts/M-C02FX3JUML85/git.nix
           ./hosts/common/zshrc.nix
-          ./hosts/M-C02FX3JUML85/home-manager/zshrc.nix
+          ./hosts/M-C02FX3JUML85/zshrc.nix
         ];
       };
     };

@@ -47,13 +47,8 @@
         pkgs = import nixpkgs { system = "aarch64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
-          ./hosts/common/home.nix
-          ./hosts/MacbookAir.fritz.box/home.nix
-          ./hosts/common/neovim.nix
-          ./hosts/MacbookAir.fritz.box/neovim.nix
-          ./hosts/common/git.nix
-          ./hosts/MacbookAir.fritz.box/git.nix
-          ./hosts/common/zshrc.nix
+          ./hosts/common
+          ./hosts/MacbookAir.fritz.box
         ];
       };
 
@@ -61,14 +56,8 @@
         pkgs = import nixpkgs { system = "x86_64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
-          ./hosts/common/home.nix
-          ./hosts/M-C02FX3JUML85/home.nix
-          ./hosts/common/neovim.nix
-          ./hosts/M-C02FX3JUML85/neovim.nix
-          ./hosts/common/git.nix
-          ./hosts/M-C02FX3JUML85/git.nix
-          ./hosts/common/zshrc.nix
-          ./hosts/M-C02FX3JUML85/zshrc.nix
+          ./hosts/common
+          ./hosts/M-C02FX3JUML85
         ];
       };
     };

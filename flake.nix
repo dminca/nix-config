@@ -56,7 +56,7 @@
           ./hosts/MacbookAir.fritz.box/vim.nix
           ./hosts/common/git.nix
           ./hosts/MacbookAir.fritz.box/git.nix
-          ./hosts/MacbookAir.fritz.box/zshrc.nix
+          ./hosts/common/zshrc.nix
         ];
       };
 

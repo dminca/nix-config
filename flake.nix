@@ -51,6 +51,7 @@
         pkgs = import nixpkgs { system = "aarch64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
+          ./hosts/common/home.nix
           ./hosts/MacbookAir.fritz.box/home.nix
           ./hosts/common/neovim.nix
           ./hosts/MacbookAir.fritz.box/neovim.nix
@@ -64,6 +65,7 @@
         pkgs = import nixpkgs { system = "x86_64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
+          ./hosts/common/home.nix
           ./hosts/M-C02FX3JUML85/home-manager/home.nix
           ./hosts/M-C02FX3JUML85/home-manager/zshrc.nix
           ./hosts/common/neovim.nix

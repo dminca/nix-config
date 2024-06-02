@@ -10,25 +10,10 @@
   home.homeDirectory = "/Users/DanielAndrei.Minca";
   home.stateVersion = "23.11";
   home.packages = with pkgs; [
-    ################
-    # core tooling #
-    ################
-    git
-    git-lfs
-    nil
-    nixfmt-classic
-    wget
-    nodePackages.bash-language-server
-    (nerdfonts.override { fonts = [ "Hack" ]; })
     #################
     # shell tooling #
     #################
-    bat
-    gum
-    direnv
-    sipcalc
     python3
-    openssl
     pinentry_mac
     rsync
     tcptraceroute
@@ -42,7 +27,6 @@
     kubectx
     krew
     sloth
-    go
     hugo
     jq
     jsonnet
@@ -61,9 +45,6 @@
     ########
     # Apps #
     ########
-    warp-terminal
-    vscodium
-    element-desktop
     drawio
     postman
     wireshark
@@ -71,11 +52,6 @@
     maccy
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
-  fonts.fontconfig.enable = true;
-
-  # https://github.com/Mic92/sops-nix/issues/287
   sops = {
     defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
@@ -119,7 +95,6 @@
   };
 
   home.file = {
-    "${config.xdg.configHome}/git/git-commit-template.commit".source = ./dotfiles/git-commit-template.commit;
     ".gnupg/gpg-agent.conf".text = ''
       default-cache-ttl 600
       max-cache-ttl 7200
@@ -132,48 +107,26 @@
     GPG_TTY = "$(tty)";
     GOPATH = "${config.home.homeDirectory}/Repos/open-source/others/gopath";
     SSH_AUTH_SOCK = "$(gpgconf --list-dirs agent-ssh-socket)";
-    SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";
   };
 
   home.sessionPath = [
-    "$GOPATH/bin"
     "${config.home.homeDirectory}/.krew/bin"
   ];
 
-  programs.home-manager.enable = true;
-
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    fileWidgetCommand = "fd --type file --follow --hidden --exclude .git";
-  };
-  programs.zoxide.enable = true;
-  programs.zoxide.enableZshIntegration = true;
   programs.direnv.enable = true;
   programs.java.enable = true;
-  programs.gpg.enable = true;
-  programs.gpg.settings = {
-    auto-key-retrieve = true;
-    no-emit-version = true;
-    default-key = "D02DE2B3DF391A132A379A1EEACCEEE9CC3C8E69";
-    use-agent = false;
-    no-tty = false;
-  };
-  programs.go.enable = true;
-  programs.go.goPath = "Repos/open-source/others/gopath";
-  programs.tmux = {
+  programs.gpg = {
     enable = true;
-    clock24 = true;
-    keyMode = "vi";
-    prefix = "C-a";
-    extraConfig = lib.fileContents ./dotfiles/tmux.conf;
-    terminal = "screen-256color";
-    historyLimit = 5000;
-    baseIndex = 1;
-    secureSocket = true;
-    plugins = with pkgs.tmuxPlugins; [
-      nord
-    ];
+    settings = {
+      auto-key-retrieve = true;
+      no-emit-version = true;
+      default-key = "D02DE2B3DF391A132A379A1EEACCEEE9CC3C8E69";
+      use-agent = false;
+      no-tty = false;
+    };
+  };
+  programs.go = {
+    goPath = "Repos/open-source/others/gopath";
   };
   programs.k9s = {
     enable = true;
@@ -317,44 +270,8 @@
     };
   };
   programs.powerline-go = {
-    enable = true;
-    settings = {
-      cwd-max-depth = 2;
-    };
     modules = [
-      "user"
-      "host"
-      "ssh"
-      "cwd"
-      "perms"
-      "git"
-      "hg"
-      "jobs"
-      "exit"
-      "root"
       "kube"
-    ];
-  };
-  programs.nnn.enable = true;
-  programs.eza = {
-    enable = true;
-    git = true;
-    icons = true;
-    enableZshIntegration = true;
-    extraOptions = [
-      "--group-directories-first"
-      "--header"
-    ];
-  };
-  programs.fd = {
-    enable = true;
-    extraOptions = [
-      "--no-ignore"
-      "--absolute-path"
-    ];
-    ignores = [
-      ".git"
-      ".hg"
     ];
   };
 }

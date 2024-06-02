@@ -53,7 +53,7 @@
           sops-nix.homeManagerModules.sops
           ./hosts/MacbookAir.fritz.box/home.nix
           ./hosts/common/neovim.nix
-          ./hosts/MacbookAir.fritz.box/vim.nix
+          ./hosts/MacbookAir.fritz.box/neovim.nix
           ./hosts/common/git.nix
           ./hosts/MacbookAir.fritz.box/git.nix
           ./hosts/common/zshrc.nix

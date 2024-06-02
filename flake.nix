@@ -40,10 +40,6 @@
       };
     };
 
-    # TODO: are these still needed?
-    #darwinPackages = self.darwinConfigurations."ne0byte".pkgs;
-    #darwinPackages = self.darwinConfigurations."M-C02FX3JUML85".pkgs;
-
     defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
     defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     homeConfigurations = {

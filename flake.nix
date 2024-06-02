@@ -67,6 +67,7 @@
           sops-nix.homeManagerModules.sops
           ./hosts/common/home.nix
           ./hosts/M-C02FX3JUML85/home-manager/home.nix
+          ./hosts/common/zshrc.nix
           ./hosts/M-C02FX3JUML85/home-manager/zshrc.nix
           ./hosts/common/neovim.nix
           ./hosts/M-C02FX3JUML85/home-manager/neovim.nix

@@ -4,8 +4,6 @@
 }:
 {
   programs.git = {
-    enable = true;
-    delta.enable = true;
     extraConfig = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
         path = "${config.xdg.configHome}/git/identity_work";

@@ -52,6 +52,7 @@
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/MacbookAir.fritz.box/home.nix
+          ./hosts/common/neovim.nix
           ./hosts/MacbookAir.fritz.box/vim.nix
           ./hosts/common/git.nix
           ./hosts/MacbookAir.fritz.box/git.nix
@@ -65,6 +66,7 @@
           sops-nix.homeManagerModules.sops
           ./hosts/M-C02FX3JUML85/home-manager/home.nix
           ./hosts/M-C02FX3JUML85/home-manager/zshrc.nix
+          ./hosts/common/neovim.nix
           ./hosts/M-C02FX3JUML85/home-manager/neovim.nix
           ./hosts/common/git.nix
           ./hosts/M-C02FX3JUML85/home-manager/git.nix

@@ -18,7 +18,6 @@
         name = "vivaldi";
         greedy = true;
       }
-      "flameshot"
     ];
   };
 }

@@ -28,7 +28,7 @@
       setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
       setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
       setopt HIST_BEEP                 # Beep when accessing nonexistent history.
-      eval $(/opt/homebrew/bin/brew shellenv) # Set PATH, MANPATH, etc., for Homebrew.
+      eval "$($(which brew) shellenv)" # Set PATH, MANPATH, etc., for Homebrew.
     '';
     shellAliases = {
       g = "git";

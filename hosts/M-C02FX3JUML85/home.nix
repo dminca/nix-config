@@ -42,6 +42,7 @@
     minio-client
     colima
     docker-client
+    helm-ls
     ########
     # Apps #
     ########

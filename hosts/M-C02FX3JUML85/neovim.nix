@@ -11,6 +11,18 @@
         source ${config.sops.secrets.additionalNvimconfig.path}
       ''
     ];
+    coc = {
+      settings = {
+        languageserver = {
+          helm = {
+            command = "helm_ls";
+            args = ["serve"];
+            filetypes = ["helm" "helmfile"];
+            rootPatterns = ["Chart.yaml"];
+          };
+        };
+      };
+    };
   };
 }
 

@@ -43,6 +43,7 @@
     colima
     docker-client
     helm-ls
+    helm-docs
     ########
     # Apps #
     ########

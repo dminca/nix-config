@@ -41,6 +41,7 @@
         "codeLens.enable" = true;
         "coc.preferences.currentFunctionSymbolAutoUpdate" = true;
         "suggest.noselect" = true;
+        "explorer.icon.enableNerdfont" = true;
       };
     };
     plugins = with pkgs.vimPlugins; [

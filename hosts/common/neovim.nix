@@ -51,11 +51,11 @@
       nvim-treesitter.withAllGrammars
       coc-json
       coc-explorer
-      nord-nvim
       lualine-nvim
       telescope-nvim
     ];
     extraLuaConfig = ''
+      vim.cmd.colorscheme('zaibatsu')
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
@@ -63,10 +63,13 @@
       }
       require('lualine').setup {
         options = {
-          theme  = 'nord',
+          theme  = 'dracula',
         },
         sections = {
+          lualine_a = {'mode'},
           lualine_b = {
+            'branch',
+            'diff',
             {
               'diagnostics',
               sources = { 'nvim_diagnostic', 'coc' },
@@ -95,6 +98,7 @@
               path = 1,
             },
           },
+          lualine_x = {'location'},
         },
         tabline = {
           lualine_a = {'tabs'},

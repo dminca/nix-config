@@ -1,4 +1,3 @@
-colorscheme zaibatsu
 set number
 set relativenumber
 set shellcmdflag+=i

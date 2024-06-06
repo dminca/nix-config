@@ -19,6 +19,7 @@
     tcptraceroute
     viddy # watch replacement
     pre-commit
+    glab
     ########################
     # cloud-native tooling #
     ########################
@@ -94,6 +95,10 @@
   };
   sops.secrets.sman = {
     sopsFile = ./secrets/sman.yaml;
+  };
+  sops.secrets.glab = {
+    sopsFile = ./secrets/config.yml;
+    path = "${config.xdg.configHome}/glab-cli/config.yml";
   };
 
   home.file = {

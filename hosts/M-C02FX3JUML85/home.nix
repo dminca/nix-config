@@ -45,6 +45,7 @@
     docker-client
     helm-ls
     helm-docs
+    kluctl
     ########
     # Apps #
     ########

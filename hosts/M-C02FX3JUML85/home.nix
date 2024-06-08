@@ -277,9 +277,4 @@
       };
     };
   };
-  programs.powerline-go = {
-    modules = [
-      "kube"
-    ];
-  };
 }

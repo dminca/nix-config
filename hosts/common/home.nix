@@ -69,24 +69,6 @@
       nord
     ];
   };
-  programs.powerline-go = {
-    enable = true;
-    settings = {
-      cwd-max-depth = 2;
-    };
-    modules = [
-      "user"
-      "host"
-      "ssh"
-      "cwd"
-      "perms"
-      "git"
-      "hg"
-      "jobs"
-      "exit"
-      "root"
-    ];
-  };
   programs.nnn.enable = true;
   programs.eza = {
     enable = true;
@@ -120,6 +102,10 @@
       "--colors=line:style:bold"
       "--smart-case"
     ];
+  };
+  programs.oh-my-posh = {
+    enable = true;
+    enableZshIntegration = true;
   };
 }
 

@@ -54,6 +54,7 @@
     wireshark
     cyberduck
     maccy
+    element-desktop
   ];
 
   sops = {

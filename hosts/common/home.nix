@@ -29,7 +29,6 @@
     ########
     warp-terminal
     vscodium
-    element-desktop
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;

@@ -15,10 +15,6 @@
       "hot"
       "notion"
       "slack"
-      {
-        name = "vivaldi";
-        greedy = true;
-      }
     ];
   };
 }

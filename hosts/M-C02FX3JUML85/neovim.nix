@@ -11,15 +11,6 @@
         source ${config.sops.secrets.additionalNvimconfig.path}
       ''
     ];
-    extraLuaConfig = ''
-      require("telescope").setup{
-        defaults = {
-          path_display = {
-            "smart",
-          },
-        }
-      }
-    '';
     coc = {
       settings = {
         languageserver = {

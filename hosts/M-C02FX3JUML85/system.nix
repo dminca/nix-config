@@ -15,6 +15,10 @@
       "hot"
       "notion"
       "slack"
+      {
+        name = "firefox@developer-edition";
+        greedy = true;
+      }
     ];
   };
 }

@@ -1,5 +1,7 @@
 ![logo](https://files.mastodon.social/media_attachments/files/112/151/054/369/403/173/original/a69d68a35ca9d4da.jpeg)
 
+[![built with nix](https://img.shields.io/static/v1?logo=nixos&logoColor=white&label=&message=Built%20with%20Nix&color=41439a)](https://builtwithnix.org)
+
 # nix-config
 NixOS configuration for bootstrapping Daniel's station (Darwin)
 

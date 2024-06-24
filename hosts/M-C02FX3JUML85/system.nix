@@ -19,6 +19,10 @@
         name = "firefox@developer-edition";
         greedy = true;
       }
+      {
+        name = "krita";
+        greedy = true;
+      }
     ];
   };
 }

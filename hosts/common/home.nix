@@ -27,8 +27,6 @@
     ########
     # Apps #
     ########
-    warp-terminal
-    vscodium
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;

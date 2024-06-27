@@ -16,7 +16,7 @@
       "notion"
       "slack"
       {
-        name = "firefox@developer-edition";
+        name = "firefox";
         greedy = true;
       }
       {

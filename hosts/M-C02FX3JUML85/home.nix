@@ -299,6 +299,19 @@
       font.italic = {
         family = "Hack Nerd Font";
       };
+      # Word jump with Ctrl-Left/Right
+      keyboard.bindings = [
+        {
+          key = "Right";
+          mods = "Control";
+          chars = "\\u001BF";
+        }
+        {
+          key = "Left";
+          mods = "Control";
+          chars = "\\u001BB";
+        }
+      ];
     };
   };
   programs.yazi = {

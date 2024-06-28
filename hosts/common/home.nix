@@ -122,6 +122,19 @@
     enable = true;
     settings = {
       live_config_reload = true;
+      colors.draw_bold_text_with_bright_colors = true;
+      window = {
+        opacity = 1.0;
+        dimensions = {
+          columns = 0;
+          lines = 0;
+        };
+        padding = {
+          x = 2;
+          y = 2;
+        };
+        decorations = "full";
+      };
       font = {
         size = 10;
       };
@@ -132,7 +145,7 @@
         family = "Hack Nerd Font";
       };
       env = {
-        TERM = "xterm-256color";
+        TERM = "screen-256color";
       };
       font.italic = {
         family = "Hack Nerd Font";

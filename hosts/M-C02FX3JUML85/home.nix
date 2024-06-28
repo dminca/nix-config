@@ -89,9 +89,6 @@
     sopsFile = ./secrets/gitconfig_identities.yaml;
     path = "${config.xdg.configHome}/git/identity_opensource";
   };
-  sops.secrets.additionalNvimconfig = {
-    sopsFile = ./secrets/neovim.yaml;
-  };
   sops.secrets.additionalGitconfig = {
     sopsFile = ./secrets/fqdns.yaml;
   };

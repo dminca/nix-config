@@ -124,11 +124,8 @@
       live_config_reload = true;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
-        opacity = 1.0;
-        dimensions = {
-          columns = 0;
-          lines = 0;
-        };
+        blur = true;
+        opacity = 0.9;
         padding = {
           x = 2;
           y = 2;

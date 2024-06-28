@@ -283,47 +283,4 @@
       "kube"
     ];
   };
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      live_config_reload = true;
-      font = {
-        size = 10;
-      };
-      font.normal = {
-        family = "Hack Nerd Font";
-      };
-      font.bold = {
-        family = "Hack Nerd Font";
-      };
-      env = {
-        TERM = "xterm-256color";
-      };
-      font.italic = {
-        family = "Hack Nerd Font";
-      };
-      # Word jump with Ctrl-Left/Right
-      keyboard.bindings = [
-        {
-          key = "Right";
-          mods = "Control";
-          chars = "\\u001BF";
-        }
-        {
-          key = "Left";
-          mods = "Control";
-          chars = "\\u001BB";
-        }
-      ];
-    };
-  };
-  programs.yazi = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      manager = {
-        sort_dir_first = true;
-      };
-    };
-  };
 }

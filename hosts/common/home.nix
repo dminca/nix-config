@@ -125,7 +125,6 @@
       colors.draw_bold_text_with_bright_colors = true;
       window = {
         blur = true;
-        opacity = 0.9;
         padding = {
           x = 2;
           y = 2;

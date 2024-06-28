@@ -283,4 +283,22 @@
       "kube"
     ];
   };
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      live_config_reload = true;
+      font = {
+        size = 10;
+      };
+      font.normal = {
+        family = "Hack Nerd Font";
+      };
+      font.bold = {
+        family = "Hack Nerd Font";
+      };
+      font.italic = {
+        family = "Hack Nerd Font";
+      };
+    };
+  };
 }

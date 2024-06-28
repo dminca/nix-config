@@ -296,6 +296,9 @@
       font.bold = {
         family = "Hack Nerd Font";
       };
+      env = {
+        TERM = "xterm-256color";
+      };
       font.italic = {
         family = "Hack Nerd Font";
       };

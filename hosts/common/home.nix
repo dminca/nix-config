@@ -58,7 +58,7 @@
     keyMode = "vi";
     prefix = "C-a";
     extraConfig = lib.fileContents ./dotfiles/tmux.conf;
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     historyLimit = 5000;
     baseIndex = 1;
     secureSocket = true;

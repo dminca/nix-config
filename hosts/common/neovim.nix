@@ -56,6 +56,7 @@
     ];
     extraLuaConfig = ''
       vim.cmd.colorscheme('zaibatsu')
+      vim.o.termguicolors = true
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,

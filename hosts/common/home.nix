@@ -133,7 +133,7 @@
           x = 2;
           y = 2;
         };
-        decorations = "full";
+        decorations = "none";
       };
       font = {
         size = 10;

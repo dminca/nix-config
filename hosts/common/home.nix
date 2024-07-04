@@ -52,20 +52,6 @@
   programs.go = {
     enable = true;
   };
-  programs.tmux = {
-    enable = true;
-    clock24 = true;
-    keyMode = "vi";
-    prefix = "C-a";
-    extraConfig = lib.fileContents ./dotfiles/tmux.conf;
-    terminal = "tmux-256color";
-    historyLimit = 5000;
-    baseIndex = 1;
-    secureSocket = true;
-    plugins = with pkgs.tmuxPlugins; [
-      nord
-    ];
-  };
   programs.powerline-go = {
     enable = true;
     settings = {

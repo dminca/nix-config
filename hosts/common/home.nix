@@ -39,6 +39,13 @@
         rev = "1f99e6682d84fe4d8e3177d3add8d0591607a2ac";
         sha256 = "sha256-Y51wmGRYDjxbgO/g66+aBA+uOVrQpv2rQIjxbuzm0uk=";
       } + "/themes";
+    "${config.xdg.configHome}/yazi/theme.toml".source =
+      pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "yazi";
+        rev = "9bfdccc2b78d7493fa5c5983bc176a0bc5fef164";
+        sha256 = "sha256-a2X9WToZmctD1HZVqN9A512iPd+3dtjRloBEifgteF4=";
+      } + "/themes/mocha.toml";
   };
   home.sessionVariables = {
     SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";

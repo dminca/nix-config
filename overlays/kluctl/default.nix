@@ -1,7 +1,12 @@
 { pkgs, config, lib, ... }:
 
 (self: super: {
-  kluctl = super.kluctl.override {
-    version = "2.25.0";
+  kluctl = super.kluctl.overrideAttrs {
+    src = pkgs.fetchFromGitHub {
+      owner = "kluctl";
+      repo = "kluctl";
+      rev = "v2.25.0";
+      hash = "";
+    };
   };
 })

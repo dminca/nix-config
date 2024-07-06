@@ -29,7 +29,6 @@
     krew
     sloth
     hugo
-    jq
     jsonnet
     jsonnet-bundler
     terraform
@@ -279,5 +278,8 @@
     modules = [
       "kube"
     ];
+  };
+  programs.jq = {
+    enable = true;
   };
 }

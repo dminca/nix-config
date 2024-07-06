@@ -3,7 +3,7 @@
   pkgs,
   lib,
   ...
-}:
+} @ args:
 
 {
   home.username = "DanielAndrei.Minca";
@@ -282,4 +282,5 @@
   programs.jq = {
     enable = true;
   };
+  nixpkgs.overlays = import ../../overlays args;
 }

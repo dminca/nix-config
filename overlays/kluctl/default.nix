@@ -8,7 +8,7 @@
         owner = "kluctl";
         repo = "kluctl";
         rev = "refs/tags/v${version}";
-        hash = "";
+        hash = "sha256-WtTBkc9mop+bfMcVLI8k4Bqmift5JG9riF+QbDeiR9c=";
         };
     });
   };

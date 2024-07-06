@@ -58,7 +58,6 @@
           sops-nix.homeManagerModules.sops
           ./hosts/common
           ./hosts/M-C02FX3JUML85
-          (args: { nixpkgs.overlays = import ./overlays args; } )
         ];
       };
     };

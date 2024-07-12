@@ -23,7 +23,6 @@
     sops-nix
   }:
   {
-    system.configurationRevision = self.rev or self.dirtyRev or null;
     darwinConfigurations = {
       "ne0byte" = nix-darwin.lib.darwinSystem {
         modules = [

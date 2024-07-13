@@ -45,6 +45,7 @@
     helm-ls
     helm-docs
     kluctl
+    fx
     ########
     # Apps #
     ########

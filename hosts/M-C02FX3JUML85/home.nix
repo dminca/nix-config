@@ -46,6 +46,7 @@
     helm-docs
     kluctl
     fx
+    krr
     ########
     # Apps #
     ########

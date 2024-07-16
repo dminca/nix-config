@@ -53,6 +53,7 @@
       coc-explorer
       lualine-nvim
       telescope-nvim
+      diffview-nvim
     ];
     extraLuaConfig = ''
       vim.cmd.colorscheme('zaibatsu')
@@ -112,6 +113,14 @@
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       vim.o.grepprg = 'rg --vimgrep'
       vim.o.grepformat = '%f:%l:%c:%m,%f|%l col %c|%m'
+      require('diffview').setup {
+          view = {
+              merge_tool = {
+                  layout = "diff4_mixed",
+                  disable_diagnostics = true,
+              },
+          },
+      }
     '';
   };
 }

@@ -34,17 +34,14 @@
       };
       merge = {
         log = true;
-        tool = "codium";
+        tool = "vimdiff";
         conflictstyle = "diff3";
       };
       difftool = {
         prompt = false;
       };
-      difftool."codium" = {
-        cmd = "codium --wait --diff $LOCAL $REMOTE";
-      };
-      mergetool."codium" = {
-        cmd = "codium --wait $MERGED";
+      difftool."vimdiff" = {
+        path = "nvim";
       };
       fetch = {
         recurseSubmodules = "on-demand";

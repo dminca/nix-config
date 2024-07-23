@@ -56,7 +56,7 @@
       diffview-nvim
     ];
     extraLuaConfig = ''
-      vim.cmd.colorscheme('zaibatsu')
+      vim.cmd.colorscheme('wildcharm')
       vim.o.termguicolors = true
       require'nvim-treesitter.configs'.setup {
         highlight = {

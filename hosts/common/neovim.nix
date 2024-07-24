@@ -54,6 +54,8 @@
       lualine-nvim
       telescope-nvim
       diffview-nvim
+      yazi-nvim
+      plenary-nvim
     ];
     extraLuaConfig = ''
       vim.cmd.colorscheme('wildcharm')
@@ -111,6 +113,9 @@
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
       vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+      vim.keymap.set('n', '<leader>-', function()
+        require('yazi').yazi()
+      end)
       vim.o.grepprg = 'rg --vimgrep'
       vim.o.grepformat = '%f:%l:%c:%m,%f|%l col %c|%m'
       require('diffview').setup {

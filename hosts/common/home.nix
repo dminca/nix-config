@@ -82,7 +82,6 @@
       "root"
     ];
   };
-  programs.nnn.enable = true;
   programs.eza = {
     enable = true;
     git = true;

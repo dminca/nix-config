@@ -13,7 +13,6 @@
     #################
     # shell tooling #
     #################
-    python3
     pinentry_mac
     rsync
     tcptraceroute

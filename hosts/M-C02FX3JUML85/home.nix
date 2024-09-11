@@ -48,10 +48,6 @@
     ########
     # Apps #
     ########
-    drawio
-    postman
-    wireshark
-    cyberduck
     maccy
     element-desktop
   ];

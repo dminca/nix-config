@@ -50,6 +50,7 @@
     ########
     maccy
     element-desktop
+    vscodium
   ];
 
   sops = {

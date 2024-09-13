@@ -16,6 +16,7 @@
     exercism
     hugo
     operator-sdk
+    yt-dlp
     ########
     # Apps #
     ########

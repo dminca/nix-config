@@ -17,6 +17,7 @@
     hugo
     operator-sdk
     yt-dlp
+    mpv-unwrapped
     ########
     # Apps #
     ########

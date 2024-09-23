@@ -11,7 +11,10 @@
       upgrade = true;
     };
     casks = [
-      "microsoft-teams"
+      {
+        name = "microsoft-teams";
+        greedy = true;
+      }
       "hot"
       "notion"
       "slack"

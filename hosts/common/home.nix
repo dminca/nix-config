@@ -33,13 +33,6 @@
   programs.home-manager.enable = true;
   home.file = {
     "${config.xdg.configHome}/git/git-commit-template.commit".source = ./dotfiles/git-commit-template.commit;
-    "${config.xdg.configHome}/kitty/themes".source =
-      pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "kitty";
-        rev = "1f99e6682d84fe4d8e3177d3add8d0591607a2ac";
-        sha256 = "sha256-Y51wmGRYDjxbgO/g66+aBA+uOVrQpv2rQIjxbuzm0uk=";
-      } + "/themes";
     "${config.xdg.configHome}/yazi/theme.toml".source =
       pkgs.fetchFromGitHub {
         owner = "catppuccin";
@@ -130,17 +123,6 @@
       "--colors=line:style:bold"
       "--smart-case"
     ];
-  };
-  programs.kitty = {
-    enable = true;
-    theme = "Catppuccin-Mocha";
-    extraConfig = ''
-      tab_bar_min_tabs            1
-      tab_bar_edge                bottom
-      tab_bar_style               powerline
-      tab_powerline_style         slanted
-      tab_title_template          {title}{' :{}:'.format(num_windows) if num_windows > 1 else ''\}
-    '';
   };
   programs.yazi = {
     enable = true;

@@ -23,7 +23,6 @@
     openssl
     operator-sdk
     gum
-    mpv-unwrapped
     ########
     # Apps #
     ########

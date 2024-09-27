@@ -156,5 +156,48 @@
       };
     };
   };
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      live_config_reload = true;
+      colors.draw_bold_text_with_bright_colors = true;
+      window = {
+        blur = true;
+        padding = {
+          x = 2;
+          y = 2;
+        };
+        decorations = "none";
+      };
+      font = {
+        size = 10;
+      };
+      font.normal = {
+        family = "Hack Nerd Font";
+      };
+      font.bold = {
+        family = "Hack Nerd Font";
+      };
+      env = {
+        TERM = "screen-256color";
+      };
+      font.italic = {
+        family = "Hack Nerd Font";
+      };
+      # Word jump with Ctrl-Left/Right
+      keyboard.bindings = [
+        {
+          key = "Right";
+          mods = "Control";
+          chars = "\\u001BF";
+        }
+        {
+          key = "Left";
+          mods = "Control";
+          chars = "\\u001BB";
+        }
+      ];
+    };
+  };
 }
 

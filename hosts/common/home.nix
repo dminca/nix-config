@@ -138,9 +138,6 @@
     flags = [
       "--disable-up-arrow"
     ];
-    settings = {
-      ctrl_n_shortcuts = true;
-    };
   };
   programs.bat = {
     enable = true;

@@ -167,7 +167,7 @@
           x = 2;
           y = 2;
         };
-        decorations = "none";
+        decorations = "transparent";
       };
       font = {
         size = 10;

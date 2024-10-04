@@ -15,5 +15,21 @@
   system.keyboard.remapCapsLockToEscape = true;
   system.defaults.NSGlobalDomain.InitialKeyRepeat = 14;
   system.defaults.NSGlobalDomain.KeyRepeat = 1;
+  homebrew = {
+    enable = true;
+    onActivation = {
+      cleanup = "uninstall";
+      autoUpdate = true;
+      upgrade = true;
+    };
+    casks = [
+      "hot"
+      "notion"
+      {
+        name = "firefox";
+        greedy = true;
+      }
+    ];
+  };
 }
 

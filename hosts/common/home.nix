@@ -125,7 +125,7 @@
   };
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     extraConfig = ''
       tab_bar_min_tabs            1
       tab_bar_edge                bottom

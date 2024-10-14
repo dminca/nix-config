@@ -94,6 +94,7 @@
   sops.secrets.glab = {
     sopsFile = ./secrets/config.yml;
     path = "${config.xdg.configHome}/glab-cli/config.yml";
+    mode = "0600";
   };
 
   home.file = {

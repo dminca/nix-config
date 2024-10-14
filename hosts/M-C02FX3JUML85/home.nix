@@ -20,7 +20,6 @@
     pre-commit
     glab
     xh
-    nushell
     ########################
     # cloud-native tooling #
     ########################
@@ -280,6 +279,9 @@
     ];
   };
   programs.jq = {
+    enable = true;
+  };
+  programs.nushell = {
     enable = true;
   };
 }

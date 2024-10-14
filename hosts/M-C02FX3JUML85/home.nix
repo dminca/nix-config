@@ -20,6 +20,7 @@
     pre-commit
     glab
     xh
+    nushell
     ########################
     # cloud-native tooling #
     ########################

@@ -19,6 +19,7 @@
     viddy # watch replacement
     pre-commit
     glab
+    xh
     ########################
     # cloud-native tooling #
     ########################
@@ -45,6 +46,7 @@
     helm-docs
     kluctl
     fx
+    kdash
     ########
     # Apps #
     ########

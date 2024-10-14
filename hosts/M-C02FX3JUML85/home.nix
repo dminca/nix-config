@@ -47,7 +47,6 @@
     helm-docs
     kluctl
     fx
-    kdash
     ########
     # Apps #
     ########

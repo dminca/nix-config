@@ -13,7 +13,7 @@
     nil
     nixfmt-classic
     nodePackages.bash-language-server
-    (nerdfonts.override { fonts = [ "Hack" ]; })
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     #################
     # shell tooling #
     #################

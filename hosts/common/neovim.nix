@@ -47,7 +47,6 @@
     plugins = with pkgs.vimPlugins; [
       vim-nix
       vim-gitgutter
-      nnn-vim
       nvim-treesitter.withAllGrammars
       coc-json
       coc-explorer
@@ -58,7 +57,7 @@
       plenary-nvim
     ];
     extraLuaConfig = ''
-      vim.cmd.colorscheme('wildcharm')
+      vim.cmd.colorscheme('zaibatsu')
       vim.o.termguicolors = true
       require'nvim-treesitter.configs'.setup {
         highlight = {

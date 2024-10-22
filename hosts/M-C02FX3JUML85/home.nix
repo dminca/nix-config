@@ -44,7 +44,8 @@
     docker-client
     helm-ls
     helm-docs
-    kluctl
+    (builtins.trace "Using myPackage" pkgs.kluctlNew)
+    kluctlNew
     fx
     ########
     # Apps #

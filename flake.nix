@@ -43,7 +43,9 @@
     defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     homeConfigurations = {
       "dminca" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "aarch64-darwin"; };
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+        };
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
@@ -52,7 +54,12 @@
       };
 
       "DanielAndrei.Minca" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-darwin"; };
+        pkgs = import nixpkgs {
+          system = "x86_64-darwin";
+          overlays = [
+            (builtins.trace "Importing overlay" (import ./overlays/kluctl))
+          ];
+        };
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common

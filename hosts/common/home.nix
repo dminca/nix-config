@@ -125,7 +125,7 @@
   };
   programs.kitty = {
     enable = true;
-    font.name = "JetBrainsMono";
+    font.name = "JetBrainsMono Nerd Font";
     themeFile = "Catppuccin-Mocha";
     extraConfig = ''
       tab_bar_min_tabs            1

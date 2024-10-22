@@ -173,16 +173,16 @@
         size = 10;
       };
       font.normal = {
-        family = "Hack Nerd Font";
+        family = "JetBrainsMonoNLNF-Regular";
       };
       font.bold = {
-        family = "Hack Nerd Font";
+        family = "JetBrainsMonoNLNF-Bold";
       };
       env = {
         TERM = "screen-256color";
       };
       font.italic = {
-        family = "Hack Nerd Font";
+        family = "JetBrainsMonoNLNF-LightItalic";
       };
       # Word jump with Ctrl-Left/Right
       keyboard.bindings = [

@@ -57,7 +57,7 @@
         pkgs = import nixpkgs {
           system = "x86_64-darwin";
           overlays = [
-            (builtins.trace "Importing overlay" (import ./overlays/kluctl))
+            (import ./overlays/kluctl)
           ];
         };
         modules = [

@@ -55,9 +55,10 @@
       diffview-nvim
       yazi-nvim
       plenary-nvim
+      nordic-nvim
     ];
     extraLuaConfig = ''
-      vim.cmd.colorscheme('zaibatsu')
+      vim.cmd.colorscheme('nordic')
       vim.o.termguicolors = true
       require'nvim-treesitter.configs'.setup {
         highlight = {

@@ -26,7 +26,6 @@
     ########
     # Apps #
     ########
-    vscodium
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;
@@ -212,5 +211,50 @@
       ];
     };
   };
-}
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    enableUpdateCheck = false;
+    enableExtensionUpdateCheck = false;
+    extensions = [
+      pkgs.vscode-extensions.jnoortheen.nix-ide
+      pkgs.vscode-extensions.redhat.vscode-yaml
+      pkgs.vscode-extensions.golang.go
+    ];
+    keybindings = [
+      {
+        key = "ctrl+shift+q";
+        command = "workbench.action.toggleMaximizedPanel";
+      }
+      {
+        key = "ctrl+shift+left";
+        command = "workbench.action.splitEditorLeft";
+      }
+      {
+        key = "ctrl+shift+right";
+        command = "workbench.action.splitEditorRight";
+      }
+      {
+        key = "ctrl+shift+down";
+        command = "workbench.action.splitEditorDown";
+      }
+      {
+        key = "ctrl+shift+up";
+        command = "workbench.action.splitEditorUp";
+      }
+      {
+        key = "ctrl+cmd+up";
+        command = "workbench.action.moveEditorToAboveGroup";
+      }
+      {
+        key = "ctrl+cmd+down";
+        command = "workbench.action.moveEditorToBelowGroup";
+      }
+      {
+        key = "cmd+\\";
+        command = "-workbench.action.splitEditor";
+      }
+    ];
+  };
+}

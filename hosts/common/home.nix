@@ -242,6 +242,8 @@
       "editor.fontLigatures" = false;
       "editor.fontSize" = 12;
       "gitlens.launchpad.indicator.enabled" = false;
+      "nix.formatterPath" = "${lib.getExe pkgs.nixfmt-classic}";
+      "nix.serverPath" = "${lib.getExe pkgs.nil}";
     };
     keybindings = [
       {

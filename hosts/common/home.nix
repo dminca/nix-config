@@ -244,6 +244,7 @@
       "gitlens.launchpad.indicator.enabled" = false;
       "nix.formatterPath" = "${lib.getExe pkgs.nixfmt-classic}";
       "nix.serverPath" = "${lib.getExe pkgs.nil}";
+      "nix.enableLanguageServer" = true;
     };
     keybindings = [
       {

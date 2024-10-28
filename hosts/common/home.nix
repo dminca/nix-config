@@ -241,6 +241,7 @@
       "editor.fontFamily" = "JetBrainsMono Nerd Font";
       "editor.fontLigatures" = false;
       "editor.fontSize" = 12;
+      "gitlens.launchpad.indicator.enabled" = false;
     };
     keybindings = [
       {

@@ -217,11 +217,31 @@
     package = pkgs.vscodium;
     enableUpdateCheck = false;
     enableExtensionUpdateCheck = false;
-    extensions = [
-      pkgs.vscode-extensions.jnoortheen.nix-ide
-      pkgs.vscode-extensions.redhat.vscode-yaml
-      pkgs.vscode-extensions.golang.go
+    extensions = with pkgs.vscode-extensions; [
+      jnoortheen.nix-ide
+      redhat.vscode-yaml
+      golang.go
+      oderwat.indent-rainbow
     ];
+    userSettings = {
+      "indentRainbow.colors" = [
+        "rgba(255,255,64,0.07)"
+        "rgba(127,255,127,0.07)"
+        "rgba(255,127,255,0.07)"
+        "rgba(79,236,236,0.07)"
+      ];
+      "workbench.sideBar.location" = "right";
+      "editor.renderWhitespace" = "all";
+      "editor.rulers" = [ 79 ];
+      "redhat.telemetry.enabled" = false;
+      "breadcrumbs.enabled" = true;
+      "explorer.autoReveal" = false;
+      "explorer.compactFolders" = true;
+      "go.toolsManagement.autoUpdate" = true;
+      "editor.fontFamily" = "JetBrainsMono Nerd Font";
+      "editor.fontLigatures" = false;
+      "editor.fontSize" = 12;
+    };
     keybindings = [
       {
         key = "ctrl+shift+q";

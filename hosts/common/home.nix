@@ -245,6 +245,9 @@
       "nix.formatterPath" = "${lib.getExe pkgs.nixfmt-classic}";
       "nix.serverPath" = "${lib.getExe pkgs.nil}";
       "nix.enableLanguageServer" = true;
+      "window.autoDetectColorScheme" = true;
+      "workbench.preferredDarkColorTheme" = "Default Dark Modern";
+      "workbench.preferredHighContrastColorTheme" = "Default Light Modern";
     };
     keybindings = [
       {

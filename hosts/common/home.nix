@@ -248,6 +248,7 @@
       "window.autoDetectColorScheme" = true;
       "workbench.preferredDarkColorTheme" = "Default Dark Modern";
       "workbench.preferredHighContrastColorTheme" = "Default Light Modern";
+      "files.autoSave" = "onFocusChange";
     };
     keybindings = [
       {

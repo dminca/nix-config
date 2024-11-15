@@ -19,7 +19,6 @@
     viddy # watch replacement
     pre-commit
     glab
-    xh
     devenv
     ########################
     # cloud-native tooling #

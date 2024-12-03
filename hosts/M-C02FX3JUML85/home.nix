@@ -34,7 +34,6 @@
     terraform
     tfswitch
     vault
-    google-cloud-sdk
     s3cmd
     kustomize_4
     kubeseal

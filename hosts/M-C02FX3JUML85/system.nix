@@ -10,10 +10,6 @@
         name = "krita";
         greedy = true;
       }
-      {
-        name = "firefox";
-        greedy = true;
-      }
     ];
   };
 }

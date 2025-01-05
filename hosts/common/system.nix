@@ -25,6 +25,10 @@
     casks = [
       "hot"
       "notion"
+      {
+        name = "firefox";
+        greedy = true;
+      }
     ];
   };
 }

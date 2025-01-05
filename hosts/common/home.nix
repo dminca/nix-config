@@ -193,7 +193,7 @@
         family = "JetBrainsMono Nerd Font";
       };
       env = {
-        TERM = "screen-256color";
+        TERM = "xterm-256color";
       };
       font.italic = {
         family = "JetBrainsMono Nerd Font";

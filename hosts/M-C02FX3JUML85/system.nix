@@ -10,6 +10,10 @@
         name = "krita";
         greedy = true;
       }
+      {
+        name = "microsoft-teams";
+        greedy = true;
+      }
     ];
   };
 }

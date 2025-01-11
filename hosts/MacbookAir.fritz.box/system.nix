@@ -12,6 +12,7 @@
     };
     casks = [
       "notion"
+      "mullvadvpn"
     ];
   };
 }

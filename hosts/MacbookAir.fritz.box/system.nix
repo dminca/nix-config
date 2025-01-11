@@ -13,6 +13,10 @@
     casks = [
       "notion"
       "mullvadvpn"
+      {
+        name = "orion";
+        greedy = true;
+      }
     ];
   };
 }

@@ -20,7 +20,6 @@
     ########
     # Apps #
     ########
-    mullvad-vpn
   ];
 
   sops = {

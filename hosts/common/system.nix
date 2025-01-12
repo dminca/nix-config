@@ -29,10 +29,6 @@
         name = "firefox";
         greedy = true;
       }
-      {
-        name = "orion";
-        greedy = true;
-      }
     ];
   };
 }

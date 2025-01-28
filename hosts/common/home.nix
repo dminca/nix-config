@@ -222,6 +222,7 @@
       redhat.vscode-yaml
       golang.go
       oderwat.indent-rainbow
+      hashicorp.terraform
     ];
     userSettings = {
       "indentRainbow.colors" = [

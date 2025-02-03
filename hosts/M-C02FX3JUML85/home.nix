@@ -21,6 +21,7 @@
     glab
     devenv
     doggo
+    unrar
     ########################
     # cloud-native tooling #
     ########################

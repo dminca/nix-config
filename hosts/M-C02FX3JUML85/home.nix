@@ -46,6 +46,7 @@
     fx
     terraform
     tfswitch
+    opentofu
     ########
     # Apps #
     ########

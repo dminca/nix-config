@@ -51,6 +51,7 @@
     ########
     maccy
     element-desktop
+    jetbrains.idea-ultimate
   ];
 
   sops = {

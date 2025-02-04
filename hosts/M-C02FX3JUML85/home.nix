@@ -32,8 +32,6 @@
     hugo
     jsonnet
     jsonnet-bundler
-    terraform
-    tfswitch
     vault
     s3cmd
     kustomize_4
@@ -46,6 +44,8 @@
     helm-docs
     kluctl
     fx
+    terraform
+    tfswitch
     ########
     # Apps #
     ########

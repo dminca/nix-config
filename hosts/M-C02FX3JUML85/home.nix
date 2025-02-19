@@ -47,6 +47,7 @@
     terraform
     tfswitch
     opentofu
+    google-cloud-sdk
     ########
     # Apps #
     ########

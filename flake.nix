@@ -15,14 +15,8 @@
     };
   };
 
-  outputs = {
-    self,
-    nix-darwin,
-    nixpkgs,
-    home-manager,
-    sops-nix
-  }:
-  {
+  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }: let
+    # Define darwinConfigurations first
     darwinConfigurations = {
       "ne0byte" = nix-darwin.lib.darwinSystem {
         modules = [
@@ -39,8 +33,6 @@
       };
     };
 
-    defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
-    defaultPackage.x86_64-darwin = home-manager.defaultPackage.x86_64-darwin;
     homeConfigurations = {
       "dminca" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "aarch64-darwin"; };
@@ -60,5 +52,24 @@
         ];
       };
     };
+  in {
+    # Expose darwinConfigurations and homeConfigurations
+    inherit darwinConfigurations homeConfigurations;
+
+    # Define packages for `nix build`
+    packages.aarch64-darwin.default = let
+      pkgs = import nixpkgs { system = "aarch64-darwin"; };
+    in pkgs.writeShellScriptBin "apply-configurations" ''
+      ${darwinConfigurations.ne0byte.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+      ${homeConfigurations.dminca.activationPackage}/activate
+    '';
+
+    packages.x86_64-darwin.default = let
+      pkgs = import nixpkgs { system = "x86_64-darwin"; };
+    in pkgs.writeShellScriptBin "apply-configurations" ''
+      ${darwinConfigurations.M-C02FX3JUML85.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+      ${homeConfigurations."DanielAndrei.Minca".activationPackage}/activate
+    '';
   };
 }
+

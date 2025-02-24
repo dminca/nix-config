@@ -7,7 +7,6 @@
   environment.systemPackages = with pkgs; [
     neovim
   ];
-  nix.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
   programs.zsh.enable = true;
   system.stateVersion = 4;

@@ -12,43 +12,30 @@ At the current point in time, this configuration is aimed at aarch64-darwin arch
 
 ### Install `nix`
 
-- [&nearr;&nbsp;NixOS docs][1]
+- [&nearr;&nbsp;Nix DeterminateSystems docs][1]
 
 ```sh
-sh <(curl -L https://nixos.org/nix/install) --daemon
-```
-### Install `nix-darwin`
-
-- [&nearr;&nbsp;nix-darwin][2]
-
-```sh
-nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
-./result/bin/darwin-installer
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
+  sh -s -- install --determinate
 ```
 
 ### Install `home-manager`
 
-- [&nearr;&nbsp;home-manager][3]
-
 ```sh
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
+nix profile install home-manager
 ```
 
 ## Usage
 
 ```sh
-# with the repo cloned and available locally
-darwin-rebuild switch --flake ~/Projects/codeberg.org/dminca/nix-config/
-
 # remote bootstrap
 nix run nix-darwin -- switch --flake git+https://codeberg.org/dminca/nix-config.git
 
-# home-manager bootstrap
-home-manager switch -f ~/Projects/codeberg.org/dminca/nix-config/home.nix
-
 # run the flake and activate
 nix run . -- switch --flake .
+
+# run home-manager stuff
+home-manager switch --flake .
 ```
 
 ### Secret management with `sops-nix`
@@ -123,9 +110,8 @@ More info [&nearr;&nbsp;here][5].
 - [x] install `helm` for user profile
 - [x] install `kubectx` for user profile
 
-[1]: https://nixos.org/download
+[1]: https://github.com/DeterminateSystems/nix-installer
 [2]: https://github.com/LnL7/nix-darwin
-[3]: https://github.com/nix-community/home-manager
 [4]: https://github.com/Mic92/sops-nix
 [5]: https://nixos.wiki/wiki/Fonts
 

@@ -3,6 +3,7 @@
 }:
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
+  nix.enable = false;
   homebrew = {
     enable = true;
     onActivation = {

@@ -13,8 +13,14 @@
     };
     casks = [
       "notion"
-      "mullvadvpn"
-      "deepl"
+      {
+        name = "mullvadvpn";
+        greedy = true;
+      }
+      {
+        name = "deepl";
+        greedy = true;
+      }
     ];
   };
 }

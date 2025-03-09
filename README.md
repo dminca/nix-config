@@ -12,12 +12,7 @@ At the current point in time, this configuration is aimed at aarch64-darwin arch
 
 ### Install `nix`
 
-- [&nearr;&nbsp;Nix DeterminateSystems docs][1]
-
-```sh
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
-  sh -s -- install --determinate
-```
+Just follow this guide [&nearr;&nbsp;from DeterminateSystems][1]
 
 ### Install `home-manager`
 
@@ -110,7 +105,7 @@ More info [&nearr;&nbsp;here][5].
 - [x] install `helm` for user profile
 - [x] install `kubectx` for user profile
 
-[1]: https://github.com/DeterminateSystems/nix-installer
+[1]: https://docs.determinate.systems/getting-started/individuals/
 [2]: https://github.com/LnL7/nix-darwin
 [4]: https://github.com/Mic92/sops-nix
 [5]: https://nixos.wiki/wiki/Fonts

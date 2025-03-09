@@ -14,6 +14,7 @@
     casks = [
       "notion"
       "mullvadvpn"
+      "deepl"
     ];
   };
 }

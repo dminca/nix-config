@@ -51,7 +51,6 @@
     ########
     # Apps #
     ########
-    maccy
     element-desktop
     jetbrains.idea-ultimate
   ];

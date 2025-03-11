@@ -15,8 +15,18 @@
   system.keyboard.remapCapsLockToEscape = true;
   system.defaults.NSGlobalDomain.InitialKeyRepeat = 14;
   system.defaults.NSGlobalDomain.KeyRepeat = 1;
-  system.defaults.trackpad.TrackpadThreeFingerVertSwipeGesture = 2;
-  system.defaults.NSGlobalDomain.ClockShowSeconds = true;
+  system.defaults.CustomUserPreferences = {
+    "com.apple.menuextra.clock" = {
+      ShowSeconds = true;
+      DateFormat = "EEE d MMM HH:mm:ss";
+    };
+    "com.apple.AppleMultitouchTrackpad" = {
+      TrackpadThreeFingerVertSwipeGesture = 2;
+    };
+    "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
+      TrackpadThreeFingerVertSwipeGesture = 2;
+    };
+  };
   homebrew = {
     enable = true;
     onActivation = {

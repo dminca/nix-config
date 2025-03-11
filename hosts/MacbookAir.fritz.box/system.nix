@@ -3,7 +3,6 @@
 }:
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
-  nix.enable = false;
   homebrew = {
     enable = true;
     onActivation = {
@@ -18,7 +17,7 @@
         greedy = true;
       }
       {
-        name = "deepl";
+        name = "firefox";
         greedy = true;
       }
     ];

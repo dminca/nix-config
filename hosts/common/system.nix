@@ -8,6 +8,7 @@
     neovim
   ];
   nix.settings.experimental-features = "nix-command flakes";
+  nix.enable = false;
   programs.zsh.enable = true;
   system.stateVersion = 4;
   system.keyboard.enableKeyMapping = true;
@@ -25,9 +26,10 @@
       "hot"
       "notion"
       {
-        name = "firefox";
+        name = "deepl";
         greedy = true;
       }
+
     ];
   };
 }

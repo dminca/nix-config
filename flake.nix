@@ -25,10 +25,10 @@
         ];
       };
 
-      "M-C02FX3JUML85" = nix-darwin.lib.darwinSystem {
+      "MLGERC02FX3JUML85" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/common/system.nix
-          ./hosts/M-C02FX3JUML85/system.nix
+          ./hosts/MLGERC02FX3JUML85/system.nix
         ];
       };
     };
@@ -43,12 +43,12 @@
         ];
       };
 
-      "DanielAndrei.Minca" = home-manager.lib.homeManagerConfiguration {
+      "mida4001" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "x86_64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
-          ./hosts/M-C02FX3JUML85
+          ./hosts/MLGERC02FX3JUML85
         ];
       };
     };
@@ -67,8 +67,8 @@
     packages.x86_64-darwin.default = let
       pkgs = import nixpkgs { system = "x86_64-darwin"; };
     in pkgs.writeShellScriptBin "apply-configurations" ''
-      ${darwinConfigurations.M-C02FX3JUML85.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
-      ${homeConfigurations."DanielAndrei.Minca".activationPackage}/activate
+      ${darwinConfigurations.MLGERC02FX3JUML85.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+      ${homeConfigurations."mida4001".activationPackage}/activate
     '';
   };
 }

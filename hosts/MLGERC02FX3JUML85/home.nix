@@ -6,8 +6,8 @@
 }:
 
 {
-  home.username = "DanielAndrei.Minca";
-  home.homeDirectory = "/Users/DanielAndrei.Minca";
+  home.username = "mida4001";
+  home.homeDirectory = "/Users/mida4001";
   home.stateVersion = "23.11";
   home.packages = with pkgs; [
     #################

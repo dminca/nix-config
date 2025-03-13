@@ -60,7 +60,7 @@
     packages.aarch64-darwin.default = let
       pkgs = import nixpkgs { system = "aarch64-darwin"; };
     in pkgs.writeShellScriptBin "apply-configurations" ''
-      ${darwinConfigurations.ne0byte.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+      ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
       ${homeConfigurations.dminca.activationPackage}/activate
     '';
 

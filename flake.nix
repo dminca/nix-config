@@ -21,7 +21,7 @@
       "ne0byte" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/common/system.nix
-          ./hosts/MacbookAir.fritz.box/system.nix
+          ./hosts/ZionProxy.fritz.box/system.nix
         ];
       };
 
@@ -39,7 +39,7 @@
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
-          ./hosts/MacbookAir.fritz.box
+          ./hosts/ZionProxy.fritz.box
         ];
       };
 

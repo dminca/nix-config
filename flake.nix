@@ -18,7 +18,7 @@
   outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }: let
     # Define darwinConfigurations first
     darwinConfigurations = {
-      "ne0byte" = nix-darwin.lib.darwinSystem {
+      "ZionProxy" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/common/system.nix
           ./hosts/ZionProxy.fritz.box/system.nix

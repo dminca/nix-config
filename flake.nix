@@ -21,7 +21,7 @@
       "ZionProxy" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/common/system.nix
-          ./hosts/ZionProxy.fritz.box/system.nix
+          ./hosts/ZionProxy/system.nix
         ];
       };
 
@@ -39,7 +39,7 @@
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
-          ./hosts/ZionProxy.fritz.box
+          ./hosts/ZionProxy
         ];
       };
 

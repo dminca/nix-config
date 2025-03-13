@@ -2,7 +2,7 @@ keys:
   - &admin_dminca age1lw0uetqnw87rxwrvpd7vjrm0zuhcljkln27rek746q3leqf9dfsqnalt30
   - &admin_diminc age1lnnxnx32fhkzr8ukyvaw3ghtddf9gyujewk4h8kxrn0fzk9ds9jqq9quxa
 creation_rules:
-  - path_regex: hosts/ZionProxy.fritz.box/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/ZionProxy/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
         - *admin_dminca

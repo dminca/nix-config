@@ -16,6 +16,10 @@
         name = "mullvadvpn";
         greedy = true;
       }
+      {
+        name = "orion";
+        greedy = true;
+      }
     ];
   };
 }

@@ -16,10 +16,6 @@
         name = "mullvadvpn";
         greedy = true;
       }
-      {
-        name = "firefox";
-        greedy = true;
-      }
     ];
   };
 }

@@ -12,25 +12,20 @@ At the current point in time, this configuration is aimed at aarch64-darwin arch
 
 ### Install `nix`
 
-Just follow this guide [&nearr;&nbsp;from DeterminateSystems][1]
+1. Just follow this guide [&nearr;&nbsp;from DeterminateSystems][1]
 
 ### Install `home-manager`
 
-```sh
-nix profile install home-manager
-```
+1. it's already baked into DeterminateSystems Nix installer
 
 ## Usage
 
 ```sh
-# remote bootstrap
-nix run nix-darwin -- switch --flake git+https://codeberg.org/dminca/nix-config.git
+# remote activation
+nix run github:dminca/nix-config
 
-# run the flake and activate
-nix run . -- switch --flake .
-
-# run home-manager stuff
-home-manager switch --flake .
+# local activation
+nix run .
 ```
 
 ### Secret management with `sops-nix`
@@ -77,29 +72,8 @@ nix-env -f '<nixpkgs>' -qaP -A vimPlugins
 nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
 ```
 
-### Installing fonts
-
-It's just not straightforward. This case covers only fonts installed via
-`Home-Manager`
-
-After `nix run -- switch --flake .` this needs to be executed
-
-```sh
-# reload font cache
-fc-cache
-```
-
-```sh
-# check font was installed; in this case 'Hack' (part of nerdfonts family)
-fc-list -v | grep -i 'hack'
-```
-
-Should retrieve a list of garbled stuff referencing 'Hack' in there.
-
-More info [&nearr;&nbsp;here][5].
-
-## Roadmap
-- [ ] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
+## Roadmap [completed] 🎉
+- [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)
 - [x] install `kubectl` for user profile
 - [x] install `helm` for user profile
@@ -108,5 +82,3 @@ More info [&nearr;&nbsp;here][5].
 [1]: https://docs.determinate.systems/getting-started/individuals/
 [2]: https://github.com/LnL7/nix-darwin
 [4]: https://github.com/Mic92/sops-nix
-[5]: https://nixos.wiki/wiki/Fonts
-

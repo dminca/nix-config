@@ -15,7 +15,6 @@
     #################
     pinentry_mac
     rsync
-    tcptraceroute
     viddy # watch replacement
     pre-commit
     glab

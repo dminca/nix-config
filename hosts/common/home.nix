@@ -15,6 +15,7 @@
     nodePackages.bash-language-server
     nerd-fonts.jetbrains-mono
     xh
+    tcptraceroute
     #################
     # shell tooling #
     #################

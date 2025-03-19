@@ -38,11 +38,6 @@
     casks = [
       "hot"
       "notion"
-      {
-        name = "deepl";
-        greedy = true;
-      }
-
     ];
   };
 }

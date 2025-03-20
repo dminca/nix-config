@@ -28,11 +28,6 @@
     kubectx
     krew
     sloth
-    hugo
-    jsonnet
-    jsonnet-bundler
-    vault
-    s3cmd
     kustomize_4
     kubeseal
     kubelogin-oidc
@@ -41,11 +36,7 @@
     docker-client
     helm-ls
     helm-docs
-    kluctl
     fx
-    terraform
-    tfswitch
-    opentofu
     google-cloud-sdk
     ########
     # Apps #

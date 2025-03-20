@@ -50,7 +50,6 @@
     ########
     # Apps #
     ########
-    element-desktop
     jetbrains.idea-ultimate
   ];
 

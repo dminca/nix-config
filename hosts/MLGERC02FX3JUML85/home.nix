@@ -38,6 +38,8 @@
     helm-docs
     fx
     google-cloud-sdk
+    opentofu
+    terraform
     ########
     # Apps #
     ########

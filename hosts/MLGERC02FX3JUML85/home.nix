@@ -19,7 +19,6 @@
     pre-commit
     glab
     devenv
-    doggo
     ########################
     # cloud-native tooling #
     ########################

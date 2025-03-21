@@ -16,6 +16,7 @@
     nerd-fonts.jetbrains-mono
     xh
     tcptraceroute
+    doggo
     #################
     # shell tooling #
     #################

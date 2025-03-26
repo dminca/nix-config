@@ -14,10 +14,6 @@
   };
   homebrew = {
     casks = [
-      {
-        name = "microsoft-teams";
-        greedy = true;
-      }
     ];
   };
 }

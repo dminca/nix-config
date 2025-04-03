@@ -67,14 +67,20 @@
     clock24 = true;
     keyMode = "vi";
     prefix = "C-a";
-    extraConfig = lib.fileContents ./dotfiles/tmux.conf;
+    extraConfig = ''
+      # Fix ctrl+left/right keys work right
+      set-window-option -g xterm-keys on
+      # tmux inception
+      bind a send-prefix
+      # yazi
+      set -g allow-passthrough on
+      set -ga update-environment TERM
+      set -ga update-environment TERM_PROGRAM
+    '';
     terminal = "tmux-256color";
     historyLimit = 5000;
     baseIndex = 1;
     secureSocket = true;
-    plugins = with pkgs.tmuxPlugins; [
-      nord
-    ];
   };
   programs.powerline-go = {
     enable = true;

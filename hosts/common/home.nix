@@ -76,6 +76,29 @@
       set -g allow-passthrough on
       set -ga update-environment TERM
       set -ga update-environment TERM_PROGRAM
+      # Set 'v' for vertical and 'h' for horizontal split
+      bind v split-window -h -c '#{pane_current_path}'
+      bind b split-window -v -c '#{pane_current_path}'
+      # vim-like pane switching
+      bind -r k select-pane -U
+      bind -r j select-pane -D
+      bind -r h select-pane -L
+      bind -r l select-pane -R
+      # vim-like pane resizing
+      bind -r C-k resize-pane -U
+      bind -r C-j resize-pane -D
+      bind -r C-h resize-pane -L
+      bind -r C-l resize-pane -R
+      # remove default binding since replacing
+      unbind %
+      unbind Up
+      unbind Down
+      unbind Left
+      unbind Right
+      unbind C-Up
+      unbind C-Down
+      unbind C-Left
+      unbind C-Right
     '';
     terminal = "tmux-256color";
     historyLimit = 5000;

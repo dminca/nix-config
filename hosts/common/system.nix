@@ -28,17 +28,4 @@
     };
   };
   security.pam.services.sudo_local.touchIdAuth = true;
-  homebrew = {
-    enable = true;
-    onActivation = {
-      cleanup = "uninstall";
-      autoUpdate = true;
-      upgrade = true;
-    };
-    casks = [
-      "hot"
-      "notion"
-    ];
-  };
 }
-

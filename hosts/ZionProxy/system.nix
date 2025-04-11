@@ -11,7 +11,6 @@
       upgrade = true;
     };
     casks = [
-      "notion"
       {
         name = "mullvadvpn";
         greedy = true;

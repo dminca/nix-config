@@ -159,7 +159,7 @@
   programs.kitty = {
     enable = true;
     font.name = "JetBrainsMono Nerd Font";
-    themeFile = "Catppuccin-Mocha";
+    themeFile = "Nord";
     extraConfig = ''
       tab_bar_min_tabs            1
       tab_bar_edge                bottom

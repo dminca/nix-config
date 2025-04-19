@@ -208,12 +208,14 @@
       general.live_config_reload = true;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
+        opacity = 0.8;
         blur = true;
         padding = {
           x = 2;
           y = 2;
         };
-        decorations = "transparent";
+        decorations = "buttonless";
+        option_as_alt = "both";
       };
       font = {
         size = 10;

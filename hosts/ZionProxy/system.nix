@@ -19,6 +19,10 @@
         name = "orion";
         greedy = true;
       }
+      {
+        name = "signal";
+        greedy = true;
+      }
     ];
   };
 }

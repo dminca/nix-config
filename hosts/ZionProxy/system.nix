@@ -19,6 +19,10 @@
         name = "signal";
         greedy = true;
       }
+      {
+        name = "filen";
+        greedy = true;
+      }
     ];
   };
 }

@@ -18,6 +18,7 @@
     operator-sdk
     yt-dlp
     ffmpeg
+    filen-cli
     ########
     # Apps #
     ########

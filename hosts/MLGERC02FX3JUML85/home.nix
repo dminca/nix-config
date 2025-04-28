@@ -23,9 +23,9 @@
     # cloud-native tooling #
     ########################
     kubectl
+    kubectl-neat
     kubernetes-helm
     kubectx
-    krew
     sloth
     kustomize_4
     kubeseal

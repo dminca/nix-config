@@ -31,14 +31,13 @@
     kubeseal
     kubelogin-oidc
     minio-client
-    colima
-    docker-client
     helm-ls
     helm-docs
     fx
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     opentofu
     terraform
+    crane
     ########
     # Apps #
     ########

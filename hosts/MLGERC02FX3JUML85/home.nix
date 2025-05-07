@@ -38,6 +38,7 @@
     opentofu
     terraform
     crane
+    kluctl
     ########
     # Apps #
     ########

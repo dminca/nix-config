@@ -24,6 +24,7 @@
     ########################
     kubectl
     kubectl-neat
+    kubectl-images
     kubernetes-helm
     kubectx
     sloth

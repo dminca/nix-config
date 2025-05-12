@@ -20,6 +20,12 @@
       include = {
         path = config.sops.secrets.additionalGitconfig.path;
       };
+      "url \"https://\"" = {
+        insteadOf = [
+          "ssh://"
+          "git://"
+        ];
+      };
     };
   };
 }

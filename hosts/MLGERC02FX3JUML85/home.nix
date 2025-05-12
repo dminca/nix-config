@@ -38,6 +38,8 @@
     (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     opentofu
     terraform
+    terraform-docs
+    tflint
     crane
     kluctl
     ########

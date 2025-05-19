@@ -44,7 +44,7 @@
       };
 
       "mida4001" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-darwin"; };
+        pkgs = import nixpkgs { system = "aarch64-darwin"; };
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
@@ -64,8 +64,8 @@
       ${homeConfigurations.dminca.activationPackage}/activate
     '';
 
-    packages.x86_64-darwin.default = let
-      pkgs = import nixpkgs { system = "x86_64-darwin"; };
+    packages.aarch64-darwin.default = let
+      pkgs = import nixpkgs { system = "aarch64-darwin"; };
     in pkgs.writeShellScriptBin "apply-configurations" ''
       ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
       ${homeConfigurations."mida4001".activationPackage}/activate

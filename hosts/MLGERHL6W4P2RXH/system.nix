@@ -2,7 +2,7 @@
   ...
 }:
 {
-  nixpkgs.hostPlatform = "x86_64-darwin";
+  nixpkgs.hostPlatform = "aarch64-darwin";
   system.defaults.CustomUserPreferences = {
     "NSGlobalDomain" = {
       NSIdleDisplaySleepInterval = 0; # "Never"

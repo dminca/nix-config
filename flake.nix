@@ -25,10 +25,10 @@
         ];
       };
 
-      "MLGERC02FX3JUML85" = nix-darwin.lib.darwinSystem {
+      "MLGERHL6W4P2RXH" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/common/system.nix
-          ./hosts/MLGERC02FX3JUML85/system.nix
+          ./hosts/MLGERHL6W4P2RXH/system.nix
         ];
       };
     };
@@ -48,7 +48,7 @@
         modules = [
           sops-nix.homeManagerModules.sops
           ./hosts/common
-          ./hosts/MLGERC02FX3JUML85
+          ./hosts/MLGERHL6W4P2RXH
         ];
       };
     };
@@ -67,7 +67,7 @@
     packages.x86_64-darwin.default = let
       pkgs = import nixpkgs { system = "x86_64-darwin"; };
     in pkgs.writeShellScriptBin "apply-configurations" ''
-      ${darwinConfigurations.MLGERC02FX3JUML85.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+      ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
       ${homeConfigurations."mida4001".activationPackage}/activate
     '';
   };

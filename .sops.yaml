@@ -6,7 +6,7 @@ creation_rules:
     key_groups:
       - age:
         - *admin_dminca
-  - path_regex: hosts/MLGERC02FX3JUML85/secrets/[^/]+\.(yaml|yml|json|env|ini)$
+  - path_regex: hosts/MLGERHL6W4P2RXH/secrets/[^/]+\.(yaml|yml|json|env|ini)$
     key_groups:
       - age:
         - *admin_diminc

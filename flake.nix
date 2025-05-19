@@ -62,11 +62,7 @@
     in pkgs.writeShellScriptBin "apply-configurations" ''
       ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
       ${homeConfigurations.dminca.activationPackage}/activate
-    '';
 
-    packages.aarch64-darwin.default = let
-      pkgs = import nixpkgs { system = "aarch64-darwin"; };
-    in pkgs.writeShellScriptBin "apply-configurations" ''
       ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
       ${homeConfigurations."mida4001".activationPackage}/activate
     '';

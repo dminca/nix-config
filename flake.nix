@@ -67,10 +67,10 @@
           USERNAME=$(whoami)
 
           if [ "$USERNAME" = "dminca" ]; then
-            ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+            sudo ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
             ${homeConfigurations.dminca.activationPackage}/activate
           elif [ "$USERNAME" = "mida4001" ]; then
-            ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+            sudo ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
             ${homeConfigurations.mida4001.activationPackage}/activate
           else
             echo "Unknown user: $USERNAME"

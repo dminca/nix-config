@@ -3,6 +3,7 @@
 }:
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
+  system.primaryUser = "dminca";
   homebrew = {
     enable = true;
     onActivation = {

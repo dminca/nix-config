@@ -41,8 +41,6 @@
     terraform-docs
     tflint
     crane
-    colima
-    docker-client
     kluctl
     vault
     ########

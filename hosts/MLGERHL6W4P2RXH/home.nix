@@ -41,6 +41,7 @@
     terraform-docs
     tflint
     crane
+    podman
     kluctl
     vault
     ########

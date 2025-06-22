@@ -28,6 +28,10 @@
         name = "vlc";
         greedy = true;
       }
+      {
+        name = "simplex";
+        greedy = true;
+      }
     ];
   };
 }

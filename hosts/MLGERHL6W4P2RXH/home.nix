@@ -48,6 +48,7 @@
     # Apps #
     ########
     jetbrains.idea-ultimate
+    wireshark
   ];
 
   sops = {

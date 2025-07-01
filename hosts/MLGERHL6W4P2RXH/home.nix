@@ -278,7 +278,4 @@
   programs.jq = {
     enable = true;
   };
-  programs.nushell = {
-    enable = true;
-  };
 }

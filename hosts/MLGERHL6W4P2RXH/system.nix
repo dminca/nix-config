@@ -13,5 +13,19 @@
     askForPassword = true;
     askForPasswordDelay = 14400;
   };
+  homebrew = {
+    enable = true;
+    onActivation = {
+      cleanup = "uninstall";
+      autoUpdate = true;
+      upgrade = true;
+    };
+    casks = [
+      {
+        name = "vivaldi";
+        greedy = true;
+      }
+    ];
+  };
 }
 

@@ -4,6 +4,8 @@
 }:
 {
   programs.git = {
+#     To have this happen automatically for branches without a tracking
+# upstream, see 'push.autoSetupRemote' in 'git help config'.
     extraConfig = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
         path = "${config.xdg.configHome}/git/identity_work";
@@ -25,6 +27,9 @@
           "ssh://"
           "git://"
         ];
+      };
+      push = {
+        autoSetupRemote = true;
       };
     };
   };

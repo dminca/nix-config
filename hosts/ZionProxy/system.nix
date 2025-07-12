@@ -28,10 +28,6 @@
         name = "vlc";
         greedy = true;
       }
-      {
-        name = "vivaldi";
-        greedy = true;
-      }
     ];
   };
 }

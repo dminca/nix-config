@@ -49,6 +49,7 @@
     ########
     jetbrains.idea-ultimate
     wireshark
+    blender
   ];
 
   sops = {

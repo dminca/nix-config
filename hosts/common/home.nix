@@ -26,6 +26,7 @@
     openssl
     operator-sdk
     gum
+    yt-dlp
     ########
     # Apps #
     ########

@@ -16,7 +16,6 @@
     exercism
     hugo
     operator-sdk
-    yt-dlp
     ffmpeg
     filen-cli
     ########

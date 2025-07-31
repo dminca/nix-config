@@ -31,6 +31,7 @@
     # Apps #
     ########
     raycast
+    blender
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;

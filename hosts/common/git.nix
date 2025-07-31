@@ -34,14 +34,14 @@
       };
       merge = {
         log = true;
-        tool = "vimdiff";
-        conflictstyle = "diff3";
+        tool = "opendiff";
       };
       difftool = {
         prompt = false;
       };
-      difftool."vimdiff" = {
-        path = "nvim";
+      mergetool = {
+        prompt = false;
+        keepBackup = false;
       };
       fetch = {
         recurseSubmodules = "on-demand";

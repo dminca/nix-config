@@ -219,7 +219,7 @@
         option_as_alt = "both";
       };
       font = {
-        size = 10;
+        size = 12;
       };
       font.normal = {
         family = "JetBrainsMono Nerd Font";

@@ -58,7 +58,7 @@
       catppuccin-nvim
     ];
     extraLuaConfig = ''
-      vim.cmd.colorscheme('catppuccin-latte')
+      vim.cmd.colorscheme('catppuccin-mocha')
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,

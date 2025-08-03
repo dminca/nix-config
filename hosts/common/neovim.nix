@@ -57,7 +57,7 @@
       plenary-nvim
     ];
     extraLuaConfig = ''
-      vim.cmd.colorscheme('catppuccin-mocha')
+      vim.cmd.colorscheme('wildcharm')
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,

@@ -55,7 +55,6 @@
       diffview-nvim
       yazi-nvim
       plenary-nvim
-      catppuccin-nvim
     ];
     extraLuaConfig = ''
       vim.cmd.colorscheme('catppuccin-mocha')

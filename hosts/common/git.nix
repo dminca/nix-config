@@ -67,6 +67,8 @@
     ignores = [
       ".DS_Store"
       "*.pyc"
+      ".idea"
+      ".vscode"
     ];
   };
 }

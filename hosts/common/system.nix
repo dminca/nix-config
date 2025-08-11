@@ -6,6 +6,7 @@
 {
   environment.systemPackages = with pkgs; [
     neovim
+    nh
   ];
   nix.settings.experimental-features = "nix-command flakes";
   nix.enable = false;

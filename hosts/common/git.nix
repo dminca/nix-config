@@ -69,6 +69,7 @@
       "*.pyc"
       ".idea"
       ".vscode"
+      ".terraform.lock.hcl"
     ];
   };
 }

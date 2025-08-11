@@ -15,7 +15,7 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, inputs }:
+  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }:
     let
       # Define darwinConfigurations first
       darwinConfigurations = {

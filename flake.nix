@@ -13,9 +13,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nh = {
+      url = "github:nix-community/nh";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }:
+  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, nh }:
     let
       # Define darwinConfigurations first
       darwinConfigurations = {
@@ -66,7 +70,7 @@
             overlays = [
               # Add nh to the package set
               (final: prev: {
-                nh = inputs.nh.packages.aarch64-darwin.default;
+                nh = nh.packages.aarch64-darwin.default;
               })
             ];
           };

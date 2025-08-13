@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   ...
 }:
 {
@@ -9,10 +10,16 @@
       settings = {
         languageserver = {
           helm = {
-            command = "helm_ls";
+            command = lib.getExe pkgs.helm-ls;
             args = ["serve"];
             filetypes = ["helm" "helmfile"];
             rootPatterns = ["Chart.yaml"];
+          };
+          jsonnet = {
+            command = lib.getExe pkgs.jsonnet-language-server;
+            args = ["-t"];
+            rootPatterns = [".git/" "jsonnetfile.json"];
+            filetypes = ["jsonnet" "libsonnet"];
           };
         };
       };

@@ -19,6 +19,10 @@
     pre-commit
     glab
     devenv
+    jsonnet
+    jsonnet-bundler
+    gojsontoyaml
+    jsonnet-language-server
     ########################
     # cloud-native tooling #
     ########################

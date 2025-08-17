@@ -24,6 +24,10 @@
         name = "vlc";
         greedy = true;
       }
+      {
+        name = "anytype";
+        greedy = true;
+      }
     ];
   };
 }

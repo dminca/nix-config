@@ -29,7 +29,6 @@
     ########
     # Apps #
     ########
-    raycast
     blender
   ];
 }

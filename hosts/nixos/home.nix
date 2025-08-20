@@ -8,6 +8,7 @@
     ################
     # core tooling #
     ################
+    git
     git-lfs
     nil
     nixfmt-classic

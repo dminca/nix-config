@@ -1,6 +1,7 @@
 keys:
   - &admin_dminca age1lw0uetqnw87rxwrvpd7vjrm0zuhcljkln27rek746q3leqf9dfsqnalt30
   - &admin_mida4001 age1lnnxnx32fhkzr8ukyvaw3ghtddf9gyujewk4h8kxrn0fzk9ds9jqq9quxa
+  - &admin_nixos_dminca age134du0tmwpsqn49x4dzm3d4jjftuq94ee3qrlhfc3e2485aadlpksjj527a
 creation_rules:
   - path_regex: hosts/ZionProxy/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -10,4 +11,7 @@ creation_rules:
     key_groups:
       - age:
         - *admin_mida4001
-
+  - path_regex: hosts/nixos/secrets/[^/]+\.(yaml|yml|json|env|ini)$
+    key_groups:
+      - age:
+        - *admin_nixos_dminca

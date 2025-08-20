@@ -5,6 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +19,7 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix }:
+  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, determinate }:
     let
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -47,6 +51,7 @@
               home-manager.users.dminca = import ./hosts/nixos/home.nix;
               home-manager.extraSpecialArgs = { inherit sops-nix; };
             }
+            determinate.nixosModules.default
           ];
           specialArgs = { inherit sops-nix; };
         };

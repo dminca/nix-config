@@ -48,7 +48,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.dminca = import ./hosts/nixos/home.nix;
+              home-manager.users.dminca = import ./hosts/nixos/default.nix;
               home-manager.extraSpecialArgs = { inherit sops-nix; };
             }
             determinate.nixosModules.default

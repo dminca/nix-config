@@ -53,10 +53,11 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
+    # remapCapsLockToEscape
+    options = ''
+      caps:escape
+    '';
   };
-
-  # remapCapsLockToEscape
-  services.xserver.xkbOptions = "caps:escape";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

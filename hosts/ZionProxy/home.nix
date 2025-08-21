@@ -22,6 +22,7 @@
     # Apps #
     ########
     discord
+    goread
   ];
 
   sops = {

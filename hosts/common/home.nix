@@ -33,6 +33,7 @@
     raycast
     (blender.overrideAttrs (oldAttrs: rec {
       version = "4.4.3";
+      meta.broken = false;
       src = pkgs.fetchzip {
         url = "https://download.blender.org/source/blender-${version}.tar.xz";
         hash = "sha256-vHDOKI7uqB5EbdRu711axBuYX1zM746E6GvK2Nl5hZg=";

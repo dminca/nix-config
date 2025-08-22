@@ -31,8 +31,7 @@
     # Apps #
     ########
     raycast
-    blender
-  ];
+  ] ++ pkgs.nixpkgsBlenderPinned.blender;
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;

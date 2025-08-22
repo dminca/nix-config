@@ -63,12 +63,13 @@
 
       homeConfigurations = {
         "dminca" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { system = "aarch64-darwin"; } // import nixpkgsBlenderPinned { system = "aarch64-darwin"; };
+          pkgs = import nixpkgs { system = "aarch64-darwin"; };
           modules = [
             sops-nix.homeManagerModules.sops
             ./hosts/common
             ./hosts/ZionProxy
           ];
+          extraSpecialArgs = { inherit nixpkgsBlenderPinned; };
         };
 
         "mida4001" = home-manager.lib.homeManagerConfiguration {
@@ -78,6 +79,7 @@
             ./hosts/common
             ./hosts/MLGERHL6W4P2RXH
           ];
+          extraSpecialArgs = { inherit nixpkgsBlenderPinned; };
         };
       };
     in
@@ -85,7 +87,7 @@
       inherit darwinConfigurations nixosConfigurations homeConfigurations;
       packages = forAllSystems (system: 
         let
-          pkgs = import nixpkgs { inherit system; } // import nixpkgsBlenderPinned { inherit system; };
+          pkgs = import nixpkgs { inherit system; };
         in
         {
           default = 

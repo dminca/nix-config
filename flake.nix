@@ -89,19 +89,17 @@
               # Darwin/macOS script
               pkgs.writeShellScriptBin "apply-configurations" ''
                 HOSTNAME=$(scutil --get ComputerName || hostname)
-                case "$HOSTNAME" in
-                  "ZionProxy")
-                    sudo ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
-                    ${homeConfigurations.dminca.activationPackage}/activate
-                    ;;
-                  "MLGERHL6W4P2RXH")
-                    sudo ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
-                    ${homeConfigurations.mida4001.activationPackage}/activate
-                    ;;
-                  *)
-                    echo "Unknown host: $HOSTNAME"
-                    exit 1
-                    ;;
+
+                if [ "$HOSTNAME" = "ZionProxy" ]; then
+                  sudo ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+                  ${homeConfigurations.dminca.activationPackage}/activate
+                elif [ "$HOSTNAME" = "MLGERHL6W4P2RXH" ]; then
+                  sudo ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
+                  ${homeConfigurations.mida4001.activationPackage}/activate
+                else
+                  echo "Unknown host: $HOSTNAME"
+                  exit 1
+                fi
               ''
             else
               # NixOS/Linux script

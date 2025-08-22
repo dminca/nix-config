@@ -31,7 +31,7 @@
     # Apps #
     ########
     raycast
-    (blender.override {version = "4.4.3";})
+    (blender.overrideAttrs {version = "4.4.3";})
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;

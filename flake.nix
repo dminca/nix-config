@@ -3,10 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgsBlenderPinned = {
-      # FIXME(blender): remove this once fixed upstream
-      url = "github:NixOS/nixpkgs/fa0ef8a6bb1651aa26c939aeb51b5f499e86b0ec";
-    };
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     determinate = {
@@ -23,7 +19,7 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, determinate, nixpkgsBlenderPinned }:
+  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, determinate }:
     let
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -69,7 +65,6 @@
             ./hosts/common
             ./hosts/ZionProxy
           ];
-          extraSpecialArgs = { inherit nixpkgsBlenderPinned; };
         };
 
         "mida4001" = home-manager.lib.homeManagerConfiguration {
@@ -79,7 +74,6 @@
             ./hosts/common
             ./hosts/MLGERHL6W4P2RXH
           ];
-          extraSpecialArgs = { inherit nixpkgsBlenderPinned; };
         };
       };
     in

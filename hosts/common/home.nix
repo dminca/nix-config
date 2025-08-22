@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  nixpkgsBlenderPinned,
   ...
 }:
 {
@@ -32,7 +31,8 @@
     # Apps #
     ########
     raycast
-  ] ++ nixpkgsBlenderPinned.blender;
+    blender
+  ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;

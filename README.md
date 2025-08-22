@@ -72,6 +72,24 @@ nix-env -f '<nixpkgs>' -qaP -A vimPlugins
 nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
 ```
 
+### Building the NixOS host remotely
+
+To remotely build the NixOS host run
+
+```sh
+nix shell nixpkgs#nixos-rebuild \
+    --command nixos-rebuild switch \
+    --flake .#nixos \
+    --target-host dminca@nixos \
+    --build-host dminca@nixos \
+    --fast \
+    --use-remote-sudo
+```
+
+> [!NOTE]  
+> Required to pass `--fast` and `--target-host user@host` if execution is triggered
+> from a Darwin or non-linux workstation.
+
 ## Roadmap [completed] 🎉
 - [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)

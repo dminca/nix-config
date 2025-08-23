@@ -28,9 +28,6 @@
           "git://"
         ];
       };
-      push = {
-        autoSetupRemote = true;
-      };
     };
   };
 }

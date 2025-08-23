@@ -63,6 +63,9 @@
         process = "git-lfs filter-process";
         required = true;
       };
+      push = {
+        autoSetupRemote = true;
+      };
     };
     ignores = [
       ".DS_Store"

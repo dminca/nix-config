@@ -25,6 +25,7 @@
 
   outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, determinate, nixpkgsBlenderPinned }:
     let
+      pinnedBlender = import nixpkgsBlenderPinned {}.pkgs.blender;
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       darwinConfigurations = {
@@ -69,6 +70,7 @@
             ./hosts/common
             ./hosts/ZionProxy
           ];
+          extraSpecialArgs = { inherit pinnedBlender; };
         };
 
         "mida4001" = home-manager.lib.homeManagerConfiguration {
@@ -78,6 +80,7 @@
             ./hosts/common
             ./hosts/MLGERHL6W4P2RXH
           ];
+          extraSpecialArgs = { inherit pinnedBlender; };
         };
       };
     in

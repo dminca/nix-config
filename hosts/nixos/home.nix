@@ -32,7 +32,6 @@
     ########
     # Apps #
     ########
-    blender
   ];
   programs.home-manager.enable = true;
   home.file = {

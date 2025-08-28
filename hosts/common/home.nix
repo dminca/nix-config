@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pinnedBlender,
   lib,
   ...
 }:
@@ -31,8 +32,7 @@
     # Apps #
     ########
     raycast
-    blender
-  ];
+  ] ++ pinnedBlender;
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;
   programs.home-manager.enable = true;

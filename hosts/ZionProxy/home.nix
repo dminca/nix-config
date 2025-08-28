@@ -46,8 +46,4 @@
   programs.go = {
     goPath = "Projects/misc/gopath";
   };
-
-  programs.obsidian = {
-    enable = true;
-  };
 }

@@ -18,7 +18,7 @@
     operator-sdk
     ffmpeg
     filen-cli
-    vhs
+    f2
     ########
     # Apps #
     ########

@@ -19,6 +19,7 @@
     ffmpeg
     filen-cli
     f2
+    btop
     ########
     # Apps #
     ########

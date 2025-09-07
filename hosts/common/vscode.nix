@@ -16,6 +16,13 @@
         golang.go
         oderwat.indent-rainbow
         hashicorp.terraform
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "vscode-jsonnet";
+          publisher = "grafana";
+          version = "0.7.2";
+          sha256 = "sha256-Q8VzXzTdHo9h5+eCHHF1bPomPEbRsvouJcUfmFUDGMU=";
+        }
       ];
       keybindings = [
         {

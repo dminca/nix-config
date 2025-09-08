@@ -28,6 +28,10 @@
         name = "anytype";
         greedy = true;
       }
+      {
+        name = "zulip";
+        greedy = true;
+      }
     ];
   };
 }

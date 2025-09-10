@@ -32,6 +32,7 @@
     ########
     # Apps #
     ########
+    vivaldi
   ];
   programs.home-manager.enable = true;
   home.file = {

@@ -48,6 +48,7 @@
     podman
     kluctl
     vault
+    container
     ########
     # Apps #
     ########

@@ -45,6 +45,8 @@
   };
 
   programs.go = {
-    goPath = "Projects/misc/gopath";
+    env = {
+      GOPATH = "Projects/misc/gopath";
+    };
   };
 }

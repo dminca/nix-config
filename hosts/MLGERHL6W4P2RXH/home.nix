@@ -131,7 +131,9 @@
     };
   };
   programs.go = {
-    goPath = "Repos/open-source/others/gopath";
+    env = {
+      GOPATH = "Repos/open-source/others/gopath";
+    };
   };
   programs.k9s = {
     enable = true;

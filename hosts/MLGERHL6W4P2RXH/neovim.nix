@@ -17,7 +17,11 @@
           };
           jsonnet = {
             command = lib.getExe pkgs.jsonnet-language-server;
-            args = ["-t"];
+            args = [
+              "-t"
+              "-J"
+              "lib"
+            ];
             rootPatterns = [".git/" "jsonnetfile.json"];
             filetypes = ["jsonnet" "libsonnet"];
           };

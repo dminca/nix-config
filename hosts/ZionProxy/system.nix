@@ -32,6 +32,10 @@
         name = "zulip";
         greedy = true;
       }
+      {
+        name = "deepl";
+        greedy = true;
+      }
     ];
   };
 }

@@ -40,6 +40,10 @@
         name = "vivaldi";
         greedy = true;
       }
+      {
+        name = "blender";
+        greedy = true;
+      }
     ];
   };
 }

@@ -13,13 +13,5 @@
     askForPassword = true;
     askForPasswordDelay = 14400;
   };
-  homebrew = {
-    casks = [
-      {
-        name = "blender";
-        greedy = true;
-      }
-    ];
-  };
 }
 

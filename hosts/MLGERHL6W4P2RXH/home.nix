@@ -284,4 +284,7 @@
   programs.jq = {
     enable = true;
   };
+  programs.vscode = {
+    package = pkgs.vscode;
+  };
 }

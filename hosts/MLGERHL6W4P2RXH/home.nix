@@ -286,5 +286,10 @@
   };
   programs.vscode = {
     package = pkgs.vscode;
+    profiles.default = {
+      userSettings = {
+        "github.copilot.nextEditSuggestions.enabled" = true;
+      };
+    };
   };
 }

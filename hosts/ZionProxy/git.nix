@@ -4,7 +4,7 @@
 }:
 {
   programs.git = {
-    extraConfig = {
+    settings = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
         path = "${config.xdg.configHome}/git/github";
       };

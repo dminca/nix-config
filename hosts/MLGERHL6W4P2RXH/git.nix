@@ -6,7 +6,7 @@
   programs.git = {
 #     To have this happen automatically for branches without a tracking
 # upstream, see 'push.autoSetupRemote' in 'git help config'.
-    extraConfig = {
+    settings = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
         path = "${config.xdg.configHome}/git/identity_work";
       };

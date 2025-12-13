@@ -5,8 +5,7 @@
 {
   programs.git = {
     enable = true;
-    delta.enable = true;
-    extraConfig = {
+    settings = {
       delta = {
         navigate = true;
         side-by-side = true;
@@ -71,6 +70,10 @@
       ".vscode"
       ".terraform.lock.hcl"
     ];
+  };
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
   };
 }
 

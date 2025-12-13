@@ -90,16 +90,21 @@
               pkgs.writeShellScriptBin "apply-configurations" ''
                 HOSTNAME=$(scutil --get ComputerName || hostname)
 
-                if [ "$HOSTNAME" = "ZionProxy" ]; then
-                  sudo ${darwinConfigurations.ZionProxy.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
-                  ${homeConfigurations.dminca.activationPackage}/activate
-                elif [ "$HOSTNAME" = "MLGERHL6W4P2RXH" ]; then
-                  sudo ${darwinConfigurations.MLGERHL6W4P2RXH.config.system.build.toplevel}/sw/bin/darwin-rebuild switch --flake . &&
-                  ${homeConfigurations.mida4001.activationPackage}/activate
-                else
-                  echo "Unknown host: $HOSTNAME"
-                  exit 1
-                fi
+                case "$HOSTNAME" in
+                  "ZionProxy")
+                    sudo darwin-rebuild switch --flake .#ZionProxy &&
+                    home-manager switch --flake .#dminca
+                    ;;
+                  "MLGERHL6W4P2RXH")
+                    sudo darwin-rebuild switch --flake .#MLGERHL6W4P2RXH &&
+                    home-manager switch --flake .#mida4001
+                    ;;
+                  *)
+                    echo "Unknown host: $HOSTNAME"
+                    echo "Available configurations: ZionProxy, MLGERHL6W4P2RXH"
+                    exit 1
+                    ;;
+                esac
               ''
             else
               # NixOS/Linux script

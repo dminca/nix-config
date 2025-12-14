@@ -23,7 +23,7 @@
     # Apps #
     ########
     discord
-    goread
+    devenv
   ];
 
   sops = {

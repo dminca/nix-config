@@ -118,7 +118,6 @@
     "${config.home.homeDirectory}/.krew/bin"
   ];
 
-  programs.direnv.enable = true;
   programs.java.enable = true;
   programs.gpg = {
     enable = true;

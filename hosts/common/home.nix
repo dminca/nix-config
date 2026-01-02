@@ -264,4 +264,7 @@
       };
     };
   };
+  programs.rio = {
+    enable = true;
+  };
 }

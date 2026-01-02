@@ -48,8 +48,4 @@
       GOPATH = "Projects/misc/gopath";
     };
   };
-
-  programs.rio = {
-    enable = true;
-  };
 }

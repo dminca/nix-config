@@ -51,7 +51,7 @@
     ########
     # Apps #
     ########
-    jetbrains.idea-ultimate
+    jetbrains.idea
     wireshark
   ];
 

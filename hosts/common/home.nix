@@ -266,5 +266,12 @@
   };
   programs.rio = {
     enable = true;
+    settings = {
+      "window" = {
+        opacity = 0.5;
+        decorations = "enabled";
+        blur = true;
+      };
+    };
   };
 }

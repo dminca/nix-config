@@ -47,7 +47,6 @@
     plugins = with pkgs.vimPlugins; [
       vim-nix
       vim-gitgutter
-      nvim-treesitter.withAllGrammars
       coc-json
       coc-explorer
       lualine-nvim
@@ -58,11 +57,6 @@
     ];
     extraLuaConfig = ''
       vim.cmd.colorscheme('wildcharm')
-      require'nvim-treesitter.configs'.setup {
-        highlight = {
-          enable = true,
-        },
-      }
       require('lualine').setup {
         options = {
           theme  = 'dracula',

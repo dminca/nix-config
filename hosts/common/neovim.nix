@@ -124,7 +124,7 @@
       vim.keymap.set('n', '<leader>-', function()
         require('yazi').yazi()
       end)
-      vim.o.grepprg = 'rg --vimgrep'
+      vim.o.grepprg = '${lib.getExe pkgs.ripgrep} --vimgrep'
       vim.o.grepformat = '%f:%l:%c:%m,%f|%l col %c|%m'
       require('diffview').setup {
           view = {
@@ -137,4 +137,3 @@
     '';
   };
 }
-

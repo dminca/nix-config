@@ -79,52 +79,28 @@
     in
     {
       inherit darwinConfigurations nixosConfigurations homeConfigurations;
-      packages = forAllSystems (system: 
+
+      apps = forAllSystems (system: 
         let
           pkgs = import nixpkgs { inherit system; };
         in
         {
-          default = 
-            if pkgs.stdenv.isDarwin then
-              # Darwin/macOS script
-              pkgs.writeShellScriptBin "apply-configurations" ''
-                HOSTNAME=$(scutil --get ComputerName || hostname)
+          default = {
+            type = "app";
+            program = toString (pkgs.writeShellScript "apply-config" ''
+              set -e
+              HOSTNAME=$(${pkgs.lib.getExe' pkgs.nettools "hostname"})
 
-                case "$HOSTNAME" in
-                  "ZionProxy")
-                    sudo darwin-rebuild switch --flake .#ZionProxy &&
-                    home-manager switch --flake .#dminca
-                    ;;
-                  "MLGERHL6W4P2RXH")
-                    sudo darwin-rebuild switch --flake .#MLGERHL6W4P2RXH &&
-                    home-manager switch --flake .#mida4001
-                    ;;
-                  *)
-                    echo "Unknown host: $HOSTNAME"
-                    echo "Available configurations: ZionProxy, MLGERHL6W4P2RXH"
-                    exit 1
-                    ;;
-                esac
-              ''
-            else
-              # NixOS/Linux script
-              pkgs.writeShellScriptBin "apply-nixos-configuration" ''
-                HOSTNAME=$(hostname)
-                case "$HOSTNAME" in
-                  "nixos")
-                    sudo nixos-rebuild switch --flake .#nixos
-                    ;;
-                  "nixos-fake")
-                    sudo nixos-rebuild switch --flake .#nixos-desktop
-                    ;;
-                  *)
-                    echo "Unknown hostname: $HOSTNAME"
-                    echo "Available configurations: nixos, nixos-fake"
-                    exit 1
-                    ;;
-                esac
-              '';
+              if [[ "$OSTYPE" == "darwin"* ]]; then
+                echo "🍎 Applying configuration for macOS host: $HOSTNAME"
+                ${pkgs.lib.getExe pkgs.nh} darwin switch .
+                ${pkgs.lib.getExe pkgs.nh} home switch .
+              else
+                echo "🐧 Applying configuration for NixOS host: $HOSTNAME"
+                ${pkgs.lib.getExe pkgs.nh} os switch .
+              fi
+            '');
+          };
         });
     };
 }
-

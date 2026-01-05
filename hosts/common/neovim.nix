@@ -126,6 +126,8 @@
       end)
       vim.o.grepprg = '${lib.getExe pkgs.ripgrep} --vimgrep'
       vim.o.grepformat = '%f:%l:%c:%m,%f|%l col %c|%m'
+      vim.keymap.set('n', '<C-n>', ':cnext<CR>', { silent = true })
+      vim.keymap.set('n', '<C-p>', ':cprevious<CR>', { silent = true })
       require('diffview').setup {
           view = {
               merge_tool = {

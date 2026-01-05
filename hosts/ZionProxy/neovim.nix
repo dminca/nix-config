@@ -4,7 +4,8 @@
 }:
 {
   programs.neovim = {
-    extraConfig = lib.fileContents ./dotfiles/init.vim;
+    extraLuaConfig = ''
+      vim.cmd.colorscheme('zaibatsu')
+    '';
   };
 }
-

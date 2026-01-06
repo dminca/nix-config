@@ -36,6 +36,10 @@
         name = "deepl";
         greedy = true;
       }
+      {
+        name = "krita";
+        greedy = true;
+      }
     ];
   };
 }

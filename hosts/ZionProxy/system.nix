@@ -13,10 +13,6 @@
     };
     casks = [
       {
-        name = "signal";
-        greedy = true;
-      }
-      {
         name = "filen";
         greedy = true;
       }
@@ -29,10 +25,6 @@
         greedy = true;
       }
       {
-        name = "zulip";
-        greedy = true;
-      }
-      {
         name = "deepl";
         greedy = true;
       }
@@ -41,7 +33,19 @@
         greedy = true;
       }
       {
+        name = "zulip";
+        greedy = true;
+      }
+      {
+        name = "signal";
+        greedy = true;
+      }
+      {
         name = "session";
+        greedy = true;
+      }
+      {
+        name = "simplex";
         greedy = true;
       }
     ];

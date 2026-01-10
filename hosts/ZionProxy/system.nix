@@ -40,6 +40,10 @@
         name = "krita";
         greedy = true;
       }
+      {
+        name = "session";
+        greedy = true;
+      }
     ];
   };
 }

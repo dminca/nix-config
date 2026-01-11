@@ -17,10 +17,6 @@
         greedy = true;
       }
       {
-        name = "vlc";
-        greedy = true;
-      }
-      {
         name = "anytype";
         greedy = true;
       }

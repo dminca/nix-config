@@ -13,7 +13,7 @@
     git
     git-lfs
     nil
-    nixfmt-classic
+    nixfmt
     nodePackages.bash-language-server
     nerd-fonts.jetbrains-mono
     xh

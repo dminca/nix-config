@@ -296,13 +296,17 @@
     enable = true;
     settings = {
       theme = "dracula";
-      fonts.family = "JetBrainsMono Nerd Font";
-      "window" = {
+      fonts = {
+        size = 12;
+        family = "JetBrainsMono Nerd Font";
+        disable-warnings-not-found = false;
+      };
+      window = {
         opacity = 0.5;
         decorations = "enabled";
         blur = true;
       };
-      "navigation" = {
+      navigation = {
         mode = "BottomTab";
       };
     };

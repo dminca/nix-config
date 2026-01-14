@@ -25,10 +25,6 @@
         greedy = true;
       }
       {
-        name = "krita";
-        greedy = true;
-      }
-      {
         name = "zulip";
         greedy = true;
       }

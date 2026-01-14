@@ -44,6 +44,10 @@
         name = "blender";
         greedy = true;
       }
+      {
+        name = "krita";
+        greedy = true;
+      }
     ];
   };
 }

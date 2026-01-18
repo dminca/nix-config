@@ -48,4 +48,23 @@
       GOPATH = "Projects/misc/gopath";
     };
   };
+  programs.halloy = {
+    enable = true;
+    settings = {
+      buffer.channel.topic.enabled = true;
+      servers.liberachat = {
+        server = "irc.libera.chat";
+        use_tls = true;
+        nickname = "dminca";
+        channels = [
+          "#nixos"
+          "#gentoo"
+          "#nix-darwin"
+          "#nixos-chat"
+          "#nixos-de"
+          "#yggdrasil"
+        ];
+      };
+    };
+  };
 }

@@ -27,7 +27,7 @@
   ];
 
   sops = {
-    defaultSopsFile = ./secrets/example.yaml;
+    #defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
   };
   sops.secrets.codeberg = {

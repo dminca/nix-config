@@ -42,6 +42,9 @@
     sopsFile = ./secrets/gitconfig_identities.yaml;
     key = "github";
   };
+  sops.secrets.halloy = {
+    sopsFile = ./secrets/hloy.txt;
+  };
 
   programs.go = {
     env = {
@@ -56,6 +59,7 @@
         server = "irc.libera.chat";
         use_tls = true;
         nickname = "dminca";
+        #nick_password_file = config.sops.secrets.halloy.path;
         channels = [
           "#nixos"
           "#gentoo"

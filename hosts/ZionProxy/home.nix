@@ -67,6 +67,7 @@
           "#nixos-chat"
           "#nixos-de"
           "#yggdrasil"
+          "#halloy"
         ];
       };
     };

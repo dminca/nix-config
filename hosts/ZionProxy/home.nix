@@ -43,7 +43,8 @@
     key = "github";
   };
   sops.secrets.halloy = {
-    sopsFile = ./secrets/hloy.txt;
+    sopsFile = ./secrets/hloy.yaml;
+    key = "pwd";
   };
 
   programs.go = {
@@ -58,8 +59,8 @@
       servers.liberachat = {
         server = "irc.libera.chat";
         use_tls = true;
-        nickname = "dminca";
-        #nick_password_file = config.sops.secrets.halloy.path;
+        nickname = "dminca2";
+        nick_password_file = config.sops.secrets.halloy.path;
         channels = [
           "#nixos"
           "#gentoo"

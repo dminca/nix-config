@@ -42,10 +42,35 @@
     sopsFile = ./secrets/gitconfig_identities.yaml;
     key = "github";
   };
+  sops.secrets.halloy = {
+    sopsFile = ./secrets/hloy.yaml;
+    key = "pwd";
+  };
 
   programs.go = {
     env = {
       GOPATH = "Projects/misc/gopath";
+    };
+  };
+  programs.halloy = {
+    enable = true;
+    settings = {
+      buffer.channel.topic.enabled = true;
+      servers.liberachat = {
+        server = "irc.libera.chat";
+        use_tls = true;
+        nickname = "dminca2";
+        nick_password_file = config.sops.secrets.halloy.path;
+        channels = [
+          "#nixos"
+          "#gentoo"
+          "#nix-darwin"
+          "#nixos-chat"
+          "#nixos-de"
+          "#yggdrasil"
+          "#halloy"
+        ];
+      };
     };
   };
 }

@@ -32,15 +32,15 @@
   };
   sops.secrets.codeberg = {
     sopsFile = ./secrets/gitconfig_identities.yaml;
-    path = "${config.xdg.configHome}/git/codeberg";
+    key = "codeberg";
   };
   sops.secrets.gitlab = {
     sopsFile = ./secrets/gitconfig_identities.yaml;
-    path = "${config.xdg.configHome}/git/gitlab";
+    key = "gitlab";
   };
   sops.secrets.github = {
     sopsFile = ./secrets/gitconfig_identities.yaml;
-    path = "${config.xdg.configHome}/git/github";
+    key = "github";
   };
 
   programs.go = {

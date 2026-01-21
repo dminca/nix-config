@@ -82,16 +82,19 @@
   sops.secrets.work = {
     sopsFile = ./secrets/gitconfig_identities.yaml;
     path = "${config.xdg.configHome}/git/identity_work";
+    key = "";
   };
   sops.secrets.opensource = {
     sopsFile = ./secrets/gitconfig_identities.yaml;
     path = "${config.xdg.configHome}/git/identity_opensource";
+    key = "";
   };
   sops.secrets.additionalGitconfig = {
     sopsFile = ./secrets/fqdns.yaml;
   };
   sops.secrets.sman = {
     sopsFile = ./secrets/sman.yaml;
+    key = "";
   };
   sops.secrets.glab = {
     sopsFile = ./secrets/config.yml;

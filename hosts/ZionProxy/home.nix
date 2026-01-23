@@ -50,7 +50,7 @@
 
   programs.go = {
     env = {
-      GOPATH = "Projects/misc/gopath";
+      GOPATH = "${config.home.homeDirectory}/Projects/misc/gopath";
     };
   };
   programs.halloy = {

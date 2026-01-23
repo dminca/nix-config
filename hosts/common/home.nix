@@ -17,6 +17,7 @@
     xh
     tcptraceroute
     doggo
+    nh
     #################
     # shell tooling #
     #################

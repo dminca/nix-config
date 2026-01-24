@@ -25,7 +25,6 @@
     discord
     devenv
     yggdrasil
-    alfis
   ];
 
   sops = {

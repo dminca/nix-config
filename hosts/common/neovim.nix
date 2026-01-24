@@ -55,7 +55,7 @@
       yazi-nvim
       plenary-nvim
     ];
-    extraLuaConfig = ''
+    initLua = ''
       -- Text, tab and indent settings
       vim.opt.expandtab = true
       vim.opt.smarttab = true

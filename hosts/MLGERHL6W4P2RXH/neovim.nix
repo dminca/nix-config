@@ -29,7 +29,7 @@
         };
       };
     };
-    extraLuaConfig = ''
+    initLua = ''
       vim.cmd.colorscheme('retrobox')
     '';
   };

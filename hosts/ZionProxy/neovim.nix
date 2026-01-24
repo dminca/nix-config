@@ -1,10 +1,9 @@
 {
-  lib,
   ...
 }:
 {
   programs.neovim = {
-    extraLuaConfig = ''
+    initLua = ''
       vim.cmd.colorscheme('zaibatsu')
     '';
   };

@@ -8,16 +8,16 @@
 # upstream, see 'push.autoSetupRemote' in 'git help config'.
     settings = {
       includeIf."gitdir:${config.home.homeDirectory}/Projects/misc/" = {
-        path = "${config.xdg.configHome}/git/identity_work";
+        path = config.sops.secrets.work.path;
       };
       includeIf."gitdir:${config.home.homeDirectory}/Projects/codeberg.org/" = {
-        path = "${config.xdg.configHome}/git/identity_opensource";
+        path = config.sops.secrets.opensource.path;
       };
       includeIf."gitdir:${config.home.homeDirectory}/Projects/github.com/" = {
-        path = "${config.xdg.configHome}/git/identity_opensource";
+        path = config.sops.secrets.opensource.path;
       };
       includeIf."gitdir:${config.home.homeDirectory}/Projects/gitlab.com/" = {
-        path = "${config.xdg.configHome}/git/identity_opensource";
+        path = config.sops.secrets.opensource.path;
       };
       include = {
         path = config.sops.secrets.additionalGitconfig.path;

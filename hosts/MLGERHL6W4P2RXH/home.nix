@@ -22,6 +22,7 @@
     jsonnet-bundler
     gojsontoyaml
     jsonnet-language-server
+    github-copilot-cli
     ########################
     # cloud-native tooling #
     ########################

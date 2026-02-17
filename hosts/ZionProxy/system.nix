@@ -17,10 +17,6 @@
         greedy = true;
       }
       {
-        name = "anytype";
-        greedy = true;
-      }
-      {
         name = "deepl";
         greedy = true;
       }

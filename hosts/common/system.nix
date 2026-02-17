@@ -48,6 +48,10 @@
         name = "krita";
         greedy = true;
       }
+      {
+        name = "anytype";
+        greedy = true;
+      }
     ];
   };
 }

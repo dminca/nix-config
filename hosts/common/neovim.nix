@@ -54,6 +54,7 @@
       diffview-nvim
       yazi-nvim
       plenary-nvim
+      mini-indentscope
     ];
     initLua = ''
       -- Text, tab and indent settings
@@ -200,6 +201,18 @@
         callback = function()
           vim.fn.CocActionAsync('highlight')
         end,
+      })
+
+      ---
+      local MiniIndentscope = require('mini.indentscope')
+      MiniIndentscope.setup(
+      {
+        draw = { delay = 0 },
+
+        options = {
+          indent_at_cursor = true,
+      },
+      symbol = '│',
       })
     '';
   };

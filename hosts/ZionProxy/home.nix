@@ -19,7 +19,6 @@
     ffmpeg
     f2
     btop
-    yt-dlp
     ########
     # Apps #
     ########

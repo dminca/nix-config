@@ -36,10 +36,6 @@
         name = "simplex";
         greedy = true;
       }
-      {
-        name = "mullvad-vpn";
-        greedy = true;
-      }
     ];
   };
 }

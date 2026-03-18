@@ -16,6 +16,7 @@
     pinentry_mac
     rsync
     viddy # watch replacement
+    pre-commit
     glab
     devenv
     jsonnet

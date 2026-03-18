@@ -23,6 +23,7 @@
     gojsontoyaml
     jsonnet-language-server
     github-copilot-cli
+    jira-cli-go
     ########################
     # cloud-native tooling #
     ########################

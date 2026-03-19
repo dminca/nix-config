@@ -25,8 +25,7 @@
         greedy = true;
       }
       {
-      {
-        name = "simplex";
+        name = "gram";
         greedy = true;
       }
     ];

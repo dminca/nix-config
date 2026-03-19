@@ -21,17 +21,10 @@
         greedy = true;
       }
       {
-        name = "zulip";
-        greedy = true;
-      }
-      {
         name = "signal";
         greedy = true;
       }
       {
-        name = "session";
-        greedy = true;
-      }
       {
         name = "simplex";
         greedy = true;

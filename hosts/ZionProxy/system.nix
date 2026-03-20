@@ -24,10 +24,6 @@
         name = "signal";
         greedy = true;
       }
-      {
-        name = "gram";
-        greedy = true;
-      }
     ];
   };
 }

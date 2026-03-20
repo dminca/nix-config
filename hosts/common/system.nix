@@ -52,6 +52,10 @@
         name = "anytype";
         greedy = true;
       }
+      {
+        name = "gram";
+        greedy = true;
+      }
     ];
   };
 }

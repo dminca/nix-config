@@ -23,6 +23,7 @@
     jsonnet-bundler
     gojsontoyaml
     jsonnet-language-server
+    yaml-language-server
     github-copilot-cli
     jira-cli-go
     rustup

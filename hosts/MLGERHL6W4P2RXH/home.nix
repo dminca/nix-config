@@ -42,8 +42,9 @@
     helm-ls
     helm-docs
     fx
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     opentofu
+    tofu-ls
     terraform
     terraform-docs
     tflint
@@ -227,34 +228,34 @@
                 bgColor = "default";
                 sorterColor = "#89dceb";
               };
-            xray = {
-              fgColor = "#cdd6f4";
-              bgColor = "default";
-              cursorColor = "#45475a";
-              cursorTextColor = "#1e1e2e";
-              graphicColor = "#f5c2e7";
-            };
-            charts = {
-              bgColor = "default";
-              chartBgColor = "default";
-              dialBgColor = "default";
-              defaultDialColors = [
-                "#a6e3a1"
-                "#f38ba8"
-              ];
-              defaultChartColors = [
-                "#a6e3a1"
-                "#f38ba8"
-              ];
-              resourceColors = {
-                cpu = [
-                  "#cba6f7"
-                  "#89b4fa"
+              xray = {
+                fgColor = "#cdd6f4";
+                bgColor = "default";
+                cursorColor = "#45475a";
+                cursorTextColor = "#1e1e2e";
+                graphicColor = "#f5c2e7";
+              };
+              charts = {
+                bgColor = "default";
+                chartBgColor = "default";
+                dialBgColor = "default";
+                defaultDialColors = [
+                  "#a6e3a1"
+                  "#f38ba8"
                 ];
-                mem = [
-                  "#f9e2af"
-                  "#fab387"
+                defaultChartColors = [
+                  "#a6e3a1"
+                  "#f38ba8"
                 ];
+                resourceColors = {
+                  cpu = [
+                    "#cba6f7"
+                    "#89b4fa"
+                  ];
+                  mem = [
+                    "#f9e2af"
+                    "#fab387"
+                  ];
                 };
               };
             };

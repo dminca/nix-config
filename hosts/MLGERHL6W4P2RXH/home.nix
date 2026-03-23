@@ -25,6 +25,7 @@
     jsonnet-language-server
     github-copilot-cli
     jira-cli-go
+    rustup
     ########################
     # cloud-native tooling #
     ########################

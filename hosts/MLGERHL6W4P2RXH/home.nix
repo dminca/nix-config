@@ -47,6 +47,7 @@
     opentofu
     tofu-ls
     terraform
+    terraform-ls
     terraform-docs
     tflint
     crane

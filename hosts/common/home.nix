@@ -22,6 +22,7 @@
     # shell tooling #
     #################
     go
+    gopls
     sipcalc
     hugo
     openssl

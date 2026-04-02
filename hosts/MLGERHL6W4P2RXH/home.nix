@@ -58,7 +58,6 @@
     # Apps #
     ########
     jetbrains.idea
-    wireshark
   ];
 
   sops = {

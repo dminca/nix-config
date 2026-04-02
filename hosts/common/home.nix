@@ -32,6 +32,7 @@
     ########
     raycast
     zmk-studio
+    wireshark
   ];
   nixpkgs.config.allowUnfree = true;
   fonts.fontconfig.enable = true;

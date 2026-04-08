@@ -54,7 +54,6 @@
     kluctl
     vault
     container
-    regal
     ########
     # Apps #
     ########

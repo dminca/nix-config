@@ -27,6 +27,7 @@
     github-copilot-cli
     jira-cli-go
     rustup
+    cue
     ########################
     # cloud-native tooling #
     ########################

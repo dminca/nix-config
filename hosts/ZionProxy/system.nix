@@ -24,10 +24,6 @@
         name = "signal";
         greedy = true;
       }
-      {
-        name = "sw33tlie/macshot/macshot";
-        greedy = true;
-      }
     ];
   };
 }

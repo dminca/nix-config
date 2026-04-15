@@ -114,6 +114,10 @@
     path = "${config.xdg.configHome}/glab-cli/config.yml";
     mode = "0600";
   };
+  sops.secrets.froggo = {
+    sopsFile = ./secrets/froggo.yaml;
+    key = "virtual";
+  };
 
   home.file = {
     ".gnupg/gpg-agent.conf".text = ''
@@ -148,6 +152,7 @@
   programs.go = {
     env = {
       GOPATH = "Repos/open-source/others/gopath";
+      GOPRIVATE = "$(cat ${config.sops.secrets.froggo.path})";
     };
   };
   programs.k9s = {

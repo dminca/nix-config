@@ -20,6 +20,7 @@
     f2
     btop
     yt-dlp
+    opentofu
     ########
     # Apps #
     ########

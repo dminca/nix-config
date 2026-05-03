@@ -21,6 +21,7 @@
     btop
     yt-dlp
     opentofu
+    ansible
     ########
     # Apps #
     ########

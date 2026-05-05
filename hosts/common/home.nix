@@ -12,7 +12,7 @@
     git-lfs
     nil
     nixfmt
-    nodePackages.bash-language-server
+    bash-language-server
     nerd-fonts.jetbrains-mono
     xh
     tcptraceroute

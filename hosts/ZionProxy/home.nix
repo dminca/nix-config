@@ -77,4 +77,5 @@
       };
     };
   };
+  programs.direnv.enable = true;
 }

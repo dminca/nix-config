@@ -279,14 +279,6 @@
           chars = "\\u001BB";
         }
       ];
-      terminal.shell.program = lib.getExe pkgs.tmux;
-      terminal.shell.args = [
-        "new-session"
-        "-A"
-        "-D"
-        "-s"
-        "main"
-      ];
     };
   };
   programs.lazygit = {

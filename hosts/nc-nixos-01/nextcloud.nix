@@ -101,9 +101,4 @@
       after = [ "postgresql.service" "redis-valkey.service"];
     };
   };
-
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
 }

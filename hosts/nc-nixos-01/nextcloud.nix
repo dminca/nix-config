@@ -58,6 +58,24 @@
     "listen.owner" = config.services.httpd.user;
     "listen.group" = config.services.httpd.group;
   };
+  services = {
+    postgresql = {
+      enable = true;
+      ensureDatabases = [ "nextcloud" ];
+      ensureUsers = [{
+        name = "nextcloud";
+        ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
+      }];
+    };
+  };
+
+  # ensure postgresql db is started with nextcloud
+  systemd = {
+    services."nextcloud-setup" = {
+      requires = [ "postgresql.service" ];
+      after = [ "postgresql.service" ];
+    };
+  };
 
   networking.firewall.allowedTCPPorts = [
     80

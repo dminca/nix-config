@@ -3,7 +3,7 @@
 }:
 {
   programs.neovim = {
-    initLua = ''
+    extraLuaConfig = ''
       vim.cmd.colorscheme('zaibatsu')
     '';
   };

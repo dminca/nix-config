@@ -17,20 +17,25 @@
         languageserver = {
           bash = {
             command = "bash-language-server";
-            args = ["start"];
-            filetypes = ["sh"];
-            ignoredRootPaths = ["~"];
+            args = [ "start" ];
+            filetypes = [ "sh" ];
+            ignoredRootPaths = [ "~" ];
           };
           golang = {
             command = "gopls";
-            rootPatterns = ["go.mod" ".vim/" ".git/" ".hg/"];
-            filetypes = ["go"];
-            initializationOptions = {};
+            rootPatterns = [
+              "go.mod"
+              ".vim/"
+              ".git/"
+              ".hg/"
+            ];
+            filetypes = [ "go" ];
+            initializationOptions = { };
           };
           nix = {
             command = "nil";
-            filetypes = ["nix"];
-            rootPatterns = ["flake.nix"];
+            filetypes = [ "nix" ];
+            rootPatterns = [ "flake.nix" ];
             settings.nil.formatting = {
               command = [
                 (lib.getExe pkgs.nixfmt)
@@ -56,7 +61,7 @@
       plenary-nvim
       mini-indentscope
     ];
-    initLua = ''
+    extraLuaConfig = ''
       -- Text, tab and indent settings
       vim.opt.expandtab = true
       vim.opt.smarttab = true

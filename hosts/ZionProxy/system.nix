@@ -17,10 +17,6 @@
         greedy = true;
       }
       {
-        name = "deepl";
-        greedy = true;
-      }
-      {
         name = "signal";
         greedy = true;
       }

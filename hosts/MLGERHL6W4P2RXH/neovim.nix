@@ -12,9 +12,12 @@
         languageserver = {
           helm = {
             command = lib.getExe pkgs.helm-ls;
-            args = ["serve"];
-            filetypes = ["helm" "helmfile"];
-            rootPatterns = ["Chart.yaml"];
+            args = [ "serve" ];
+            filetypes = [
+              "helm"
+              "helmfile"
+            ];
+            rootPatterns = [ "Chart.yaml" ];
           };
           jsonnet = {
             command = lib.getExe pkgs.jsonnet-language-server;
@@ -23,13 +26,19 @@
               "-J"
               "lib"
             ];
-            rootPatterns = [".git/" "jsonnetfile.json"];
-            filetypes = ["jsonnet" "libsonnet"];
+            rootPatterns = [
+              ".git/"
+              "jsonnetfile.json"
+            ];
+            filetypes = [
+              "jsonnet"
+              "libsonnet"
+            ];
           };
         };
       };
     };
-    initLua = ''
+    extraLuaConfig = ''
       vim.cmd.colorscheme('retrobox')
     '';
   };

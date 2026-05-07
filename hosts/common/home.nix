@@ -32,7 +32,6 @@
     # Apps #
     ########
     raycast
-    zmk-studio
     wireshark
   ];
   nixpkgs.config.allowUnfree = true;

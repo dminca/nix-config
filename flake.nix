@@ -2,15 +2,15 @@
   description = "Daniel personal workstation";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     determinate = {
       url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -19,9 +19,22 @@
     };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, sops-nix, determinate }:
+  outputs =
+    {
+      self,
+      nix-darwin,
+      nixpkgs,
+      home-manager,
+      sops-nix,
+      determinate,
+    }:
     let
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       darwinConfigurations = {
         "ZionProxy" = nix-darwin.lib.darwinSystem {
@@ -80,27 +93,31 @@
     {
       inherit darwinConfigurations nixosConfigurations homeConfigurations;
 
-      apps = forAllSystems (system: 
+      apps = forAllSystems (
+        system:
         let
           pkgs = import nixpkgs { inherit system; };
         in
         {
           default = {
             type = "app";
-            program = toString (pkgs.writeShellScript "apply-config" ''
-              set -e
-              HOSTNAME=$(${pkgs.lib.getExe' pkgs.nettools "hostname"})
+            program = toString (
+              pkgs.writeShellScript "apply-config" ''
+                set -e
+                HOSTNAME=$(${pkgs.lib.getExe' pkgs.nettools "hostname"})
 
-              if [[ "$OSTYPE" == "darwin"* ]]; then
-                echo "🍎 Applying configuration for macOS host: $HOSTNAME"
-                ${pkgs.lib.getExe pkgs.nh} darwin switch .
-                ${pkgs.lib.getExe pkgs.nh} home switch .
-              else
-                echo "🐧 Applying configuration for NixOS host: $HOSTNAME"
-                ${pkgs.lib.getExe pkgs.nh} os switch .
-              fi
-            '');
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                  echo "🍎 Applying configuration for macOS host: $HOSTNAME"
+                  ${pkgs.lib.getExe pkgs.nh} darwin switch .
+                  ${pkgs.lib.getExe pkgs.nh} home switch .
+                else
+                  echo "🐧 Applying configuration for NixOS host: $HOSTNAME"
+                  ${pkgs.lib.getExe pkgs.nh} os switch .
+                fi
+              ''
+            );
           };
-        });
+        }
+      );
     };
 }

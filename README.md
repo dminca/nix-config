@@ -88,8 +88,8 @@ nix shell nixpkgs#nixos-rebuild \
     --flake .#nixos \
     --target-host dminca@nixos \
     --build-host dminca@nixos \
-    --fast \
-    --use-remote-sudo
+    --no-reexec \
+    --sudo
 ```
 
 > [!NOTE]  

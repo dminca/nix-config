@@ -64,13 +64,16 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.admin = import ./hosts/nc-nixos-01/home.nix;
-              home-manager.extraSpecialArgs = { inherit sops-nix; };
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/nc-nixos-01/home.nix
+                ];
+              };
             }
-            determinate.nixosModules.default
             disko.nixosModules.disko
+            sops-nix.nixosModules.sops
           ];
-          specialArgs = { inherit sops-nix; };
         };
       };
 

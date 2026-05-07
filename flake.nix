@@ -68,6 +68,7 @@
                 imports = [
                   sops-nix.homeManagerModules.sops
                   ./hosts/nc-nixos-01/home.nix
+                  ./hosts/nc-nixos-01/nextcloud.nix
                 ];
               };
             }

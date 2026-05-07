@@ -17,6 +17,8 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -27,6 +29,7 @@
       home-manager,
       sops-nix,
       determinate,
+      disko,
     }:
     let
       systems = [
@@ -52,19 +55,20 @@
         };
       };
       nixosConfigurations = {
-        "nixos" = nixpkgs.lib.nixosSystem {
+        "nc-nixos-01" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/common/nixos-system.nix
-            ./hosts/nixos/configuration.nix
+            ./hosts/nc-nixos-01/configuration.nix
+            ./hosts/nc-nixos-01/hardware-configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.dminca = import ./hosts/nixos/default.nix;
+              home-manager.users.admin = import ./hosts/nc-nixos-01/home.nix;
               home-manager.extraSpecialArgs = { inherit sops-nix; };
             }
             determinate.nixosModules.default
+            disko.nixosModules.disko
           ];
           specialArgs = { inherit sops-nix; };
         };

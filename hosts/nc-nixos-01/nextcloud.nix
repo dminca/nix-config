@@ -10,6 +10,10 @@
     package = pkgs.nextcloud33;
     hostName = "localhost";
     database.createLocally = true;
+    caching = {
+      redis = true;
+    };
+    configureRedis = true;
     config = {
       dbtype = "pgsql";
       dbname = "nextcloud";
@@ -68,12 +72,33 @@
       }];
     };
   };
+  services.redis.package = pkgs.valkey;
+  services.redis.servers.valkey = {
+    enable = true; 
+    bind = ""; 
+    port = 0; 
+    openFirewall = false;
+    settings = {
+      maxmemory = "512mb"; maxmemory-policy = "allkeys-lru";
+      save = [ "900 1" "300 10" "60 10000" ];
+      unixsocket = "/run/redis-valkey/redis.sock"; 
+      unixsocketperm = "770";
+    };
+  };
+  systemd.services.redis-valkey.serviceConfig = {
+    ProtectSystem = "strict"; ProtectHome = true; PrivateTmp = true; PrivateDevices = true; NoNewPrivileges = true;
+    # 🛡️ KERNEL-LEVEL ISOLATION: No network access needed for local sockets
+    PrivateNetwork = true;
+    MemoryDenyWriteExecute = true; 
+    RestrictAddressFamilies = [ "AF_UNIX" ]; 
+    OOMScoreAdjust = -500;
+  };
 
-  # ensure postgresql db is started with nextcloud
+  # ensure postgresql db and valkey is started with nextcloud
   systemd = {
     services."nextcloud-setup" = {
-      requires = [ "postgresql.service" ];
-      after = [ "postgresql.service" ];
+      requires = [ "postgresql.service" "redis-valkey.service" ];
+      after = [ "postgresql.service" "redis-valkey.service"];
     };
   };
 

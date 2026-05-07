@@ -11,4 +11,9 @@
     defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
   };
+  sops.secrets.nextcloud = {
+    sopsFile = ./secrets/nextcloud.yaml;
+    key = "password";
+    owner = "nextcloud";
+  };
 }

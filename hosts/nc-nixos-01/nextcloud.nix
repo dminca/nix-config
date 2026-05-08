@@ -13,7 +13,7 @@
     caching = {
       redis = true;
     };
-    configureRedis = true;
+    configureRedis = false;
     config = {
       dbtype = "pgsql";
       dbname = "nextcloud";
@@ -21,13 +21,13 @@
       adminpassFile = config.sops.secrets.nextcloud.path;
       dbhost = "/run/postgresql";
       adminuser = "admin";
-      defaultPhoneRegion = "DE";
     };
     settings = {
       trusted_domains = [
         "nc.mrbl.dedyn.io"
         "localhost"
       ];
+      default_phone_region = "DE";
     };
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks;
@@ -86,7 +86,6 @@
       maxmemory = "512mb"; maxmemory-policy = "allkeys-lru";
       save = [ "900 1" "300 10" "60 10000" ];
       unixsocket = "/run/redis-valkey/redis.sock"; 
-      unixsocketperm = "770";
     };
   };
   systemd.services.redis-valkey.serviceConfig = {
@@ -98,11 +97,13 @@
     OOMScoreAdjust = -500;
   };
 
-  # ensure postgresql db and valkey is started with nextcloud
-  systemd = {
-    services."nextcloud-setup" = {
-      requires = [ "postgresql.service" "redis-valkey.service" ];
-      after = [ "postgresql.service" "redis-valkey.service"];
-    };
+  # ensure postgresql and valkey are started before nextcloud
+  systemd.services.nextcloud-setup = {
+    requires = [ "postgresql.service" "redis-valkey.service" ];
+    after = [ "postgresql.service" "redis-valkey.service" ];
+    postStart = ''
+      ${pkgs.nextcloud33}/bin/nextcloud-occ config:app:set redis host --value='/run/redis-valkey/redis.sock' || true
+      ${pkgs.nextcloud33}/bin/nextcloud-occ config:app:set redis port --value='0' || true
+    '';
   };
 }

@@ -5,10 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +24,6 @@
       nixpkgs,
       home-manager,
       sops-nix,
-      determinate,
       disko,
     }:
     let
@@ -68,7 +63,6 @@
                 imports = [
                   sops-nix.homeManagerModules.sops
                   ./hosts/nc-nixos-01/home.nix
-                  ./hosts/nc-nixos-01/nextcloud.nix
                 ];
               };
             }

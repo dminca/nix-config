@@ -14,6 +14,5 @@
   sops.secrets.nextcloud = {
     sopsFile = ./secrets/nextcloud.yaml;
     key = "password";
-    owner = "nextcloud";
   };
 }

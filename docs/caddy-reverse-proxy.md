@@ -33,3 +33,8 @@ pve.mrbl.dedyn.io {
     }
 }
 ```
+
+- setting up Caddy on NixOS[^caddy]
+
+[^caddy]: https://aottr.dev/posts/2024/08/homelab-setting-up-caddy-reverse-proxy-with-ssl-on-nixos/
+

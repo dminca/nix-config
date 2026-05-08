@@ -5,8 +5,7 @@
 }:
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
-  services.nginx.enable = false;
-  services.redis.package = pkgs.valkey;
+  services.nginx.enable = true;
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud33;
@@ -36,40 +35,6 @@
     };
     extraAppsEnable = true;
   };
-
-  services.httpd = {
-    enable = true;
-    adminAddr = "webmaster@localhost";
-    extraModules = [ "proxy_fcgi" ];
-    virtualHosts."nc.mrbl.dedyn.io" = {
-      documentRoot = config.services.nextcloud.package;
-      serverAliases = [ "localhost" ];
-      extraConfig = ''
-        <Directory "${config.services.nextcloud.package}">
-          <FilesMatch "\.php$">
-            <If "-f %{REQUEST_FILENAME}">
-              SetHandler "proxy:unix:${config.services.phpfpm.pools.nextcloud.socket}|fcgi://localhost/"
-            </If>
-          </FilesMatch>
-          <IfModule mod_rewrite.c>
-            RewriteEngine On
-            RewriteBase /
-            RewriteRule ^index\.php$ - [L]
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteRule . /index.php [L]
-          </IfModule>
-          DirectoryIndex index.php
-          Require all granted
-          Options +FollowSymLinks
-        </Directory>
-      '';
-    };
-  };
-  services.phpfpm.pools.nextcloud.settings = {
-    "listen.owner" = config.services.httpd.user;
-    "listen.group" = config.services.httpd.group;
-  };
   services = {
     postgresql = {
       enable = true;
@@ -80,6 +45,7 @@
       }];
     };
   };
+  services.redis.package = pkgs.valkey;
   sops.secrets.nextcloud = {
     sopsFile = ./secrets/nextcloud.yaml;
     key = "password";

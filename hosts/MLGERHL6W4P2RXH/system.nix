@@ -13,5 +13,13 @@
     askForPassword = true;
     askForPasswordDelay = 14400;
   };
+  homebrew = {
+    casks = [
+      {
+        name = "visual-studio-code";
+        greedy = true;
+      }
+    ];
+  };
 }
 

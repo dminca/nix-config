@@ -35,4 +35,38 @@
       };
     };
   };
+  disk.disk2 = {
+    device = lib.mkDefault "/dev/sdb";
+    type = "disk";
+    content = {
+      type = "gpt";
+      partitions = {
+        postgresql = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/mnt/postgresql-data";
+          };
+        };
+      };
+    };
+  };
+  disk.disk3 = {
+    device = lib.mkDefault "/dev/sdc";
+    type = "disk";
+    content = {
+      type = "gpt";
+      partitions = {
+        nextcloud = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/mnt/nextcloud-data";
+          };
+        };
+      };
+    };
+  };
 }

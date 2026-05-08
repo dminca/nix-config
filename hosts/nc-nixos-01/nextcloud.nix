@@ -10,6 +10,7 @@
     enable = true;
     package = pkgs.nextcloud33;
     hostName = "nc.mrbl.dedyn.io";
+    datadir = "/mnt/nextcloud-data";
     database.createLocally = true;
     caching = {
       redis = true;
@@ -53,6 +54,7 @@
   services = {
     postgresql = {
       enable = true;
+      dataDir = "/mnt/postgresql-data";
       ensureDatabases = [ "nextcloud" ];
       ensureUsers = [{
         name = "nextcloud";

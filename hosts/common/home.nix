@@ -136,6 +136,20 @@
       unbind C-Down
       unbind C-Left
       unbind C-Right
+      #---------- BAR CONFIG
+      set-option -g bell-action none
+      set -g status-position bottom
+      set -g status-justify left
+      set -g status-bg colour235
+      set -g status-fg green
+      set -g status-right ' #(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)    #{=50:pane_current_path}   %b %d %H:%M '
+      set -g status-right-length 200
+      set -g status-left '''
+      set -sg escape-time 0
+
+      set -g base-index 1
+      setw -g pane-base-index 1
+      set -g pane-border-format " #P: #{pane_current_command} "
     '';
     terminal = "tmux-256color";
     historyLimit = 5000;

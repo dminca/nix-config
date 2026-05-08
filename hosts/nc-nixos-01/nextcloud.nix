@@ -58,6 +58,16 @@
         name = "nextcloud";
         ensureDBOwnership = true;
       }];
+      settings = {
+        max_connections = 500;
+        max_wal_senders = 16;
+        max_locks_per_transaction = 1024;
+        shared_buffers = "512MB";
+        wal_keep_size = "4GB";
+        archive_timeout = 300;
+        max_wal_size = "16GB";
+        min_wal_size = "1GB";
+      };
     };
   };
   services.redis.package = pkgs.valkey;

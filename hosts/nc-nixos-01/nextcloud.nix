@@ -4,6 +4,7 @@
   ...
 }:
 {
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.nginx.enable = false;
   environment.etc."nextcloud-admin-pass".text = "imateapotq1w2e3";
   services.nextcloud = {

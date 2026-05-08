@@ -34,6 +34,21 @@
       inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks;
     };
     extraAppsEnable = true;
+    phpOptions = {
+      "opcache.enable" = "1";
+      "opcache.interned_strings_buffer" = "32";
+      "opcache.max_accelerated_files" = "10000";
+      "opcache.memory_consumption" = "256";
+      "opcache.revalidate_freq" = "60";
+      "opcache.save_comments" = "1";
+      "opcache.jit" = "1255";
+      "opcache.jit_buffer_size" = "128M";
+    };
+  };
+
+  services.phpfpm.pools.nextcloud.settings = {
+    "pm" = "dynamic";
+    "pm.max_requests" = "500";
   };
   services = {
     postgresql = {

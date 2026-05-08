@@ -66,10 +66,6 @@
     defaultSopsFile = ./secrets/nextcloud.yaml;
     age.keyFile = "/home/admin/.config/sops/age/keys.txt";
   };
-  sops.secrets.nextcloud = {
-    sopsFile = ./secrets/nextcloud.yaml;
-    key = "password";
-  };
 
   system.stateVersion = "25.11";
 }

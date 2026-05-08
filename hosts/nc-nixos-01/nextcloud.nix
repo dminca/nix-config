@@ -5,6 +5,7 @@
 }:
 {
   services.nginx.enable = false;
+  environment.etc."nextcloud-admin-pass".text = "imateapotq1w2e3";
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud33;
@@ -18,7 +19,7 @@
       dbtype = "pgsql";
       dbname = "nextcloud";
       dbuser = "nextcloud";
-      adminpassFile = config.sops.secrets.nextcloud.path;
+      adminpassFile = "/etc/nextcloud-admin-pass";
       dbhost = "/run/postgresql";
       adminuser = "admin";
     };
@@ -106,4 +107,10 @@
       ${pkgs.nextcloud33}/bin/nextcloud-occ config:app:set redis port --value='0' || true
     '';
   };
+  #sops.secrets.nextcloud = {
+  #  sopsFile = ./secrets/nextcloud.yaml;
+  #  key = "password";
+  #  owner = "nextcloud";
+  #  group = "nextcloud";
+  #};
 }

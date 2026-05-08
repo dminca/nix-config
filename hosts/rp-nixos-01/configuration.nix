@@ -10,12 +10,16 @@
     "nix-command"
     "flakes"
   ];
-  virtualisation.diskSize = lib.mkDefault 8192; # 8 GiB
-
-  fileSystems."/" = lib.mkDefault {
-    device = "/dev/sda1";
-    fsType = "ext4";
+  # ── Boot ──────────────────────────────────────────────────────────────────
+  boot = {
+    # Proxmox LXC containers do not own the host boot process.
+    isContainer = true;
+    loader.grub.enable = lib.mkForce false;
+    loader.systemd-boot.enable = lib.mkForce false;
   };
+
+  # debugfs cannot be mounted in unprivileged LXC containers.
+  systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
@@ -23,7 +27,14 @@
     useDHCP = lib.mkDefault true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      interfaces = {
+        "eth0" = {
+          allowedTCPPorts = [ 22 ];
+        };
+        "eth1" = {
+          allowedTCPPorts = [ 22 ];
+        };
+      };
     };
   };
 

@@ -6,6 +6,9 @@
 }:
 
 {
+  imports = [
+    ./caddy.nix
+  ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -27,7 +30,7 @@
     useDHCP = lib.mkDefault true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 80 443 ];
     };
   };
 

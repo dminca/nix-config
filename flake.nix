@@ -88,6 +88,16 @@
             sops-nix.nixosModules.sops
           ];
         };
+
+        # Day-1 bootstrap profile used by nixos-anywhere to partition and install a VM.
+        "host-01-day1" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            ./nixos-anywhere/configuration.nix
+            ./nixos-anywhere/hardware-configuration.nix
+          ];
+        };
       };
 
       homeConfigurations = {

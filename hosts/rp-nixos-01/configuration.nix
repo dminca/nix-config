@@ -27,14 +27,7 @@
     useDHCP = lib.mkDefault true;
     firewall = {
       enable = true;
-      interfaces = {
-        "eth0" = {
-          allowedTCPPorts = [ 22 ];
-        };
-        "eth1" = {
-          allowedTCPPorts = [ 22 ];
-        };
-      };
+      allowedTCPPorts = [ 22 ];
     };
   };
 

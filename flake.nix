@@ -15,6 +15,10 @@
     };
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generator = {
+      url = "path:./nixos-generator";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -25,6 +29,7 @@
       home-manager,
       sops-nix,
       disko,
+      nixos-generator,
     }:
     let
       systems = [
@@ -119,9 +124,17 @@
           ];
         };
       };
+
+      # Day-0 image artifacts built from ./nixos-generator for Proxmox VM/LXC.
+      day0Packages = nixos-generator.packages.x86_64-linux;
     in
     {
-      inherit darwinConfigurations nixosConfigurations homeConfigurations;
+      inherit darwinConfigurations nixosConfigurations homeConfigurations day0Packages;
+
+      # Expose day-0 generator outputs directly so they can be built with:
+      #   nix build .#<host>
+      #   nix build .#<host>-plxc
+      packages = forAllSystems (_: day0Packages);
 
       apps = forAllSystems (
         system:

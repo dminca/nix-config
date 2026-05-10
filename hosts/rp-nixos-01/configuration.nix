@@ -70,6 +70,11 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
+# ── SOPS (Secrets Operation) ──────────────────────────────────────────────
+  sops = {
+    defaultSopsFile = ./secrets/nextcloud.yaml;
+    age.keyFile = "/home/admin/.config/sops/age/keys.txt";
+  };
 
   system.stateVersion = "25.11";
 }

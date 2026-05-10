@@ -1,32 +1,30 @@
 {
+  config,
   ...
 }:
 {
-  sops.secrets.fullchain = {
+  sops.secrets."fullchain.pem" = {
     sopsFile = ./secrets/certs.yaml;
     key = "fullchain";
     owner = "caddy";
     group = "caddy";
-    path = "/var/lib/caddy/certs/fullchain.pem";
   };
-  sops.secrets.privkey = {
+  sops.secrets."privkey.pem" = {
     sopsFile = ./secrets/certs.yaml;
     key = "privkey";
     owner = "caddy";
     group = "caddy";
-    path = "/var/lib/caddy/certs/privkey.pem";
-    mode = "0400";
   };
   services.caddy = {
     enable = true;
     virtualHosts."test.mrbl.dedyn.io" = {
       extraConfig = ''
-        test.mrbl.dedyn.io {
-            tls /var/lib/caddy/certs/fullchain.pem \
-                /var/lib/caddy/certs/privkey.pem
+        tls ${config.sops.secrets."fullchain.pem".path} \
+            ${config.sops.secrets."privkey.pem".path}
 
-            reverse_proxy localhost
-        }
+        reverse_proxy localhost
+
+        respond OK
       '';
     };
   };

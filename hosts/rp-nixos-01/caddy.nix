@@ -39,7 +39,7 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
-          reverse_proxy 10.10.10.102
+          reverse_proxy 10.10.10.156
         '';
       };
       "kc.mrbl.dedyn.io" = {

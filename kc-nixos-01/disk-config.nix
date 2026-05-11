@@ -3,8 +3,7 @@
 {
   disko.devices = {
     disk.disk1 = {
-      # Use stable by-id paths so OS/postgres disks do not swap across boots.
-      device = lib.mkDefault "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
+      device = lib.mkDefault "/dev/sda";
       type = "disk";
       content = {
         type = "gpt";
@@ -36,7 +35,7 @@
       };
     };
     disk.disk2 = {
-      device = lib.mkDefault "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
+      device = lib.mkDefault "/dev/sdb";
       type = "disk";
       content = {
         type = "gpt";

@@ -40,7 +40,7 @@
       allow_local_remote_servers = true;
     };
     extraApps = {
-      inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks user_oidc;
+      inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks user_oidc richdocuments;
     };
     extraAppsEnable = true;
     phpOptions = {

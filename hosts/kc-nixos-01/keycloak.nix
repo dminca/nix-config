@@ -12,6 +12,13 @@
       hostname = "kc.mrbl.dedyn.io";
       http-enabled = true;
       hostname-strict-https = false;
+      proxy-headers = "xforwarded";
+      hostname-strict = false;
+      "http.relative-path" = "/";
+      log-level = "DEBUG";
+      "spi-theme-cache-themes" = "false";
+      "spi-theme-cache-templates" = "false";
+      "http-cookie-same-site" = "Lax";
     };
     database = {
       type = "postgresql";

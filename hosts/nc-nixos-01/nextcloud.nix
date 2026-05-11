@@ -32,7 +32,7 @@
       default_phone_region = "DE";
     };
     extraApps = {
-      inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks;
+      inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks user_oidc;
     };
     extraAppsEnable = true;
     phpOptions = {

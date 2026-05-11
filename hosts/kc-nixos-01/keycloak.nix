@@ -18,6 +18,8 @@
       "spi-theme-cache-themes" = "false";
       "spi-theme-cache-templates" = "false";
       "http-cookie-same-site" = "Lax";
+      "web-authn-passwordless-signup-friendly-name" = "Passkey";
+      "web-authn-passwordless-signup-signup-flow" = "webauthn-signup";
     };
     database = {
       type = "postgresql";

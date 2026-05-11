@@ -20,6 +20,10 @@
         name = "signal";
         greedy = true;
       }
+      {
+        name = "nextcloud";
+        greedy = true;
+      }
     ];
   };
 }

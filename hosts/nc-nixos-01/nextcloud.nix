@@ -80,6 +80,21 @@
     };
   };
   services.redis.package = pkgs.valkey;
+
+  # Run mimetype migrations once after each nextcloud-setup (idempotent)
+  systemd.services.nextcloud-mimetype-migration = {
+    description = "Nextcloud mimetype migration";
+    after = [ "nextcloud-setup.service" ];
+    requires = [ "nextcloud-setup.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "nextcloud";
+      ExecStart = "/run/current-system/sw/bin/nextcloud-occ maintenance:repair --include-expensive";
+      RemainAfterExit = true;
+    };
+  };
+
   sops.secrets.nextcloud = {
     sopsFile = ./secrets/nextcloud.yaml;
     key = "password";

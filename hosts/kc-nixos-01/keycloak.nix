@@ -52,6 +52,7 @@
   sops.secrets.keycloak = {
     sopsFile = ./secrets/keycloak.yaml;
     key = "password";
+    group = "keycloak";
   };
 }
 

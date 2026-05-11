@@ -52,7 +52,7 @@
   sops.secrets.keycloak = {
     sopsFile = ./secrets/keycloak.yaml;
     key = "password";
-    group = "keycloak";
+    mode = "0777";
   };
 }
 

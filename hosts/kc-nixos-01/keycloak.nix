@@ -6,7 +6,6 @@
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  environment.etc."keycloak-database-pass".text = "PWD";
   services.keycloak = {
     enable = true;
     settings = {
@@ -14,13 +13,19 @@
       http-enabled = true;
       hostname-strict-https = false;
     };
-    database.passwordFile = config.sops.secrets.keycloak.path;
+    database = {
+      type = "postgresql";
+      createLocally = true;
+      host = "/run/postgresql";
+      username = "keycloak";
+      passwordFile = config.sops.secrets.keycloak.path;
+    };
   };
 
   services = {
     postgresql = {
       enable = true;
-      dataDir = "/mnt/postgresql-data";
+      dataDir = "/mnt/postgresql-data/pgdata";
       ensureDatabases = [ "keycloak" ];
       ensureUsers = [{
         name = "keycloak";
@@ -39,6 +44,11 @@
     };
   };
 
+  # Ensure PostgreSQL data directory exists with strict ownership before initdb.
+  systemd.tmpfiles.rules = [
+    "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
+  ];
+
   sops.secrets.keycloak = {
     sopsFile = ./secrets/keycloak.yaml;
     key = "password";
@@ -46,3 +56,4 @@
     group = "keycloak";
   };
 }
+

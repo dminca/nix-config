@@ -15,7 +15,6 @@
       proxy-headers = "xforwarded";
       hostname-strict = false;
       "http.relative-path" = "/";
-      log-level = "DEBUG";
       "spi-theme-cache-themes" = "false";
       "spi-theme-cache-templates" = "false";
       "http-cookie-same-site" = "Lax";

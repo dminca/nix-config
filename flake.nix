@@ -75,6 +75,26 @@
             sops-nix.nixosModules.sops
           ];
         };
+        "kc-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/kc-nixos-01/configuration.nix
+            ./hosts/kc-nixos-01/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/kc-nixos-01/home.nix
+                ];
+              };
+            }
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+          ];
+        };
         "rp-nixos-01" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

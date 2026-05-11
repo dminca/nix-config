@@ -9,6 +9,7 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud33;
+    maxUploadSize = "1G";
     hostName = "nc.mrbl.dedyn.io";
     datadir = "/mnt/nextcloud-data/nextcloud";
     database.createLocally = true;

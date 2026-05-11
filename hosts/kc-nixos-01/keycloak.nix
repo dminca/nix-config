@@ -17,10 +17,13 @@
       type = "postgresql";
       createLocally = true;
       host = "/run/postgresql";
-      port = 5432;
       username = "keycloak";
       passwordFile = config.sops.secrets.keycloak.path;
     };
+    plugins = with pkgs.keycloak.plugins; [
+      junixsocket-common
+      junixsocket-native-common
+    ];
   };
 
   services = {

@@ -8,6 +8,7 @@
   services.nginx.enable = true;
   services.nextcloud = {
     enable = true;
+    https = true;
     package = pkgs.nextcloud33;
     maxUploadSize = "1G";
     hostName = "nc.mrbl.dedyn.io";
@@ -30,6 +31,10 @@
         "nc.mrbl.dedyn.io"
         "localhost"
       ];
+      trusted_proxies = [
+        "10.10.10.135" # IP address of rp-nixos-01 (Caddy host)
+      ];
+      overwriteprotocol = "https";
       default_phone_region = "DE";
     };
     extraApps = {

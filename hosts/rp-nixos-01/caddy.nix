@@ -39,7 +39,9 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
-          reverse_proxy 10.10.10.156
+          reverse_proxy 10.10.10.156 {
+            header_up X-Real-IP {remote_host}
+          }
         '';
       };
       "kc.mrbl.dedyn.io" = {

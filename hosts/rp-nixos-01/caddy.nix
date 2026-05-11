@@ -50,9 +50,6 @@
           reverse_proxy 10.10.10.118 {
               header_up Host {host}
               header_up X-Real-IP {remote}
-              header_up X-Forwarded-For {remote}
-              header_up X-Forwarded-Proto {scheme}
-              header_up X-Forwarded-Host {host}
               header_up X-Forwarded-Port {http.request.port}
           }
         '';

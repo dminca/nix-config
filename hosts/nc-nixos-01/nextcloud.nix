@@ -54,7 +54,7 @@
   services = {
     postgresql = {
       enable = true;
-      dataDir = "/mnt/postgresql-data";
+      dataDir = "/mnt/postgresql-data/pgdata";
       ensureDatabases = [ "nextcloud" ];
       ensureUsers = [{
         name = "nextcloud";

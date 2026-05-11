@@ -37,6 +37,7 @@
       overwriteprotocol = "https";
       default_phone_region = "DE";
       maintenance_window_start = 0; # midnight UTC
+      allow_local_remote_servers = true;
     };
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks user_oidc;

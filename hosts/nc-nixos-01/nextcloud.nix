@@ -10,7 +10,7 @@
     enable = true;
     package = pkgs.nextcloud33;
     hostName = "nc.mrbl.dedyn.io";
-    datadir = "/mnt/nextcloud-data";
+    datadir = "/mnt/nextcloud-data/nextcloud";
     database.createLocally = true;
     caching = {
       redis = true;
@@ -79,4 +79,8 @@
     owner = "nextcloud";
     group = "nextcloud";
   };
+  systemd.tmpfiles.rules = [
+    "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
+    "d /mnt/nextcloud-data/nextcloud 0700 nextcloud nextcloud -"
+  ];
 }

@@ -27,7 +27,6 @@
   # Avoid reactivation failures when /mnt/arr-data is in use by *arr/Jellyfin.
   systemd.suppressedSystemUnits = [
     "mnt-arr\\x2ddata.mount"
-    "mnt-arr\\x2ddata.automount"
   ];
 
   # ── SSH ───────────────────────────────────────────────────────────────────
@@ -71,7 +70,7 @@
   # Shared ZFS dataset exported by md-nixos-02 (LXC) over NFS.
   # Keep mount path identical to md-nixos-02 bind mount.
   fileSystems."/mnt/arr-data" = lib.mkForce {
-    device = "10.10.10.157:/mnt/arr-data";
+    device = "10.10.10.157:/mnt/data-indexers";
     fsType = "nfs";
     options = [
       "nfsvers=4.2"

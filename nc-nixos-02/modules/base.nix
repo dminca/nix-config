@@ -32,7 +32,7 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
-  fileSystems."/mnt/arr-data" = lib.mkDefault {
+  fileSystems."/mnt/media" = lib.mkDefault {
     device = "/dev/sdb1";
     fsType = "xfs";
   };
@@ -42,7 +42,7 @@
     # Each host overrides networking.hostName in its own configuration.nix.
     useDHCP = lib.mkDefault true;
 
-    hostName = "md-nixos-02";
+    hostName = "nc-nixos-02";
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 ];

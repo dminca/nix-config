@@ -49,6 +49,7 @@
 		"d /mnt/arr-data/media/movies 2775 root nogroup -"
 		"d /mnt/arr-data/media/tv 2775 root nogroup -"
 		"d /mnt/arr-data/media/downloads 2775 root nogroup -"
+		"d /mnt/data-indexers 2775 root nogroup -"
 	];
 }
 

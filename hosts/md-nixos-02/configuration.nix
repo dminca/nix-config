@@ -22,7 +22,12 @@
   };
 
   # debugfs cannot be mounted in unprivileged LXC containers.
-  systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
+  # /mnt/arr-data is a Proxmox-managed LXC mountpoint and should not be
+  # restarted by NixOS unit reactivation.
+  systemd.suppressedSystemUnits = [
+    "sys-kernel-debug.mount"
+    "mnt-arr\\x2ddata.mount"
+  ];
 
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {

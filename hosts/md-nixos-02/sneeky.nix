@@ -8,32 +8,32 @@
   services.prowlarr = {
     enable = true;
     openFirewall = true;
-    dataDir = "/srv/appdata/prowlarr";
+    dataDir = "/mnt/arr-data/appdata/prowlarr";
   };
 
   services.qbittorrent = {
     enable = true;
     openFirewall = true;
-    profileDir = "/srv/appdata/qbittorrent";
+    profileDir = "/mnt/arr-data/appdata/qbittorrent";
 
     # Keep download payload outside profileDir to separate snapshots/backups.
     serverConfig = {
       Preferences = {
-        SavePath = "/srv/downloads/complete";
-        TempPath = "/srv/downloads/incomplete";
+        SavePath = "/mnt/arr-data/downloads/complete";
+        TempPath = "/mnt/arr-data/downloads/incomplete";
         TempPathEnabled = true;
       };
     };
   };
 
-  # /srv/downloads is intended for your mounted dataset or block device.
+  # /mnt/arr-data/downloads is intended for your mounted dataset or block device.
   systemd.tmpfiles.rules = [
-    "d /srv/appdata 0755 root root -"
-    "d /srv/appdata/prowlarr 0750 prowlarr media -"
-    "d /srv/appdata/qbittorrent 0750 qbittorrent media -"
-    "d /srv/downloads 2775 root media -"
-    "d /srv/downloads/incomplete 2775 root media -"
-    "d /srv/downloads/complete 2775 root media -"
+    "d /mnt/arr-data/appdata 0755 root root -"
+    "d /mnt/arr-data/appdata/prowlarr 0750 prowlarr media -"
+    "d /mnt/arr-data/appdata/qbittorrent 0750 qbittorrent media -"
+    "d /mnt/arr-data/downloads 2775 root media -"
+    "d /mnt/arr-data/downloads/incomplete 2775 root media -"
+    "d /mnt/arr-data/downloads/complete 2775 root media -"
   ];
 }
 

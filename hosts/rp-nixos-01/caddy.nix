@@ -3,8 +3,8 @@
   ...
 }:
 let
-  mediaVmHost = "10.10.10.199";
-  mediaLxcHost = "10.10.10.179";
+  mediaVmHost = "10.10.10.103";
+  mediaLxcHost = "10.10.10.157";
 in
 {
   sops.secrets."fullchain.pem" = {

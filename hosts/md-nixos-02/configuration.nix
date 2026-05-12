@@ -35,7 +35,15 @@
     useDHCP = lib.mkDefault true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [
+        80
+        443
+# Explicit app ports used by the Caddy reverse proxy on rp-nixos-01.
+        9696 # prowlarr
+        8080 # qbittorrent Web UI
+        111  # NFS portmapper
+        2049 # NFS
+      ];
     };
   };
 

@@ -24,6 +24,9 @@
     efiInstallAsRemovable = true;
   };
 
+  # Avoid reactivation failures when /mnt/arr-data is in use by *arr/Jellyfin.
+  systemd.suppressedSystemUnits = [ "mnt-arr\\x2ddata.mount" ];
+
   # ── SSH ───────────────────────────────────────────────────────────────────
   services.openssh = {
     enable = true;
@@ -61,6 +64,22 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
+
+  # Shared ZFS dataset exported by md-nixos-02 (LXC) over NFS.
+  # Keep mount path identical to md-nixos-02 bind mount.
+  fileSystems."/mnt/arr-data" = lib.mkForce {
+    device = "md-nixos-02:/mnt/arr-data";
+    fsType = "nfs";
+    options = [
+      "nfsvers=4.2"
+      "hard"
+      "noatime"
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=600"
+      "_netdev"
+    ];
+  };
 
   system.stateVersion = "25.11";
 }

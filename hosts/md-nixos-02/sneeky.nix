@@ -2,20 +2,14 @@
   ...
 }:
 {
-  # Explicit app ports used by the Caddy reverse proxy on rp-nixos-01.
-  networking.firewall.allowedTCPPorts = [
-    9696 # prowlarr
-    8080 # qbittorrent Web UI
-  ];
-
+  # Fixed GID must match md-nixos-01 for shared storage permissions.
   users.groups.prowlarr = { };
-  users.groups.media = { };
 
-  users.users.qbittorrent.extraGroups = [ "media" ];
+  users.users.qbittorrent.extraGroups = [ "nogroup" ];
   users.users.prowlarr = {
     isSystemUser = true;
     group = "prowlarr";
-    extraGroups = [ "media" ];
+    extraGroups = [ "nogroup" ];
   };
 
   services.prowlarr = {
@@ -45,11 +39,11 @@
   # /mnt/arr-data/downloads is intended for your mounted dataset or block device.
   systemd.tmpfiles.rules = [
     "d /mnt/arr-data/appdata 0755 root root -"
-    "d /mnt/arr-data/appdata/prowlarr 0750 prowlarr media -"
-    "d /mnt/arr-data/appdata/qbittorrent 0750 qbittorrent media -"
-    "d /mnt/arr-data/downloads 2775 root media -"
-    "d /mnt/arr-data/downloads/incomplete 2775 root media -"
-    "d /mnt/arr-data/downloads/complete 2775 root media -"
+    "d /mnt/arr-data/appdata/prowlarr 0750 prowlarr nogroup -"
+    "d /mnt/arr-data/appdata/qbittorrent 0750 qbittorrent nogroup -"
+    "d /mnt/arr-data/downloads 2775 root nogroup -"
+    "d /mnt/arr-data/downloads/incomplete 2775 root nogroup -"
+    "d /mnt/arr-data/downloads/complete 2775 root nogroup -"
   ];
 }
 

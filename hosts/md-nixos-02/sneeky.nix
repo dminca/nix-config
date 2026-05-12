@@ -1,9 +1,14 @@
 { ... }:
 {
+  users.groups.prowlarr = { };
   users.groups.media = { };
 
   users.users.qbittorrent.extraGroups = [ "media" ];
-  users.users.prowlarr.extraGroups = [ "media" ];
+  users.users.prowlarr = {
+    isSystemUser = true;
+    group = "prowlarr";
+    extraGroups = [ "media" ];
+  };
 
   services.prowlarr = {
     enable = true;

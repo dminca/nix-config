@@ -24,11 +24,6 @@
     efiInstallAsRemovable = true;
   };
 
-  # Avoid reactivation failures when /mnt/arr-data is in use by *arr/Jellyfin.
-  systemd.suppressedSystemUnits = [
-    "mnt-arr\\x2ddata.mount"
-  ];
-
   # ── SSH ───────────────────────────────────────────────────────────────────
   services.openssh = {
     enable = true;

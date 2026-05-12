@@ -1,5 +1,13 @@
-{ ... }:
 {
+  ...
+}:
+{
+  # Explicit app ports used by the Caddy reverse proxy on rp-nixos-01.
+  networking.firewall.allowedTCPPorts = [
+    9696 # prowlarr
+    8080 # qbittorrent Web UI
+  ];
+
   users.groups.prowlarr = { };
   users.groups.media = { };
 
@@ -12,13 +20,13 @@
 
   services.prowlarr = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
     dataDir = "/mnt/arr-data/appdata/prowlarr";
   };
 
   services.qbittorrent = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
     profileDir = "/mnt/arr-data/appdata/qbittorrent";
 
     # Keep download payload outside profileDir to separate snapshots/backups.
@@ -27,6 +35,9 @@
         SavePath = "/mnt/arr-data/downloads/complete";
         TempPath = "/mnt/arr-data/downloads/incomplete";
         TempPathEnabled = true;
+        "WebUI\\Address" = "*";
+        "WebUI\\Port" = 8080;
+        "WebUI\\ReverseProxySupportEnabled" = true;
       };
     };
   };

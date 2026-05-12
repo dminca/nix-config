@@ -2,6 +2,10 @@
   config,
   ...
 }:
+let
+  mediaVmHost = "10.10.10.199";
+  mediaLxcHost = "10.10.10.179";
+in
 {
   sops.secrets."fullchain.pem" = {
     sopsFile = ./secrets/certs.yaml;
@@ -68,6 +72,55 @@
           }
         '';
       };
+      "radarr.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaVmHost}:7878
+        '';
+      };
+      "sonarr.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaVmHost}:8989
+        '';
+      };
+      "bazarr.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaVmHost}:6767
+        '';
+      };
+      "jellyfin.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaVmHost}:8096
+        '';
+      };
+      "prowlarr.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaLxcHost}:9696
+        '';
+      };
+      "qbittorrent.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy ${mediaLxcHost}:8080
+        '';
+      };
     };
   };
 }
+

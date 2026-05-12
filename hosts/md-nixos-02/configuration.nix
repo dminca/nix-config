@@ -72,7 +72,7 @@
   services.qemuGuest.enable = true;
 # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
-    defaultSopsFile = ./secrets/nextcloud.yaml;
+    defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "/home/admin/.config/sops/age/keys.txt";
   };
 

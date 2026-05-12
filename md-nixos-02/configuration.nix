@@ -9,30 +9,11 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
-    ./nfs-server.nix
-    ./sneeky.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-  # ── Networking ────────────────────────────────────────────────────────────
-  networking = {
-    hostName = "md-nixos-02";
-    useDHCP = lib.mkDefault true;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-        80
-        443
-# Explicit app ports used by the Caddy reverse proxy on rp-nixos-01.
-        9696 # prowlarr
-        8080 # qbittorrent Web UI
-        111  # NFS portmapper
-        2049 # NFS
-      ];
-    };
-  };
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -40,13 +21,6 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-
-  # Avoid reactivation failures when /mnt/arr-data is in use by *arr/Jellyfin.
-  systemd.suppressedSystemUnits = [
-    "mnt-arr\\x2ddata.mount"
-    "systemd-fsck@dev-disk-by\\x2dpartlabel-disk\\x2ddisk2\\x2darr.service"
-    "systemd-fsck@dev-disk-by\\x2dpartlabel-disk\\x2ddisk1\\x2dESP.service"
-  ];
 
   # ── SSH ───────────────────────────────────────────────────────────────────
   services.openssh = {
@@ -85,11 +59,6 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
-# ── SOPS (Secrets Operation) ──────────────────────────────────────────────
-  sops = {
-    defaultSopsFile = ./secrets/example.yaml;
-    age.keyFile = "/home/admin/.config/sops/age/keys.txt";
-  };
 
   system.stateVersion = "25.11";
 }

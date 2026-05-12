@@ -137,6 +137,7 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/md-nixos-02/configuration.nix
+            ./hosts/md-nixos-02/hardware-configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

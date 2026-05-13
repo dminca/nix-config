@@ -44,6 +44,24 @@
           }
         '';
       };
+      "office.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy 10.10.10.156:9980 {
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            # Required for WOPI: disable response buffering so WebSocket
+            # frames and streaming document content flow through immediately
+            flush_interval -1
+            transport http {
+              read_timeout  1h
+              write_timeout 1h
+            }
+          }
+        '';
+      };
       "kc.mrbl.dedyn.io" = {
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \

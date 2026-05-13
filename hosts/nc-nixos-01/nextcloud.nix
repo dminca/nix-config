@@ -4,7 +4,10 @@
   ...
 }:
 {
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
   services.nginx.enable = true;
   services.nextcloud = {
     enable = true;
@@ -41,7 +44,14 @@
       hide_login_form = true;
     };
     extraApps = {
-      inherit (config.services.nextcloud.package.packages.apps) news contacts calendar tasks user_oidc richdocuments;
+      inherit (config.services.nextcloud.package.packages.apps)
+        news
+        contacts
+        calendar
+        tasks
+        user_oidc
+        richdocuments
+        ;
     };
     extraAppsEnable = true;
     phpOptions = {
@@ -65,10 +75,12 @@
       enable = true;
       dataDir = "/mnt/postgresql-data/pgdata";
       ensureDatabases = [ "nextcloud" ];
-      ensureUsers = [{
-        name = "nextcloud";
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = "nextcloud";
+          ensureDBOwnership = true;
+        }
+      ];
       settings = {
         max_connections = 500;
         max_wal_senders = 16;

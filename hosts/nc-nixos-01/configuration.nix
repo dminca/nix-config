@@ -10,6 +10,7 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./nextcloud.nix
+    ./collabora.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
@@ -61,7 +62,7 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
-# ── SOPS (Secrets Operation) ──────────────────────────────────────────────
+  # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
     defaultSopsFile = ./secrets/nextcloud.yaml;
     age.keyFile = "/home/admin/.config/sops/age/keys.txt";

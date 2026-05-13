@@ -28,6 +28,7 @@
     jira-cli-go
     rustup
     cue
+    gh
     ########################
     # cloud-native tooling #
     ########################

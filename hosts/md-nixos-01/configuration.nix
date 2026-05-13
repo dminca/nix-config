@@ -15,7 +15,27 @@
     "nix-command"
     "flakes"
   ];
-  networking.hostName = "md-nixos-01";
+  # ── Networking ────────────────────────────────────────────────────────────
+  networking = {
+    hostName = "md-nixos-01";
+    useDHCP = lib.mkDefault true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        80
+        443
+        # Explicit app ports used by the Caddy reverse proxy on rp-nixos-01.
+        9696 # prowlarr
+        8080 # qbittorrent Web UI
+        111 # NFS portmapper
+        2049 # NFS
+        7878 # radarr
+        8989 # sonarr
+        6767 # bazarr
+        8096 # jellyfin
+      ];
+    };
+  };
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -61,22 +81,6 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
-
-  # Shared ZFS dataset exported by md-nixos-02 (LXC) over NFS.
-  # Keep mount path identical to md-nixos-02 bind mount.
-  fileSystems."/mnt/data-indexers" = lib.mkForce {
-    device = "10.10.10.157:/mnt/arr-data";
-    fsType = "nfs";
-    options = [
-      "nfsvers=4.2"
-      "hard"
-      "noatime"
-      "nofail"
-      "x-systemd.automount"
-      "x-systemd.idle-timeout=600"
-      "_netdev"
-    ];
-  };
 
   system.stateVersion = "25.11";
 }

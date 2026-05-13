@@ -133,26 +133,6 @@
             sops-nix.nixosModules.sops
           ];
         };
-        "md-nixos-02" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/md-nixos-02/configuration.nix
-            ./hosts/md-nixos-02/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.admin = {
-                imports = [
-                  sops-nix.homeManagerModules.sops
-                  ./hosts/md-nixos-02/home.nix
-                ];
-              };
-            }
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-          ];
-        };
       };
 
       homeConfigurations = {
@@ -179,7 +159,12 @@
       day0Packages = nixos-generator.packages.x86_64-linux;
     in
     {
-      inherit darwinConfigurations nixosConfigurations homeConfigurations day0Packages;
+      inherit
+        darwinConfigurations
+        nixosConfigurations
+        homeConfigurations
+        day0Packages
+        ;
 
       # Expose day-0 generator outputs directly so they can be built with:
       #   nix build .#<host>

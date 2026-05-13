@@ -32,4 +32,3 @@
 ## VPN requirement
 
 - Prowlarr manages indexers. qBittorrent handles downloads. Both are required. Route both through the VPN
-

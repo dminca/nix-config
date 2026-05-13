@@ -39,17 +39,22 @@
 		dataDir = "/mnt/arr-data/appdata/jellyfin";
 	};
 
-	systemd.tmpfiles.rules = [
-		"d /mnt/arr-data/appdata 0755 root root -"
-		"d /mnt/arr-data/appdata/radarr 0750 radarr nogroup -"
-		"d /mnt/arr-data/appdata/sonarr 0750 sonarr nogroup -"
-		"d /mnt/arr-data/appdata/bazarr 0750 bazarr nogroup -"
-		"d /mnt/arr-data/appdata/jellyfin 0750 jellyfin nogroup -"
-		"d /mnt/arr-data/media 2775 root nogroup -"
-		"d /mnt/arr-data/media/movies 2775 root nogroup -"
-		"d /mnt/arr-data/media/tv 2775 root nogroup -"
-		"d /mnt/arr-data/media/downloads 2775 root nogroup -"
-		"d /mnt/data-indexers 2775 root nogroup -"
-	];
+  systemd.tmpfiles.rules = [
+    "d /mnt/arr-data/appdata 0775 root nogroup -"
+    "d /mnt/arr-data/appdata/radarr 0770 radarr nogroup -"
+    "d /mnt/arr-data/appdata/sonarr 0770 sonarr nogroup -"
+    "d /mnt/arr-data/appdata/bazarr 0770 bazarr nogroup -"
+    "d /mnt/arr-data/appdata/jellyfin 0770 jellyfin nogroup -"
+    "d /mnt/arr-data/media 2775 root nogroup -"
+    "d /mnt/arr-data/media/movies 2775 root nogroup -"
+    "d /mnt/arr-data/media/tv 2775 root nogroup -"
+    "d /mnt/arr-data/media/downloads 2775 root nogroup -"
+    "d /mnt/data-indexers 2775 root nogroup -"
+		# NFS export does not support POSIX ACLs here; rely on shared group perms.
+		# setgid (2xxx) keeps new content in nogroup so radarr/sonarr can import.
+		"d /mnt/data-indexers/appdata/qbittorrent 2775 root nogroup -"
+		"d /mnt/data-indexers/appdata/qbittorrent/qBittorrent 2775 root nogroup -"
+		"d /mnt/data-indexers/appdata/qbittorrent/qBittorrent/downloads 2775 root nogroup -"
+  ];
 }
 

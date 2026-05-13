@@ -1,13 +1,24 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 {
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
+  networking.firewall = {
+    allowedTCPPorts = [
+      80
+      443
+      3478
+    ];
+    allowedUDPPorts = [ 3478 ];
+    allowedUDPPortRanges = [
+      {
+        from = 49152;
+        to = 65535;
+      }
+    ];
+  };
   services.nginx.enable = true;
   services.nextcloud = {
     enable = true;
@@ -51,6 +62,7 @@
         tasks
         user_oidc
         richdocuments
+        spreed
         ;
     };
     extraAppsEnable = true;
@@ -115,8 +127,46 @@
     owner = "nextcloud";
     group = "nextcloud";
   };
+  sops.secrets.coturn-secret = {
+    sopsFile = ./secrets/nextcloud.yaml;
+    key = "coturn_secret";
+    owner = "root";
+    group = "turnserver";
+    mode = "0640";
+  };
   systemd.tmpfiles.rules = [
     "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
     "d /mnt/nextcloud-data/nextcloud 0700 nextcloud nextcloud -"
   ];
+
+  # Enable coturn only to get the turnserver user/group and package installed;
+  # the actual config is generated at runtime so the secret never enters the Nix store.
+  services.coturn.enable = true;
+
+  systemd.services.coturn = {
+    after = [ "sops-nix.service" ];
+    wants = [ "sops-nix.service" ];
+    serviceConfig = {
+      RuntimeDirectory = "coturn";
+      ExecStartPre = [
+        (pkgs.writeShellScript "coturn-config-gen" ''
+                    secret=$(< ${config.sops.secrets.coturn-secret.path})
+                    cat > /run/coturn/turnserver.conf <<EOF
+          lt-cred-mech
+          use-auth-secret
+          static-auth-secret=$secret
+          realm=nc.mrbl.dedyn.io
+          no-tcp-relay
+          min-port=49152
+          max-port=65535
+          no-multicast-peers
+          no-cli
+          no-tlsv1
+          no-tlsv1_1
+          EOF
+        '')
+      ];
+      ExecStart = lib.mkForce "${pkgs.coturn}/bin/turnserver -c /run/coturn/turnserver.conf";
+    };
+  };
 }

@@ -86,54 +86,6 @@
           }
         '';
       };
-      "radarr.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.188:7878
-        '';
-      };
-      "sonarr.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.188:8989
-        '';
-      };
-      "bazarr.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.188:6767
-        '';
-      };
-      "jellyfin.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.188:8096
-        '';
-      };
-      "prowlarr.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.188:9696
-        '';
-      };
-      "qbittorrent.mrbl.dedyn.io" = {
-        extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          reverse_proxy 10.10.10.158:8080
-        '';
-      };
     };
   };
 }

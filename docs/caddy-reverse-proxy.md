@@ -1,0 +1,52 @@
+# Caddy - reverse proxy
+
+> the setup for Caddy reverse proxy for entire net
+
+```
+(wildcard) {
+    tls /var/lib/caddy/certs/fullchain.pem \
+        /var/lib/caddy/certs/privkey.pem
+}
+
+fw.mrbl.dedyn.io {
+    import wildcard
+
+    reverse_proxy 192.168.178.3
+}
+dns.mrbl.dedyn.io {
+    import wildcard
+
+    reverse_proxy 192.168.178.2
+}
+nc.mrbl.dedyn.io {
+    import wildcard
+
+    reverse_proxy 10.10.10.102
+}
+kc.mrbl.dedyn.io {
+    import wildcard
+
+    reverse_proxy 10.10.10.118 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-Port {http.request.port}
+    }
+}
+pve.mrbl.dedyn.io {
+    import wildcard
+
+    reverse_proxy https://192.168.178.16:8006 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
+}
+```
+
+- setting up Caddy on NixOS[^caddy]
+
+[^caddy]: https://aottr.dev/posts/2024/08/homelab-setting-up-caddy-reverse-proxy-with-ssl-on-nixos/
+

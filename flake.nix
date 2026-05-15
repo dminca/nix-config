@@ -5,16 +5,18 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generator = {
+      url = "path:./nixos-generator";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -26,7 +28,8 @@
       nixpkgs,
       home-manager,
       sops-nix,
-      determinate,
+      disko,
+      nixos-generator,
     }:
     let
       systems = [
@@ -52,21 +55,63 @@
         };
       };
       nixosConfigurations = {
-        "nixos" = nixpkgs.lib.nixosSystem {
+        "nc-nixos-01" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/common/nixos-system.nix
-            ./hosts/nixos/configuration.nix
+            ./hosts/nc-nixos-01/configuration.nix
+            ./hosts/nc-nixos-01/hardware-configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.dminca = import ./hosts/nixos/default.nix;
-              home-manager.extraSpecialArgs = { inherit sops-nix; };
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/nc-nixos-01/home.nix
+                ];
+              };
             }
-            determinate.nixosModules.default
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
           ];
-          specialArgs = { inherit sops-nix; };
+        };
+        "kc-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/kc-nixos-01/configuration.nix
+            ./hosts/kc-nixos-01/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/kc-nixos-01/home.nix
+                ];
+              };
+            }
+            disko.nixosModules.disko
+            sops-nix.nixosModules.sops
+          ];
+        };
+        "rp-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/rp-nixos-01/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/rp-nixos-01/home.nix
+                ];
+              };
+            }
+            sops-nix.nixosModules.sops
+          ];
         };
       };
 
@@ -89,9 +134,22 @@
           ];
         };
       };
+
+      # Day-0 image artifacts built from ./nixos-generator for Proxmox VM/LXC.
+      day0Packages = nixos-generator.packages.x86_64-linux;
     in
     {
-      inherit darwinConfigurations nixosConfigurations homeConfigurations;
+      inherit
+        darwinConfigurations
+        nixosConfigurations
+        homeConfigurations
+        day0Packages
+        ;
+
+      # Expose day-0 generator outputs directly so they can be built with:
+      #   nix build .#<host>
+      #   nix build .#<host>-plxc
+      packages = forAllSystems (_: day0Packages);
 
       apps = forAllSystems (
         system:

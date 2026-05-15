@@ -113,6 +113,26 @@
             sops-nix.nixosModules.sops
           ];
         };
+        "hm-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/hm-nixos-01/configuration.nix
+            ./hosts/hm-nixos-01/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.admin = {
+                imports = [
+                  sops-nix.homeManagerModules.sops
+                  ./hosts/hm-nixos-01/home.nix
+                ];
+              };
+            }
+            sops-nix.nixosModules.sops
+            disko.nixosModules.disko
+          ];
+        };
       };
 
       homeConfigurations = {

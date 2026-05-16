@@ -133,6 +133,15 @@
             disko.nixosModules.disko
           ];
         };
+        "lw-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/lw-nixos-01/configuration.nix
+            ./hosts/lw-nixos-01/hardware-configuration.nix
+            sops-nix.nixosModules.sops
+            disko.nixosModules.disko
+          ];
+        };
       };
 
       homeConfigurations = {

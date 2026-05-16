@@ -6,7 +6,20 @@
     enable = true;
     openFirewall = true;
     configDir = "/mnt/appdata/home-assistant";
-    extraComponents = [ "hue" ];
+    extraComponents = [
+      "hue"
+      "met"
+      "zeroconf"
+      "apple_tv"
+      "homekit"
+      "homekit_controller"
+      "matter"
+      "thread"
+      "bluetooth"
+      "hisense_aehw4a1"
+      "ecovacs"
+      "adguard"
+    ];
 
     # Keep a minimal baseline in Nix; integrations/devices are added in the UI.
     config = {

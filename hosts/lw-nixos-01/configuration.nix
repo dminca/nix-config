@@ -65,7 +65,7 @@
   # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
     defaultSopsFile = ./secrets/example.yaml;
-    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+    age.keyFile = "/home/admin/.config/sops/age/keys.txt";
   };
 
   system.stateVersion = "25.11";

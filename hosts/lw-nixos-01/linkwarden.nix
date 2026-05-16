@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -12,6 +11,11 @@
       5432 # PostgreSQL (if remote access needed)
       7700 # Meilisearch (if remote access needed)
     ];
+  };
+
+  sops.secrets.linkwarden = {
+    sopsFile = ./secrets/linkwarden.yaml;
+    key = "NEXTAUTH_SECRET";
   };
 
   # ── PostgreSQL ────────────────────────────────────────────────────────────
@@ -42,25 +46,24 @@
   };
 
   # ── Valkey (Redis alternative) ────────────────────────────────────────────
-  services.valkey = {
+  services.redis = {
     enable = true;
     package = pkgs.valkey;
     port = 0; # Disable TCP port
     bind = ""; # Don't bind to any TCP address
     unixSocket = "/run/valkey/valkey.sock";
-    unixSocketPerm = "755";
-    dir = "/mnt/appdata/valkey";
-    persistence = "aof";
+    unixSocketPerm = 755;
   };
 
   # ── Meilisearch ───────────────────────────────────────────────────────────
   services.meilisearch = {
     enable = true;
-    package = pkgs.meilisearch;
     listenAddress = "127.0.0.1";
     listenPort = 7700;
-    environment = "production";
-    dataDir = "/mnt/appdata/meilisearch";
+    settings = {
+      db_path = "/mnt/appdata/meilisearch";
+      env = "production";
+    };
   };
 
   # ── Linkwarden ────────────────────────────────────────────────────────────
@@ -73,18 +76,13 @@
       createLocally = true;
       name = "linkwarden";
       user = "linkwarden";
-      passwordFile = config.sops.secrets."linkwarden-db-password".path;
-      socket = "/run/postgresql";
+      host = "/run/postgresql";
     };
-    redis = {
-      createLocally = false;
-      url = "unix:/run/valkey/valkey.sock";
+    environment = {
+      MEILI_HOST = "http://127.0.0.1:7700";
     };
-    search = {
-      meilisearch = {
-        createLocally = false;
-        host = "http://127.0.0.1:7700";
-      };
+    secretFiles = {
+      NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
     };
   };
 
@@ -92,7 +90,6 @@
   systemd.tmpfiles.rules = [
     "d /mnt/appdata 0755 root root -"
     "d /mnt/appdata/postgresql 0700 postgres postgres -"
-    "d /mnt/appdata/valkey 0700 valkey valkey -"
     "d /mnt/appdata/meilisearch 0755 meilisearch meilisearch -"
   ];
 }

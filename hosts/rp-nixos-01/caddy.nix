@@ -82,8 +82,8 @@
 
           reverse_proxy 10.10.10.181:8123 {
             header_up Host {host}
-            header_up X-Real-IP {remote}
-            header_up X-Forwarded-For {remote}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Proto {scheme}
           }
         '';

@@ -13,6 +13,7 @@
       homeassistant = {
         name = "hm-nixos-01";
         time_zone = "UTC";
+        external_url = "https://ha.mrbl.dedyn.io";
       };
       http = {
         use_x_forwarded_for = true;

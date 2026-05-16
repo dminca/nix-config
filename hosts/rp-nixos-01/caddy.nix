@@ -93,8 +93,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
-          reverse_proxy 10.10.10.153:<tba> {
-            <tba>
+          reverse_proxy 10.10.10.153:3000 {
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-Host {host}
           }
         '';
       };

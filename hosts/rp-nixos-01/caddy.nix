@@ -88,6 +88,16 @@
           }
         '';
       };
+      "lw.mrbl.dedyn.io" = {
+        extraConfig = ''
+          tls ${config.sops.secrets."fullchain.pem".path} \
+              ${config.sops.secrets."privkey.pem".path}
+
+          reverse_proxy 10.10.10.153:<tba> {
+            <tba>
+          }
+        '';
+      };
       "pve.mrbl.dedyn.io" = {
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \

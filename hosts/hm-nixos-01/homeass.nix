@@ -6,6 +6,7 @@
     enable = true;
     openFirewall = true;
     configDir = "/mnt/appdata/home-assistant";
+    extraComponents = [ "hue" ];
 
     # Keep a minimal baseline in Nix; integrations/devices are added in the UI.
     config = {

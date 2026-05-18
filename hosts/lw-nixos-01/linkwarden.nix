@@ -1,14 +1,10 @@
 {
-  config,
-  pkgs,
-  lib,
   ...
 }:
 {
   # ── Networking ────────────────────────────────────────────────────────────
   networking.firewall = {
     allowedTCPPorts = [
-      3000 # Linkwarden
       5432 # PostgreSQL (if remote access needed)
     ];
   };
@@ -41,22 +37,6 @@
       work_mem = "1310kB";
       min_wal_size = "1GB";
       max_wal_size = "4GB";
-    };
-  };
-
-  # ── Linkwarden ────────────────────────────────────────────────────────────
-  services.linkwarden = {
-    enable = true;
-    port = 3000;
-    host = "0.0.0.0";
-    openFirewall = false;
-    database = {
-      name = "linkwarden";
-      user = "linkwarden";
-      host = "/run/postgresql";
-    };
-    secretFiles = {
-      NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
     };
   };
 }

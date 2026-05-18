@@ -10,7 +10,6 @@
     allowedTCPPorts = [
       3000 # Linkwarden
       5432 # PostgreSQL (if remote access needed)
-      7700 # Meilisearch (if remote access needed)
     ];
   };
 
@@ -45,26 +44,6 @@
     };
   };
 
-  # ── Valkey (Redis alternative) ────────────────────────────────────────────
-  services.redis = {
-    enable = true;
-    package = pkgs.valkey;
-    port = 0; # Disable TCP port
-    bind = ""; # Don't bind to any TCP address
-    unixSocket = "/run/valkey/valkey.sock";
-    unixSocketPerm = 755;
-  };
-
-  # ── Meilisearch ───────────────────────────────────────────────────────────
-  services.meilisearch = {
-    enable = true;
-    listenAddress = "127.0.0.1";
-    listenPort = 7700;
-    settings = {
-      env = "production";
-    };
-  };
-
   # ── Linkwarden ────────────────────────────────────────────────────────────
   services.linkwarden = {
     enable = true;
@@ -76,9 +55,6 @@
       name = "linkwarden";
       user = "linkwarden";
       host = "/run/postgresql";
-    };
-    environment = {
-      MEILI_HOST = "http://127.0.0.1:7700";
     };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;

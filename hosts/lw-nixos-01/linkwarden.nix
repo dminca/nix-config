@@ -51,7 +51,6 @@
     host = "0.0.0.0";
     openFirewall = false;
     database = {
-      createLocally = true;
       name = "linkwarden";
       user = "linkwarden";
       host = "/run/postgresql";

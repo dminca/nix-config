@@ -22,7 +22,6 @@
   # ── PostgreSQL ────────────────────────────────────────────────────────────
   services.postgresql = {
     enable = true;
-    dataDir = "/mnt/appdata/postgresql";
     ensureDatabases = [ "linkwarden" ];
     ensureUsers = [
       {
@@ -62,7 +61,6 @@
     listenAddress = "127.0.0.1";
     listenPort = 7700;
     settings = {
-      db_path = "/mnt/appdata/meilisearch";
       env = "production";
     };
   };
@@ -85,24 +83,5 @@
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
     };
-  };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/appdata/postgresql 0700 postgres postgres -"
-    "d /mnt/appdata/meilisearch 0755 meilisearch meilisearch -"
-  ];
-
-  systemd.services.linkwarden = {
-    after = [
-      "postgresql.service"
-      "redis.service" # services.redis (with package = pkgs.valkey) creates redis.service
-      "meilisearch.service"
-      "sops-nix.service"
-    ];
-    requires = [
-      "postgresql.service"
-      "redis.service"
-      "meilisearch.service"
-    ];
   };
 }

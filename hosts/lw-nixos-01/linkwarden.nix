@@ -60,6 +60,7 @@
     environment = {
       NEXTAUTH_URL = "https://lw.mrbl.dedyn.io/api/v1/auth";
       BASE_URL = "https://lw.mrbl.dedyn.io";
+      NEXT_PUBLIC_CREDENTIALS_ENABLED = "true";
     };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;

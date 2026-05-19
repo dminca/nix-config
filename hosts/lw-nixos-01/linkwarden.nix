@@ -15,6 +15,7 @@
   sops.secrets.linkwarden = {
     sopsFile = ./secrets/linkwarden.yaml;
     key = "NEXTAUTH_SECRET";
+    owner = config.services.linkwarden.user;
   };
 
   # ── PostgreSQL ────────────────────────────────────────────────────────────

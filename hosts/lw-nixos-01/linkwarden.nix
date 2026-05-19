@@ -18,6 +18,12 @@
     owner = config.services.linkwarden.user;
   };
 
+  sops.secrets.linkwarden-keycloak = {
+    sopsFile = ./secrets/linkwarden.yaml;
+    key = "KEYCLOAK_CLIENT_SECRET";
+    owner = config.services.linkwarden.user;
+  };
+
   # ── PostgreSQL ────────────────────────────────────────────────────────────
   services.postgresql = {
     enable = true;
@@ -60,10 +66,13 @@
     environment = {
       NEXTAUTH_URL = "https://lw.mrbl.dedyn.io/api/v1/auth";
       BASE_URL = "https://lw.mrbl.dedyn.io";
-      NEXT_PUBLIC_CREDENTIALS_ENABLED = "true";
+      NEXT_PUBLIC_KEYCLOAK_ENABLED = "true";
+      KEYCLOAK_ISSUER = "https://kc.mrbl.dedyn.io/realms/home";
+      KEYCLOAK_CLIENT_ID = "linkwarden";
     };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
+      KEYCLOAK_CLIENT_SECRET = config.sops.secrets.linkwarden-keycloak.path;
     };
   };
 

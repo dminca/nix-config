@@ -14,6 +14,7 @@
     "nix-command"
     "flakes"
   ];
+  networking.hostName = "kc-nixos-01";
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already

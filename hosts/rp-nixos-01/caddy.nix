@@ -94,6 +94,7 @@
               ${config.sops.secrets."privkey.pem".path}
 
           reverse_proxy 10.10.10.153:3000 {
+            header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Proto {scheme}

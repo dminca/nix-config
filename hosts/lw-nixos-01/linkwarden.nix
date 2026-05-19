@@ -66,42 +66,7 @@
     };
   };
 
-  # ── Ensure data directories exist on the mounted filesystem ──────────────
-  # This oneshot service runs after mnt-appdata.mount and creates the required
-  # directories directly on the mounted filesystem. Modifying the global
-  # systemd-tmpfiles-setup with RequiresMountsFor would cause emergency mode
-  # if the secondary disk fails to mount during early boot.
-  systemd.services.lw-appdata-setup = {
-    description = "Create /mnt/appdata directories for Linkwarden services";
-    # Do NOT use wantedBy = ["multi-user.target"] here. If the mount is
-    # restarted during nixos-rebuild switch, systemd would queue a stop for
-    # this unit while also needing to start multi-user.target, producing a
-    # "destructive transaction" error (nss-lookup.target conflict). Instead,
-    # application services pull this unit in via their own wants/after.
-    after = [ "mnt-appdata.mount" ];
-    requires = [ "mnt-appdata.mount" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = [
-        "${lib.getExe' pkgs.coreutils "install"} -d -m 0700 -o postgres -g postgres /mnt/appdata/postgresql"
-      ];
-    };
-  };
-
-  # PostgreSQL dataDir lives on /mnt/appdata — must not start before setup.
-  systemd.services.postgresql = {
-    wants = [ "lw-appdata-setup.service" ];
-    after = [ "lw-appdata-setup.service" ];
-  };
-
-  systemd.services.linkwarden = {
-    after = [
-      "postgresql.service"
-      "sops-nix.service"
-    ];
-    requires = [
-      "postgresql.service"
-    ];
-  };
+  systemd.tmpfiles.rules = [
+    "d /mnt/appdata/postgresql 0700 postgres postgres -"
+  ];
 }

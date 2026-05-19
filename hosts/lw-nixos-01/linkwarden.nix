@@ -56,6 +56,10 @@
       user = "linkwarden";
       host = "/run/postgresql";
     };
+    environment = {
+      NEXTAUTH_URL = "https://lw.mrbl.dedyn.io/api/v1/auth";
+      BASE_URL = "https://lw.mrbl.dedyn.io";
+    };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
     };

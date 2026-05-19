@@ -46,16 +46,6 @@
     };
   };
 
-  # ── Valkey (Redis alternative) ────────────────────────────────────────────
-  services.redis = {
-    enable = true;
-    package = pkgs.valkey;
-    port = 0; # Disable TCP port
-    bind = ""; # Don't bind to any TCP address
-    unixSocket = "/run/valkey/valkey.sock";
-    unixSocketPerm = 755;
-  };
-
   # ── Meilisearch ───────────────────────────────────────────────────────────
   services.meilisearch = {
     enable = true;
@@ -127,13 +117,11 @@
   systemd.services.linkwarden = {
     after = [
       "postgresql.service"
-      "redis.service" # services.redis (with package = pkgs.valkey) creates redis.service
       "meilisearch.service"
       "sops-nix.service"
     ];
     requires = [
       "postgresql.service"
-      "redis.service"
       "meilisearch.service"
     ];
   };

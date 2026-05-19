@@ -9,7 +9,6 @@
   networking.firewall = {
     allowedTCPPorts = [
       3000 # Linkwarden
-      5432 # PostgreSQL (if remote access needed)
       7700 # Meilisearch (if remote access needed)
     ];
   };

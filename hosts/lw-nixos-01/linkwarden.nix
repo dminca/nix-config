@@ -9,7 +9,6 @@
   networking.firewall = {
     allowedTCPPorts = [
       3000 # Linkwarden
-      7700 # Meilisearch (if remote access needed)
     ];
   };
 
@@ -45,17 +44,6 @@
     };
   };
 
-  # ── Meilisearch ───────────────────────────────────────────────────────────
-  services.meilisearch = {
-    enable = true;
-    listenAddress = "127.0.0.1";
-    listenPort = 7700;
-    settings = {
-      db_path = "/mnt/appdata/meilisearch";
-      env = "production";
-    };
-  };
-
   # ── Linkwarden ────────────────────────────────────────────────────────────
   services.linkwarden = {
     enable = true;
@@ -67,10 +55,6 @@
       name = "linkwarden";
       user = "linkwarden";
       host = "/run/postgresql";
-    };
-    environment = {
-      MEILI_HOST = "http://127.0.0.1:7700";
-      MEILI_MASTER_KEY = "rTtafkNEDga1fMasgsoG3g46uUopr9fW";
     };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;
@@ -96,7 +80,6 @@
       RemainAfterExit = true;
       ExecStart = [
         "${lib.getExe' pkgs.coreutils "install"} -d -m 0700 -o postgres -g postgres /mnt/appdata/postgresql"
-        "${lib.getExe' pkgs.coreutils "install"} -d -m 0755 -o meilisearch -g meilisearch /mnt/appdata/meilisearch"
       ];
     };
   };
@@ -107,21 +90,13 @@
     after = [ "lw-appdata-setup.service" ];
   };
 
-  # Meilisearch db_path lives on /mnt/appdata — must not start before setup.
-  systemd.services.meilisearch = {
-    wants = [ "lw-appdata-setup.service" ];
-    after = [ "lw-appdata-setup.service" ];
-  };
-
   systemd.services.linkwarden = {
     after = [
       "postgresql.service"
-      "meilisearch.service"
       "sops-nix.service"
     ];
     requires = [
       "postgresql.service"
-      "meilisearch.service"
     ];
   };
 }

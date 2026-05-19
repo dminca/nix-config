@@ -3,7 +3,7 @@
 {
   disko.devices = {
     disk.disk1 = {
-      device = lib.mkDefault "/dev/sdb";
+      device = lib.mkDefault "/dev/sda";
       type = "disk";
       content = {
         type = "gpt";
@@ -35,7 +35,7 @@
       };
     };
     disk.disk2 = {
-      device = lib.mkDefault "/dev/sda";
+      device = lib.mkDefault "/dev/sdb";
       type = "disk";
       content = {
         type = "gpt";

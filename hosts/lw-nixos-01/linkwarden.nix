@@ -81,6 +81,7 @@
     };
     environment = {
       MEILI_HOST = "http://127.0.0.1:7700";
+      MEILI_MASTER_KEY = "rTtafkNEDga1fMasgsoG3g46uUopr9fW";
     };
     secretFiles = {
       NEXTAUTH_SECRET = config.sops.secrets.linkwarden.path;

@@ -30,3 +30,7 @@ creation_rules:
     key_groups:
       - age:
         - *admin_dminca
+  - path_regex: hosts/ic-nixos-01/secrets/[^/]+\.(yaml|yml|json|env|ini)$
+    key_groups:
+      - age:
+        - *admin_dminca

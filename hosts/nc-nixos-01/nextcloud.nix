@@ -65,6 +65,11 @@
         spreed
         deck
         ;
+      countdown = pkgs.fetchNextcloudApp {
+        url = "https://github.com/infinit7even/countdown/releases/download/v1.2.10/countdown.tar.gz";
+        hash = "sha256-4RVP3Cz7g1uk6iyTyRVZ/jYOuyirY/gCiqAqFQstKyI=";
+        license = "agpl3Only";
+      };
     };
     extraAppsEnable = true;
     phpOptions = {

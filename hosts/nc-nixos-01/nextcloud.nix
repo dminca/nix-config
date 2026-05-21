@@ -63,6 +63,7 @@
         user_oidc
         richdocuments
         spreed
+        deck
         ;
     };
     extraAppsEnable = true;

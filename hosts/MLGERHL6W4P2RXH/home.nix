@@ -120,19 +120,8 @@
     key = "virtual";
   };
 
-  home.file = {
-    ".gnupg/gpg-agent.conf".text = ''
-      default-cache-ttl 600
-      max-cache-ttl 7200
-      pinentry-program ${lib.getExe pkgs.pinentry_mac}
-      enable-ssh-support
-    '';
-  };
-
   home.sessionVariables = {
-    GPG_TTY = "$(tty)";
     GOPATH = "${config.home.homeDirectory}/Repos/open-source/others/gopath";
-    SSH_AUTH_SOCK = "$(gpgconf --list-dirs agent-ssh-socket)";
   };
 
   home.sessionPath = [
@@ -140,16 +129,6 @@
   ];
 
   programs.java.enable = true;
-  programs.gpg = {
-    enable = true;
-    settings = {
-      auto-key-retrieve = true;
-      no-emit-version = true;
-      default-key = "D02DE2B3DF391A132A379A1EEACCEEE9CC3C8E69";
-      use-agent = false;
-      no-tty = false;
-    };
-  };
   programs.go = {
     env = {
       GOPATH = "Repos/open-source/others/gopath";

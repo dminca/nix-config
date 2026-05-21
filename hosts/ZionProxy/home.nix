@@ -12,15 +12,10 @@
     #################
     # shell tooling #
     #################
-    gnupg
-    exercism
-    hugo
-    operator-sdk
     ffmpeg
     f2
     btop
     yt-dlp
-    opentofu
     ########
     # Apps #
     ########

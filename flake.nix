@@ -60,17 +60,6 @@
           modules = [
             ./hosts/nc-nixos-01/configuration.nix
             ./hosts/nc-nixos-01/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.admin = {
-                imports = [
-                  sops-nix.homeManagerModules.sops
-                  ./hosts/nc-nixos-01/home.nix
-                ];
-              };
-            }
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
           ];
@@ -80,17 +69,6 @@
           modules = [
             ./hosts/kc-nixos-01/configuration.nix
             ./hosts/kc-nixos-01/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.admin = {
-                imports = [
-                  sops-nix.homeManagerModules.sops
-                  ./hosts/kc-nixos-01/home.nix
-                ];
-              };
-            }
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
           ];
@@ -99,17 +77,6 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/rp-nixos-01/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.admin = {
-                imports = [
-                  sops-nix.homeManagerModules.sops
-                  ./hosts/rp-nixos-01/home.nix
-                ];
-              };
-            }
             sops-nix.nixosModules.sops
           ];
         };
@@ -118,17 +85,6 @@
           modules = [
             ./hosts/hm-nixos-01/configuration.nix
             ./hosts/hm-nixos-01/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.admin = {
-                imports = [
-                  sops-nix.homeManagerModules.sops
-                  ./hosts/hm-nixos-01/home.nix
-                ];
-              };
-            }
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -52,6 +53,23 @@
     openFirewall = false;
 
     settings.server.externalDomain = "https://ic.mrbl.dedyn.io";
+    settings.oauth = {
+      enabled = true;
+      issuerUrl = "https://kc.mrbl.dedyn.io/realms/home";
+      clientId = "immich";
+      clientSecret._secret = config.sops.secrets.immich-keycloak.path;
+      scope = "openid email profile";
+      signingAlgorithm = "RS256";
+      profileSigningAlgorithm = "none";
+      tokenEndpointAuthMethod = "client_secret_post";
+      autoRegister = true;
+      autoLaunch = false;
+      buttonText = "Sign in with Keycloak";
+      storageLabelClaim = "preferred_username";
+      roleClaim = "immich_role";
+      storageQuotaClaim = "immich_quota";
+      timeout = 30000;
+    };
 
     mediaLocation = "/mnt/appdata/immich";
     accelerationDevices = [ "/dev/dri/renderD128" ];
@@ -88,4 +106,12 @@
     "d /mnt/appdata/immich 0700 immich immich -"
     "d /mnt/appdata/valkey 0750 redis redis -"
   ];
+
+  sops.secrets.immich-keycloak = {
+    sopsFile = ./secrets/immich.yaml;
+    key = "clientSecret";
+    owner = "immich";
+    group = "immich";
+    mode = "0400";
+  };
 }

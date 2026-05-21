@@ -30,9 +30,6 @@
       }
     ];
     settings = {
-      credential = {
-        helper = lib.mkForce "store --file=${config.sops.secrets.workc.path}";
-      };
       include = {
         path = config.sops.secrets.additionalGitconfig.path;
       };

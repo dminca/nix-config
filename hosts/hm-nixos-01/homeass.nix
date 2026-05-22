@@ -36,6 +36,11 @@
     };
   };
 
+  # Backend websocket required by Home Assistant's Matter integration.
+  services.matter-server = {
+    enable = true;
+  };
+
   # Ensure the persistent appdata directory exists with service ownership.
   systemd.tmpfiles.rules = [
     "d /mnt/appdata/home-assistant 0750 hass hass -"

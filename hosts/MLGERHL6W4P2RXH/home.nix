@@ -29,6 +29,7 @@
     rustup
     cue
     gh
+    fluxcd
     ########################
     # cloud-native tooling #
     ########################

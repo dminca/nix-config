@@ -11,12 +11,14 @@
     ./disk-config.nix
     ./nextcloud.nix
     ./collabora.nix
+    ../common/monitoring-agent.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
   networking.hostName = "nc-nixos-01";
+  homelab.monitoring.agent.enable = true;
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already

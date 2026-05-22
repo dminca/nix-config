@@ -10,12 +10,14 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./keycloak.nix
+    ../common/monitoring-agent.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
   networking.hostName = "kc-nixos-01";
+  homelab.monitoring.agent.enable = true;
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -61,7 +63,7 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
-# ── SOPS (Secrets Operation) ──────────────────────────────────────────────
+  # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
     defaultSopsFile = "./secrets/example.yaml";
     age.keyFile = "/home/admin/.config/sops/age/keys.txt";

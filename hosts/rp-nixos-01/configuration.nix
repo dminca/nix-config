@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -8,6 +7,8 @@
 {
   imports = [
     ./caddy.nix
+    ../common/monitoring-agent.nix
+    ../common/monitoring-server.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
@@ -30,7 +31,28 @@
     useDHCP = lib.mkDefault true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [
+        80
+        443
+      ];
+    };
+  };
+
+  homelab.monitoring = {
+    agent.enable = true;
+    server = {
+      enable = true;
+      scrapeTargets = [
+        "rp-nixos-01:9100"
+        "hm-nixos-01:9100"
+        "nc-nixos-01:9100"
+        "kc-nixos-01:9100"
+        "lw-nixos-01:9100"
+        "ic-nixos-01:9100"
+      ];
+      dashboardFiles = [
+        ../common/grafana-dashboards/node-overview.json
+      ];
     };
   };
 
@@ -70,7 +92,7 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
-# ── SOPS (Secrets Operation) ──────────────────────────────────────────────
+  # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
     defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "/home/admin/.config/sops/age/keys.txt";

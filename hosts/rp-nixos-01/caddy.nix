@@ -80,7 +80,7 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
-          reverse_proxy 10.10.10.181:8123 {
+          reverse_proxy 192.168.178.73:8123 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}

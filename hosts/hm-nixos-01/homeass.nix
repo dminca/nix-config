@@ -31,10 +31,7 @@
       };
       http = {
         use_x_forwarded_for = true;
-        trusted_proxies = [
-          "10.10.10.135"
-          "192.168.178.3"
-        ];
+        trusted_proxies = [ "10.10.10.135" ];
       };
     };
   };

@@ -7,8 +7,6 @@
 {
   imports = [
     ./caddy.nix
-    ../common/monitoring-agent.nix
-    ../common/monitoring-server.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"
@@ -34,24 +32,6 @@
       allowedTCPPorts = [
         80
         443
-      ];
-    };
-  };
-
-  homelab.monitoring = {
-    agent.enable = true;
-    server = {
-      enable = true;
-      scrapeTargets = [
-        "rp-nixos-01:9100"
-        "hm-nixos-01:9100"
-        "nc-nixos-01:9100"
-        "kc-nixos-01:9100"
-        "lw-nixos-01:9100"
-        "ic-nixos-01:9100"
-      ];
-      dashboardFiles = [
-        ../common/grafana-dashboards/node-overview.json
       ];
     };
   };

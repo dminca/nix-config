@@ -11,7 +11,6 @@
     ./disk-config.nix
     ./nextcloud.nix
     ./collabora.nix
-    ../common/monitoring-agent.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"

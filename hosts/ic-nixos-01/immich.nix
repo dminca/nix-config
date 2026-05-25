@@ -97,14 +97,14 @@
 
   # Keep Redis/Valkey persistence on the mounted appdata disk.
   fileSystems."/var/lib/redis-immich" = {
-    device = "/mnt/appdata/valkey";
+    device = "/mnt/postgresql-data/valkey";
     options = [ "bind" ];
   };
 
   systemd.tmpfiles.rules = [
     "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
     "d /mnt/appdata/immich 0700 immich immich -"
-    "d /mnt/appdata/valkey 0750 redis redis -"
+    "d /mnt/postgresql-data/valkey 0750 redis redis -"
   ];
 
   sops.secrets.immich-keycloak = {

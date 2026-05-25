@@ -46,6 +46,28 @@
   # Use Valkey as the Redis-compatible backend.
   services.redis.package = pkgs.valkey;
 
+  # 1. Reduce Logging Verbosity (Highly Recommended by Immich)
+  # Immich produces heavy queue traffic; default 'notice' logging spikes disk writes.
+  services.redis.servers.immich.logLevel = "warning";
+
+  # 2. Optimize Persistence Layers
+  # Immich only uses Redis for ephemeral queues and websockets.
+  # Turning off strict Append Only File (AOF) writes saves massive NVMe/SSD wear.
+  services.redis.servers.immich.settings = {
+    appendonly = "no";
+    save = "900 1 300 10 60 10000"; # Snapshot occasionally instead of every write
+
+    # Max memory safety valve (adjust based on your total system RAM)
+    maxmemory = "1gb";
+    maxmemory-policy = "noeviction"; # BullMQ jobs shouldn't be randomly evicted
+  };
+  # 3. Kernel & System-Level Enhancements
+  # Avoid background save latency spikes by tweaking memory overcommit.
+  boot.kernel.sysctl = {
+    "vm.overcommit_memory" = 1; # Allows Redis to fork safely during snapshots
+    "net.core.somaxconn" = 1024; # Prevents dropped connections under heavy background syncing
+  };
+
   services.immich = {
     enable = true;
     host = "0.0.0.0";

@@ -30,6 +30,11 @@ in
       port = 9100;
     };
 
+    systemd.tmpfiles.rules = [
+      "d /var/lib/promtail 0750 promtail promtail - -"
+      "z /var/lib/promtail 0750 promtail promtail - -"
+    ];
+
     services.promtail = {
       enable = true;
       configuration = {

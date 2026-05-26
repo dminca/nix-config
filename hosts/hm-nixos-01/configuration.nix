@@ -10,7 +10,6 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./homeass.nix
-    ../common/monitoring-agent.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"

@@ -3,7 +3,7 @@
 }:
 {
   imports = [
-    ./monitoring-agent.nix
-    ./monitoring-server.nix
+    ./agent.nix
+    ./server.nix
   ];
 }

@@ -16,7 +16,7 @@ in
 
     lokiPushUrl = lib.mkOption {
       type = lib.types.str;
-      default = "http://rp-nixos-01:3100/loki/api/v1/push";
+      default = "http://10.10.10.187:3100/loki/api/v1/push";
       description = "Loki push URL used by Promtail clients.";
     };
 

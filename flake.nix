@@ -94,6 +94,7 @@
           modules = [
             ./hosts/lw-nixos-01/configuration.nix
             ./hosts/lw-nixos-01/hardware-configuration.nix
+            ./modules/monitoring/agent.nix
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

@@ -195,6 +195,9 @@ in
           api_url = "https://kc.mrbl.dedyn.io/realms/home/protocol/openid-connect/userinfo";
           role_attribute_path = "contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'";
         };
+        "auth" = {
+          disable_login_form = false; # Set to true to force SSO entirely
+        };
       };
 
       provision = {

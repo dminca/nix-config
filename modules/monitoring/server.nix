@@ -114,9 +114,24 @@ in
 
         server = {
           http_listen_address = "0.0.0.0";
+          grpc_listen_address = "0.0.0.0";
           http_listen_port = 3100;
         };
 
+        common = {
+          path_prefix = lokiDataDir;
+          storage = {
+            filesystem = {
+              chunks_directory = "${lokiDataDir}/chunks";
+            };
+          };
+          replication_factor = 1;
+          ring = {
+            kvstore = {
+              store = "inmemory";
+            };
+          };
+        };
         ingester = {
           wal = {
             enabled = true;
@@ -128,11 +143,6 @@ in
           boltdb_shipper = {
             active_index_directory = "${lokiDataDir}/index";
             cache_location = "${lokiDataDir}/cache";
-            shared_store = "filesystem";
-          };
-
-          filesystem = {
-            directory = "${lokiDataDir}/chunks";
           };
         };
 
@@ -140,9 +150,9 @@ in
           configs = [
             {
               from = "2020-10-24";
-              store = "boltdb-shipper";
+              store = "tsdb";
               object_store = "filesystem";
-              schema = "v11";
+              schema = "v13";
               index = {
                 prefix = "index_";
                 period = "24h";
@@ -152,7 +162,7 @@ in
         };
 
         limits_config = {
-          retention_period = "168h";
+          retention_period = "168h"; # 7 days
         };
       };
     };

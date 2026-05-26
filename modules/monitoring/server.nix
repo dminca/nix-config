@@ -64,6 +64,8 @@ in
       "z ${lokiDataDir}/cache 0750 loki loki - -"
       "d ${lokiDataDir}/chunks 0750 loki loki - -"
       "z ${lokiDataDir}/chunks 0750 loki loki - -"
+      "d ${lokiDataDir}/rules 0750 loki loki - -"
+      "z ${lokiDataDir}/rules 0750 loki loki - -"
       "d ${grafanaDataDir} 0750 grafana grafana - -"
       "z ${grafanaDataDir} 0750 grafana grafana - -"
     ];
@@ -123,6 +125,7 @@ in
           storage = {
             filesystem = {
               chunks_directory = "${lokiDataDir}/chunks";
+              rules_directory = "${lokiDataDir}/rules";
             };
           };
           replication_factor = 1;
@@ -175,7 +178,7 @@ in
           http_addr = "0.0.0.0";
           http_port = 3000;
           domain = "mon.mrbl.dedyn.io";
-          root_url = "http://mon.mrbl.dedyn.io:3000";
+          root_url = "https://mon.mrbl.dedyn.io";
         };
       };
 

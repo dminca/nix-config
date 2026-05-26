@@ -2,6 +2,14 @@
   ...
 }:
 {
+  sops.secrets.keycloak-grafana-secret = {
+    sopsFile = ./secrets/keycloak-grafana-secret.yaml;
+    key = "client_secret";
+    owner = "grafana";
+    group = "grafana";
+    mode = "0400";
+  };
+
   homelab.monitoring.server = {
     enable = true;
     scrapeTargets = [

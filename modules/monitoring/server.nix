@@ -179,6 +179,22 @@ in
           http_port = 3000;
           root_url = "https://mon.mrbl.dedyn.io";
         };
+
+        "auth.generic_oauth" = {
+          enabled = true;
+          name = "Keycloak";
+          allow_sign_up = true;
+          client_id = "grafana";
+          client_secret = "$__file{${config.sops.secrets.keycloak-grafana-secret.path}}";
+          scopes = "openid email profile offline_access roles";
+          email_attribute_path = "email";
+          login_attribute_path = "username";
+          name_attribute_path = "full_name";
+          auth_url = "https://kc.mrbl.dedyn.io/realms/home/protocol/openid-connect/auth";
+          token_url = "https://kc.mrbl.dedyn.io/realms/home/protocol/openid-connect/token";
+          api_url = "https://kc.mrbl.dedyn.io/realms/home/protocol/openid-connect/userinfo";
+          role_attribute_path = "contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'";
+        };
       };
 
       provision = {

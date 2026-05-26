@@ -107,6 +107,16 @@
             disko.nixosModules.disko
           ];
         };
+        "mon-nixos-01" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/mon-nixos-01/configuration.nix
+            ./hosts/mon-nixos-01/hardware-configuration.nix
+            ./modules/monitoring
+            sops-nix.nixosModules.sops
+            disko.nixosModules.disko
+          ];
+        };
       };
 
       homeConfigurations = {

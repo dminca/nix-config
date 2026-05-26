@@ -177,7 +177,6 @@ in
         server = {
           http_addr = "0.0.0.0";
           http_port = 3000;
-          domain = "mon.mrbl.dedyn.io";
           root_url = "https://mon.mrbl.dedyn.io";
         };
       };

@@ -5,6 +5,10 @@
 }:
 let
   cfg = config.homelab.monitoring.server;
+  prometheusStateDir = "/var/lib/prometheus2";
+  prometheusVolume = "/mnt/prometheus-data";
+  lokiDataDir = "/mnt/loki-data";
+  grafanaDataDir = "/mnt/grafana-data";
   dashboardEtcEntries = lib.listToAttrs (
     map (
       dashboardFile:
@@ -34,12 +38,49 @@ in
 
     dashboardFiles = lib.mkOption {
       type = lib.types.listOf lib.types.path;
-      default = [ ../common/grafana-dashboards/node-overview.json ];
+      default = [ ./grafana-dashboards/node-overview.json ];
       description = "Dashboard JSON files provisioned into Grafana.";
     };
   };
 
   config = lib.mkIf cfg.enable {
+    # Prometheus stateDir must remain under /var/lib, so bind the dedicated disk there.
+    fileSystems.${prometheusStateDir} = {
+      device = prometheusVolume;
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
+    systemd.tmpfiles.rules = [
+      "d ${prometheusVolume} 0750 prometheus prometheus - -"
+      "z ${prometheusVolume} 0750 prometheus prometheus - -"
+      "d ${lokiDataDir} 0750 loki loki - -"
+      "z ${lokiDataDir} 0750 loki loki - -"
+      "d ${lokiDataDir}/wal 0750 loki loki - -"
+      "z ${lokiDataDir}/wal 0750 loki loki - -"
+      "d ${lokiDataDir}/index 0750 loki loki - -"
+      "z ${lokiDataDir}/index 0750 loki loki - -"
+      "d ${lokiDataDir}/cache 0750 loki loki - -"
+      "z ${lokiDataDir}/cache 0750 loki loki - -"
+      "d ${lokiDataDir}/chunks 0750 loki loki - -"
+      "z ${lokiDataDir}/chunks 0750 loki loki - -"
+      "d ${grafanaDataDir} 0750 grafana grafana - -"
+      "z ${grafanaDataDir} 0750 grafana grafana - -"
+    ];
+
+    systemd.services.prometheus.serviceConfig.RequiresMountsFor = [
+      prometheusStateDir
+      prometheusVolume
+    ];
+
+    systemd.services.loki.serviceConfig.RequiresMountsFor = [
+      lokiDataDir
+    ];
+
+    systemd.services.grafana.serviceConfig.RequiresMountsFor = [
+      grafanaDataDir
+    ];
+
     services.prometheus = {
       enable = true;
       listenAddress = "0.0.0.0";
@@ -67,6 +108,7 @@ in
 
     services.loki = {
       enable = true;
+      dataDir = lokiDataDir;
       configuration = {
         auth_enabled = false;
 
@@ -78,19 +120,19 @@ in
         ingester = {
           wal = {
             enabled = true;
-            dir = "/var/lib/loki/wal";
+            dir = "${lokiDataDir}/wal";
           };
         };
 
         storage_config = {
           boltdb_shipper = {
-            active_index_directory = "/var/lib/loki/index";
-            cache_location = "/var/lib/loki/cache";
+            active_index_directory = "${lokiDataDir}/index";
+            cache_location = "${lokiDataDir}/cache";
             shared_store = "filesystem";
           };
 
           filesystem = {
-            directory = "/var/lib/loki/chunks";
+            directory = "${lokiDataDir}/chunks";
           };
         };
 
@@ -117,12 +159,13 @@ in
 
     services.grafana = {
       enable = true;
+      dataDir = grafanaDataDir;
       settings = {
         server = {
           http_addr = "0.0.0.0";
           http_port = 3000;
-          domain = "rp-nixos-01";
-          root_url = "http://rp-nixos-01:3000";
+          domain = "mon.mrbl.dedyn.io";
+          root_url = "http://mon.mrbl.dedyn.io:3000";
         };
       };
 

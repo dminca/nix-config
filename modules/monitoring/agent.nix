@@ -28,6 +28,9 @@ in
       enable = true;
       openFirewall = true;
       port = 9100;
+      extraFlags = lib.optionals config.boot.isContainer [
+        "--no-collector.udev"
+      ];
     };
 
     systemd.tmpfiles.rules = [

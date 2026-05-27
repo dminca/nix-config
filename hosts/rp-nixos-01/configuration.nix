@@ -72,6 +72,11 @@
       }
     ];
   };
+  users.users.promtail.extraGroups = [ "caddy" ];
+  systemd.tmpfiles.rules = [
+    "d /var/log/caddy 0750 caddy caddy - -"
+    "z /var/log/caddy/*.log 0640 caddy caddy - -"
+  ];
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
     hostName = "rp-nixos-01";

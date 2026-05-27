@@ -3,7 +3,7 @@
   lib,
   pkgs,
   ...
-}@args:
+}:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")

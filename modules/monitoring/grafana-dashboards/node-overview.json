@@ -127,7 +127,7 @@
     "from": "now-6h",
     "to": "now"
   },
-  "timezone": "",
+  "timezone": "utc",
   "title": "Homelab Node Overview",
   "version": 1
 }

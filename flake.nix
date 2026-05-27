@@ -70,6 +70,7 @@
           modules = [
             ./hosts/kc-nixos-01/configuration.nix
             ./hosts/kc-nixos-01/hardware-configuration.nix
+            ./modules/monitoring
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
           ];
@@ -78,6 +79,7 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/rp-nixos-01/configuration.nix
+            ./modules/monitoring
             sops-nix.nixosModules.sops
           ];
         };
@@ -96,6 +98,7 @@
           modules = [
             ./hosts/lw-nixos-01/configuration.nix
             ./hosts/lw-nixos-01/hardware-configuration.nix
+            ./modules/monitoring
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

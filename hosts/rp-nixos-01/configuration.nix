@@ -23,6 +23,7 @@
   # debugfs cannot be mounted in unprivileged LXC containers.
   systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
+  homelab.monitoring.agent.enable = true;
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
     hostName = "rp-nixos-01";

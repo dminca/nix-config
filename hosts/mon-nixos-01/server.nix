@@ -18,6 +18,7 @@
     ];
     dashboardFiles = [
       ../../modules/monitoring/grafana-dashboards/node-overview.json
+      ../../modules/monitoring/grafana-dashboards/hardware-metrics.json
     ];
   };
 }

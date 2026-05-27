@@ -29,7 +29,7 @@ in
       openFirewall = true;
       port = 9100;
       extraFlags = lib.optionals config.boot.isContainer [
-        "--no-collector.udev"
+        "--path.udev.data=/rootfs/run/udev/data"
       ];
     };
 

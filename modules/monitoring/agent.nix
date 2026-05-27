@@ -21,6 +21,12 @@ in
     };
 
     agent.enable = lib.mkEnableOption "Promtail + node_exporter monitoring agent";
+
+    agent.extraScrapeConfigs = lib.mkOption {
+      type = with lib.types; listOf attrs;
+      default = [ ];
+      description = "Additional Promtail scrape_configs appended to the default journal and varlogs jobs.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -83,8 +89,9 @@ in
               }
             ];
           }
-        ];
+        ] ++ cfg.extraScrapeConfigs;
       };
     };
   };
 }
+

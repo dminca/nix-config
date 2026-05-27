@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -23,7 +24,54 @@
   # debugfs cannot be mounted in unprivileged LXC containers.
   systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
-  homelab.monitoring.agent.enable = true;
+  homelab.monitoring.agent = {
+    enable = true;
+    extraScrapeConfigs = [
+      {
+        job_name = "caddy-json";
+        static_configs = [
+          {
+            targets = [ "localhost" ];
+            labels = {
+              job = "caddy-json";
+              host = config.networking.hostName;
+              cluster = config.homelab.monitoring.cluster;
+              service = "caddy";
+              __path__ = "/var/log/caddy/*.log";
+            };
+          }
+        ];
+        pipeline_stages = [
+          {
+            json = {
+              expressions = {
+                level = "level";
+                logger = "logger";
+                status = "status";
+                msg = "msg";
+                request_method = "request.method";
+                request_host = "request.host";
+                request_uri = "request.uri";
+              };
+            };
+          }
+          {
+            labels = {
+              level = null;
+              logger = null;
+              status = null;
+              request_method = null;
+            };
+          }
+          {
+            output = {
+              source = "msg";
+            };
+          }
+        ];
+      }
+    ];
+  };
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
     hostName = "rp-nixos-01";
@@ -81,3 +129,4 @@
 
   system.stateVersion = "25.11";
 }
+

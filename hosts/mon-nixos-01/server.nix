@@ -15,6 +15,8 @@
     scrapeTargets = [
       "10.10.10.187:9100" # mon-nixos-01
       "10.10.10.140:9100" # hm-nixos-01
+      "10.10.10.156:9100" # nc-nixos-01
+      "10.10.10.162:9100" # ic-nixos-01
     ];
     dashboardFiles = [
       ../../modules/monitoring/grafana-dashboards/node-overview.json

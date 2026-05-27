@@ -60,6 +60,7 @@
           modules = [
             ./hosts/nc-nixos-01/configuration.nix
             ./hosts/nc-nixos-01/hardware-configuration.nix
+            ./modules/monitoring
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
           ];
@@ -104,6 +105,7 @@
           modules = [
             ./hosts/ic-nixos-01/configuration.nix
             ./hosts/ic-nixos-01/hardware-configuration.nix
+            ./modules/monitoring
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

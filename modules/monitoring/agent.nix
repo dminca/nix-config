@@ -30,6 +30,7 @@ in
       port = 9100;
       extraFlags = lib.optionals config.boot.isContainer [
         "--path.udev.data=/rootfs/run/udev/data"
+        "--no-collector.thermal_zone"
       ];
     };
 

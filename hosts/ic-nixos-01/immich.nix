@@ -77,6 +77,7 @@
     environment = {
       LIBVA_DRIVER_NAME = "iHD";
       IMMICH_LOG_LEVEL = "log";
+      IMMICH_LOG_FORMAT = "json";
     };
 
     database = {
@@ -115,3 +116,4 @@
     mode = "0400";
   };
 }
+

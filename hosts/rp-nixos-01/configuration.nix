@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -24,58 +23,55 @@
   # debugfs cannot be mounted in unprivileged LXC containers.
   systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
-  homelab.monitoring.agent = {
-    enable = true;
-    extraScrapeConfigs = [
-      {
-        job_name = "caddy-json";
-        static_configs = [
-          {
-            targets = [ "localhost" ];
-            labels = {
-              job = "caddy-json";
-              host = config.networking.hostName;
-              cluster = config.homelab.monitoring.cluster;
-              service = "caddy";
-              __path__ = "/var/log/caddy/*.log";
+  homelab.monitoring.agent.enable = true;
+  homelab.monitoring.agent.extraScrapeConfigs = [
+    {
+      job_name = "caddy-json";
+      journal = {
+        max_age = "12h";
+        labels = {
+          job = "caddy-json";
+          host = "rp-nixos-01";
+          cluster = "homelab";
+        };
+      };
+      relabel_configs = [
+        {
+          source_labels = [ "__journal__systemd_unit" ];
+          regex = "caddy\\.service";
+          action = "keep";
+        }
+        {
+          source_labels = [ "__journal__systemd_unit" ];
+          target_label = "unit";
+        }
+      ];
+      pipeline_stages = [
+        {
+          json = {
+            expressions = {
+              level = "level";
+              logger = "logger";
+              msg = "msg";
+              request_host = "request>host";
+              request_method = "request>method";
+              request_uri = "request>uri";
+              status = "status";
+              duration = "duration";
             };
-          }
-        ];
-        pipeline_stages = [
-          {
-            json = {
-              expressions = {
-                level = "level";
-                logger = "logger";
-                status = "status";
-                msg = "msg";
-                request_method = "request.method";
-                request_host = "request.host";
-                request_uri = "request.uri";
-              };
-            };
-          }
-          {
-            labels = {
-              level = null;
-              logger = null;
-              status = null;
-              request_method = null;
-            };
-          }
-          {
-            output = {
-              source = "msg";
-            };
-          }
-        ];
-      }
-    ];
-  };
-  users.users.promtail.extraGroups = [ "caddy" ];
-  systemd.tmpfiles.rules = [
-    "d /var/log/caddy 0750 caddy caddy - -"
-    "z /var/log/caddy/*.log 0640 caddy caddy - -"
+          };
+        }
+        {
+          labels = {
+            level = null;
+            logger = null;
+            request_host = null;
+            request_method = null;
+            status = null;
+          };
+        }
+      ];
+    }
   ];
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {

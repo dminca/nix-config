@@ -20,12 +20,14 @@ in
       description = "Loki push URL used by Promtail clients.";
     };
 
-    agent.enable = lib.mkEnableOption "Promtail + node_exporter monitoring agent";
+    agent = {
+      enable = lib.mkEnableOption "Promtail + node_exporter monitoring agent";
 
-    agent.extraScrapeConfigs = lib.mkOption {
-      type = with lib.types; listOf attrs;
-      default = [ ];
-      description = "Additional Promtail scrape_configs appended to the default journal and varlogs jobs.";
+      extraScrapeConfigs = lib.mkOption {
+        type = with lib.types; listOf attrs;
+        default = [ ];
+        description = "Additional Promtail scrape_configs appended to defaults.";
+      };
     };
   };
 

@@ -30,6 +30,7 @@
     cue
     gh
     fluxcd
+    git-credential-manager
     ########################
     # cloud-native tooling #
     ########################

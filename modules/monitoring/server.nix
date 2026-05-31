@@ -174,6 +174,10 @@ in
       enable = true;
       dataDir = grafanaDataDir;
       settings = {
+        security = {
+          secret_key = "$__file{${config.sops.secrets.keycloak-grafana-secret.path}}";
+        };
+
         server = {
           http_addr = "0.0.0.0";
           http_port = 3000;
@@ -253,3 +257,4 @@ in
     ];
   };
 }
+

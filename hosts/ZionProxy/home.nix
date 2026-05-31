@@ -16,6 +16,7 @@
     f2
     btop
     yt-dlp
+    just
     ########
     # Apps #
     ########

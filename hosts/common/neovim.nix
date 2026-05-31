@@ -60,6 +60,7 @@
       yazi-nvim
       plenary-nvim
       mini-indentscope
+      vim-just
     ];
     extraLuaConfig = ''
       -- Text, tab and indent settings

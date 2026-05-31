@@ -100,6 +100,7 @@
   fileSystems."/var/lib/redis-immich" = {
     device = "/mnt/postgresql-data/valkey";
     options = [ "bind" ];
+    fsType = "none";
   };
 
   systemd.tmpfiles.rules = [

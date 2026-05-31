@@ -24,55 +24,6 @@
   systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
   homelab.monitoring.agent.enable = true;
-  homelab.monitoring.agent.extraScrapeConfigs = [
-    {
-      job_name = "caddy-json";
-      journal = {
-        max_age = "12h";
-        labels = {
-          job = "caddy-json";
-          host = "rp-nixos-01";
-          cluster = "homelab";
-        };
-      };
-      relabel_configs = [
-        {
-          source_labels = [ "__journal__systemd_unit" ];
-          regex = "caddy\\.service";
-          action = "keep";
-        }
-        {
-          source_labels = [ "__journal__systemd_unit" ];
-          target_label = "unit";
-        }
-      ];
-      pipeline_stages = [
-        {
-          json = {
-            expressions = {
-              level = "level";
-              logger = "logger";
-              msg = "msg";
-              request_host = "request>host";
-              request_method = "request>method";
-              request_uri = "request>uri";
-              status = "status";
-              duration = "duration";
-            };
-          };
-        }
-        {
-          labels = {
-            level = null;
-            logger = null;
-            request_host = null;
-            request_method = null;
-            status = null;
-          };
-        }
-      ];
-    }
-  ];
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
     hostName = "rp-nixos-01";

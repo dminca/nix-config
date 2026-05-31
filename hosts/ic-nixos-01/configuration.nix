@@ -17,52 +17,6 @@
   ];
   networking.hostName = "ic-nixos-01";
   homelab.monitoring.agent.enable = true;
-  homelab.monitoring.agent.extraScrapeConfigs = [
-    {
-      job_name = "immich-json";
-      journal = {
-        max_age = "12h";
-        labels = {
-          job = "immich-json";
-          host = "ic-nixos-01";
-          cluster = "homelab";
-        };
-      };
-      relabel_configs = [
-        {
-          source_labels = [ "__journal__systemd_unit" ];
-          regex = "immich-(server|machine-learning)\\.service";
-          action = "keep";
-        }
-        {
-          source_labels = [ "__journal__systemd_unit" ];
-          target_label = "unit";
-        }
-      ];
-      pipeline_stages = [
-        {
-          json = {
-            expressions = {
-              level = "level";
-              context = "context";
-              msg = "message";
-            };
-          };
-        }
-        {
-          labels = {
-            level = null;
-            context = null;
-          };
-        }
-        {
-          output = {
-            source = "msg";
-          };
-        }
-      ];
-    }
-  ];
   nix.settings.trusted-users = [ "admin" ];
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already

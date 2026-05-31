@@ -16,7 +16,6 @@
     f2
     btop
     yt-dlp
-    immich-go
     ########
     # Apps #
     ########

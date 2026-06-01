@@ -24,6 +24,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 192.168.178.3
         '';
       };
@@ -32,6 +37,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 192.168.178.2
         '';
       };
@@ -39,6 +49,11 @@
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
+
+          log {
+            output stderr
+            format json
+          }
 
           reverse_proxy 10.10.10.156 {
             header_up X-Real-IP {remote_host}
@@ -49,6 +64,11 @@
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
+
+          log {
+            output stderr
+            format json
+          }
 
           reverse_proxy 10.10.10.156:9980 {
             header_up X-Real-IP {remote_host}
@@ -68,6 +88,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.118 {
               header_up Host {host}
               header_up X-Real-IP {remote}
@@ -79,6 +104,11 @@
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
+
+          log {
+            output stderr
+            format json
+          }
 
           reverse_proxy 10.10.10.153:3000 {
             header_up Host {host}
@@ -94,6 +124,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.162:2283 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -107,6 +142,11 @@
         extraConfig = ''
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
+
+          log {
+            output stderr
+            format json
+          }
 
           reverse_proxy 10.10.10.187:3000 {
             header_up Host {host}
@@ -122,6 +162,11 @@
           tls ${config.sops.secrets."fullchain.pem".path} \
               ${config.sops.secrets."privkey.pem".path}
 
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy https://192.168.178.16:8006 {
               transport http {
                   tls_insecure_skip_verify
@@ -132,3 +177,4 @@
     };
   };
 }
+

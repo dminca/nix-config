@@ -64,6 +64,13 @@ in
           log_level = "info";
         };
 
+        parsers = [
+          {
+            name = "caddy_json";
+            format = "json";
+          }
+        ];
+
         pipeline = {
           inputs = [
             {
@@ -75,6 +82,28 @@ in
               tag = "varlogs";
               path = "/var/log/*.log";
               read_from_head = true;
+            }
+          ] ++ lib.optionals config.services.caddy.enable [
+            {
+              name = "systemd";
+              tag = "caddy-journal";
+              systemd_filter = "_SYSTEMD_UNIT=caddy.service";
+            }
+          ];
+
+          filters = lib.optionals config.services.caddy.enable [
+            {
+              name = "grep";
+              match = "systemd-journal";
+              exclude = "_SYSTEMD_UNIT ^caddy\\.service$";
+            }
+            {
+              name = "parser";
+              match = "caddy-journal";
+              key_name = "MESSAGE";
+              parser = "caddy_json";
+              reserve_data = true;
+              preserve_key = false;
             }
           ];
 

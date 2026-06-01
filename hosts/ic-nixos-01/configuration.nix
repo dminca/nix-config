@@ -62,6 +62,17 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
   services.qemuGuest.enable = true;
+  nix = {
+    optimise = {
+      automatic = true;
+      dates = ["02:45"];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 9d";
+    };
+  };
   # ── SOPS (Secrets Operation) ──────────────────────────────────────────────
   sops = {
     defaultSopsFile = ./secrets/example.yaml;

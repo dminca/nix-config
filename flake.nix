@@ -134,7 +134,9 @@
             sops-nix.homeManagerModules.sops
             ({ pkgs, ... }: {
               home.packages = [
-                nvix.packages.${pkgs.stdenv.hostPlatform.system}.default
+                (nvix.packages.${pkgs.stdenv.hostPlatform.system}.default.extend {
+                  plugins.codecompanion.enable = false;
+                })
               ];
             })
             ./hosts/common

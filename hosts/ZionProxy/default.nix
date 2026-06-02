@@ -4,7 +4,7 @@
 {
   imports = [
     ./home.nix
-    ./neovim.nix
+    #./neovim.nix
     ./git.nix
   ];
 }

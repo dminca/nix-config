@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -40,46 +39,6 @@
   home.file = {
     "${config.xdg.configHome}/git/git-commit-template.commit".source =
       ./dotfiles/git-commit-template.commit;
-    "${config.xdg.configHome}/yazi/theme.toml".source =
-      pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "yazi";
-        rev = "9bfdccc2b78d7493fa5c5983bc176a0bc5fef164";
-        sha256 = "sha256-a2X9WToZmctD1HZVqN9A512iPd+3dtjRloBEifgteF4=";
-      }
-      + "/themes/mocha.toml";
-    "${config.xdg.configHome}/rio/themes/dracula.toml".source =
-      pkgs.fetchFromGitHub {
-        owner = "dracula";
-        repo = "rio-terminal";
-        rev = "c24824b2a5725a8cdee04041c727a377a7744a10";
-        sha256 = "sha256-+KIh2Db8WQU5ZJbXuWhMZEGAuByV6GX8f22RpaOCIAg=";
-      }
-      + "/dracula.toml";
-    "${config.xdg.configHome}/rio/themes/alucard.toml".source =
-      pkgs.fetchFromGitHub {
-        owner = "dracula";
-        repo = "rio-terminal";
-        rev = "c24824b2a5725a8cdee04041c727a377a7744a10";
-        sha256 = "sha256-+KIh2Db8WQU5ZJbXuWhMZEGAuByV6GX8f22RpaOCIAg=";
-      }
-      + "/alucard.toml";
-    "${config.xdg.configHome}/rio/themes/CatppuccinMocha.toml".source =
-      pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "rio";
-        rev = "2aed2a3e545504090edde25591b5e85abad0286f";
-        sha256 = "sha256-ZliaXIM+9YbRQLz4NCoZWQVcB5ieb4tqoPAPAZEegZs=";
-      }
-      + "/themes/catppuccin-mocha.toml";
-    "${config.xdg.configHome}/rio/themes/CatppuccinLatte.toml".source =
-      pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "rio";
-        rev = "2aed2a3e545504090edde25591b5e85abad0286f";
-        sha256 = "sha256-ZliaXIM+9YbRQLz4NCoZWQVcB5ieb4tqoPAPAZEegZs=";
-      }
-      + "/themes/catppuccin-latte.toml";
   };
   home.sessionVariables = {
     SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";
@@ -218,15 +177,6 @@
       tab_title_template          {title}{' :{}:'.format(num_windows) if num_windows > 1 else ''\}
       hide_window_decorations     titlebar-only
     '';
-  };
-  programs.yazi = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      manager = {
-        sort_dir_first = true;
-      };
-    };
   };
   programs.atuin = {
     enable = true;

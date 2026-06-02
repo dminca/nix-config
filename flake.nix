@@ -19,6 +19,10 @@
       url = "path:./nixos-generator";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvix = {
+      url = "github:niksingh710/nvix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -30,6 +34,7 @@
       sops-nix,
       disko,
       nixos-generator,
+      nvix,
     }:
     let
       systems = [
@@ -120,6 +125,11 @@
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
           modules = [
             sops-nix.homeManagerModules.sops
+            ({ pkgs, ... }: {
+              home.packages = [
+                nvix.packages.${pkgs.stdenv.hostPlatform.system}.default
+              ];
+            })
             ./hosts/common
             ./hosts/ZionProxy
           ];
@@ -129,6 +139,11 @@
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
           modules = [
             sops-nix.homeManagerModules.sops
+            ({ pkgs, ... }: {
+              home.packages = [
+                nvix.packages.${pkgs.stdenv.hostPlatform.system}.default
+              ];
+            })
             ./hosts/common
             ./hosts/MLGERHL6W4P2RXH
           ];

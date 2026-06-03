@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -40,9 +41,6 @@
       };
       push = {
         autoSetupRemote = true;
-      };
-      credential = {
-        gitHubAccountFiltering = false;
       };
     };
   };

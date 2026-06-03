@@ -98,7 +98,7 @@
           modules = [
             ./hosts/ic-nixos-01/configuration.nix
             ./hosts/ic-nixos-01/hardware-configuration.nix
-            ./modules/monitoring
+            ./modules
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
           ];

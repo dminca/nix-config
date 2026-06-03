@@ -4,5 +4,6 @@
 {
   imports = [
     ./monitoring
+    ./maintenance
   ];
 }

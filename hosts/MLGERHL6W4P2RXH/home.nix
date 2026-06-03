@@ -30,6 +30,7 @@
     cue
     gh
     fluxcd
+    just
     ########################
     # cloud-native tooling #
     ########################

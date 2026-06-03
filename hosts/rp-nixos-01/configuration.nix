@@ -24,6 +24,7 @@
   systemd.suppressedSystemUnits = [ "sys-kernel-debug.mount" ];
 
   homelab.monitoring.agent.enable = true;
+  maintenance.selfcare.enable = true;
   # ── Networking ────────────────────────────────────────────────────────────
   networking = {
     hostName = "rp-nixos-01";
@@ -81,4 +82,3 @@
 
   system.stateVersion = "25.11";
 }
-

@@ -1,12 +1,9 @@
 {
   config,
-  pkgs,
-  lib,
   ...
 }:
 {
   programs.git = {
-    package = pkgs.git.override { osxkeychainSupport = false; };
     includes = [
       {
         condition = "gitdir:${config.home.homeDirectory}/Projects/misc/";

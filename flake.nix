@@ -15,6 +15,10 @@
     };
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generator = {
+      url = "path:./nixos-generator";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvix = {
       url = "github:niksingh710/nvix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +33,7 @@
       home-manager,
       sops-nix,
       disko,
+      nixos-generator,
       nvix,
     }:
     {

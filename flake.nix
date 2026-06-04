@@ -36,7 +36,14 @@
       nixos-generator,
       nvix,
     }:
-    {
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
       darwinConfigurations = {
         "ZionProxy" = nix-darwin.lib.darwinSystem {
           modules = [
@@ -144,5 +151,48 @@
           ];
         };
       };
+
+      # Day-0 image artifacts built from ./nixos-generator for Proxmox VM/LXC.
+      day0Packages = nixos-generator.packages.x86_64-linux;
+    in
+    {
+      inherit
+        darwinConfigurations
+        nixosConfigurations
+        homeConfigurations
+        day0Packages
+        ;
+
+      # Expose day-0 generator outputs directly so they can be built with:
+      #   nix build .#<host>
+      #   nix build .#<host>-plxc
+      packages = forAllSystems (_: day0Packages);
+
+      apps = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          default = {
+            type = "app";
+            program = toString (
+              pkgs.writeShellScript "apply-config" ''
+                set -e
+                HOSTNAME=$(${pkgs.lib.getExe' pkgs.nettools "hostname"})
+
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                  echo "🍎 Applying configuration for macOS host: $HOSTNAME"
+                  ${pkgs.lib.getExe pkgs.nh} darwin switch .
+                  ${pkgs.lib.getExe pkgs.nh} home switch .
+                else
+                  echo "🐧 Applying configuration for NixOS host: $HOSTNAME"
+                  ${pkgs.lib.getExe pkgs.nh} os switch .
+                fi
+              ''
+            );
+          };
+        }
+      );
     };
 }

@@ -62,22 +62,6 @@
         "type": "github"
       }
     },
-    "nixos-generator": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "path": "./nixos-generator",
-        "type": "path"
-      },
-      "original": {
-        "path": "./nixos-generator",
-        "type": "path"
-      },
-      "parent": []
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1780051219,
@@ -99,7 +83,6 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nixos-generator": "nixos-generator",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix"
       }

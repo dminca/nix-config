@@ -52,14 +52,13 @@ let
     nvixPlugins.lang
     nvixPlugins.lsp
     nvixPlugins.autosession
-    nvixPlugins.ai
   ];
 
   packageModules =
     {
       bare = bareModules;
       core = coreModules;
-      full = coreModules ++ [ nvixPlugins.tex ];
+      full = coreModules ++ [ nvixPlugins.tex nvixPlugins.ai ];
     }
     .${cfg.package};
 

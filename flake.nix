@@ -111,7 +111,7 @@
       };
 
       homeConfigurations = {
-        "dminca" = home-manager.lib.homeManagerConfiguration {
+        "ZionProxy" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
           extraSpecialArgs = { inherit inputs; };
           modules = [
@@ -121,7 +121,7 @@
           ];
         };
 
-        "mida4001" = home-manager.lib.homeManagerConfiguration {
+        "MLGERHL6W4P2RXH" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
           extraSpecialArgs = { inherit inputs; };
           modules = [

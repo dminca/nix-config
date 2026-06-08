@@ -1,11 +1,12 @@
 # https://just.systems
 
 nh := require("nh")
+hostname := shell("sh", "-c", "scutil --get LocalHostName 2>/dev/null || hostname -s")
 
 default:
   @just --choose
 
-darwinRebuild host="$(scutil --get LocalHostName 2>/dev/null || hostname -s)":
+darwinRebuild host=hostname:
     {{nh}} darwin switch \
         .#{{host}}
 

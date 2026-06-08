@@ -1,17 +1,9 @@
 # https://just.systems
 
 nh := require("nh")
-hostname := shell("sh", "-c", "scutil --get LocalHostName 2>/dev/null || hostname -s")
 
 default:
   @just --choose
-
-darwinRebuild host=hostname:
-    {{nh}} darwin switch \
-        .#{{host}}
-
-    {{nh}} home switch \
-        .#{{host}}
 
 nc:
     {{nh}} os switch \
@@ -56,7 +48,17 @@ mon:
     --build-host admin@10.10.10.187
 
 pmac:
-    just darwinRebuild ZionProxy
+    {{nh}} darwin switch \
+        .#ZionProxy
+
+    {{nh}} home switch \
+        . \
+        --configuration ZionProxy
 
 wmac:
-    just darwinRebuild MLGERHL6W4P2RXH
+    {{nh}} darwin switch \
+        .#MLGERHL6W4P2RXH
+
+    {{nh}} home switch \
+        . \
+        --configuration MLGERHL6W4P2RXH

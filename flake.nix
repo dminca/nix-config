@@ -143,6 +143,7 @@
               home.packages = [
                 (nvix.packages.${pkgs.stdenv.hostPlatform.system}.default.extend {
                   plugins.codecompanion.enable = false;
+                  plugins.lsp.servers.cue.enable = true;
                 })
               ];
             })

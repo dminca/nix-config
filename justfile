@@ -5,6 +5,13 @@ nh := require("nh")
 default:
   @just --choose
 
+darwinRebuild host="$(scutil --get LocalHostName 2>/dev/null || hostname -s)":
+    {{nh}} darwin switch \
+        .#{{host}}
+
+    {{nh}} home switch \
+        .#{{host}}
+
 nc:
     {{nh}} os switch \
     --elevation-strategy passwordless .#nc-nixos-01 \
@@ -48,15 +55,7 @@ mon:
     --build-host admin@10.10.10.187
 
 pmac:
-    {{nh}} darwin switch \
-        .#ZionProxy
-
-    {{nh}} home switch \
-        .#ZionProxy
+    just darwinRebuild ZionProxy
 
 wmac:
-    {{nh}} darwin switch \
-        .#MLGERHL6W4P2RXH
-
-    {{nh}} home switch \
-        .#MLGERHL6W4P2RXH
+    just darwinRebuild MLGERHL6W4P2RXH

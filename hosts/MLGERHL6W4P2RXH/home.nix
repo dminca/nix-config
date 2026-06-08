@@ -9,13 +9,7 @@
   home.username = "mida4001";
   home.homeDirectory = "/Users/mida4001";
   home.stateVersion = "23.11";
-  programs.nvix = {
-    enable = true;
-    settings = {
-      plugins.codecompanion.enable = false;
-      plugins.lsp.servers.cue.enable = true;
-    };
-  };
+  programs.nvix.enable = true;
   home.packages = with pkgs; [
     #################
     # shell tooling #

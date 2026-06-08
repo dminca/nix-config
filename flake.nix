@@ -5,6 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,14 +23,10 @@
       url = "path:./nixos-generator";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nvix = {
-      url = "github:niksingh710/nvix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nix-darwin,
       nixpkgs,
@@ -34,7 +34,7 @@
       sops-nix,
       disko,
       nixos-generator,
-      nvix,
+      ...
     }:
     let
       systems = [
@@ -123,13 +123,9 @@
       homeConfigurations = {
         "dminca" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
+          extraSpecialArgs = { inherit inputs; };
           modules = [
             sops-nix.homeManagerModules.sops
-            ({ pkgs, ... }: {
-              home.packages = [
-                nvix.packages.${pkgs.stdenv.hostPlatform.system}.default
-              ];
-            })
             ./hosts/common
             ./hosts/ZionProxy
           ];
@@ -137,16 +133,9 @@
 
         "mida4001" = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
+          extraSpecialArgs = { inherit inputs; };
           modules = [
             sops-nix.homeManagerModules.sops
-            ({ pkgs, ... }: {
-              home.packages = [
-                (nvix.packages.${pkgs.stdenv.hostPlatform.system}.default.extend {
-                  plugins.codecompanion.enable = false;
-                  plugins.lsp.servers.cue.enable = true;
-                })
-              ];
-            })
             ./hosts/common
             ./hosts/MLGERHL6W4P2RXH
           ];

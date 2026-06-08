@@ -5,7 +5,7 @@
   imports = [
     ./home.nix
     ./vscode.nix
-    #./neovim.nix
+    ../../modules/nvix
     ./git.nix
     ./zshrc.nix
   ];

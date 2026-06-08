@@ -8,6 +8,7 @@
   home.username = "dminca";
   home.homeDirectory = "/Users/dminca";
   home.stateVersion = "23.11";
+  programs.nvix.enable = true;
   home.packages = with pkgs; [
     #################
     # shell tooling #

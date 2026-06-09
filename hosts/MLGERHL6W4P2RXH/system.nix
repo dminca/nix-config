@@ -19,7 +19,10 @@
         name = "visual-studio-code";
         greedy = true;
       }
+      {
+        name = "krita";
+        greedy = true;
+      }
     ];
   };
 }
-

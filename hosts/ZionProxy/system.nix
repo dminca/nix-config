@@ -23,6 +23,10 @@
         name = "nextcloud";
         greedy = true;
       }
+      {
+        name = "krita";
+        greedy = true;
+      }
     ];
   };
 }

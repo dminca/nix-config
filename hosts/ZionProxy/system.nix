@@ -27,6 +27,10 @@
         name = "krita";
         greedy = true;
       }
+      {
+        name = "nextcloud-talk";
+        greedy = true;
+      }
     ];
   };
 }

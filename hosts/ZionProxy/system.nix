@@ -31,6 +31,10 @@
         name = "nextcloud-talk";
         greedy = true;
       }
+      {
+        name = "onlyoffice";
+        greedy = true;
+      }
     ];
   };
 }

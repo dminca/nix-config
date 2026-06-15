@@ -61,9 +61,9 @@
         calendar
         tasks
         user_oidc
-        richdocuments
         spreed
         deck
+        onlyoffice
         ;
       countdown = pkgs.fetchNextcloudApp {
         url = "https://github.com/infinit7even/countdown/releases/download/v1.2.10/countdown.tar.gz";
@@ -92,10 +92,17 @@
     postgresql = {
       enable = true;
       dataDir = "/mnt/postgresql-data/pgdata";
-      ensureDatabases = [ "nextcloud" ];
+      ensureDatabases = [
+        "nextcloud"
+        "onlyoffice"
+      ];
       ensureUsers = [
         {
           name = "nextcloud";
+          ensureDBOwnership = true;
+        }
+        {
+          name = "onlyoffice";
           ensureDBOwnership = true;
         }
       ];

@@ -10,7 +10,7 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./nextcloud.nix
-    ./collabora.nix
+    ./onlyoffice.nix
   ];
   nix.settings.experimental-features = [
     "nix-command"

@@ -70,11 +70,13 @@
             format json
           }
 
-          reverse_proxy 10.10.10.156:9980 {
+          reverse_proxy 10.10.10.156 {
+            header_up Host {host}
             header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Host {host}
             header_up X-Forwarded-Proto {scheme}
-            # Required for WOPI: disable response buffering so WebSocket
-            # frames and streaming document content flow through immediately
+            # Keep WOPI and websocket traffic unbuffered through the edge proxy.
             flush_interval -1
             transport http {
               read_timeout  1h
@@ -177,4 +179,3 @@
     };
   };
 }
-

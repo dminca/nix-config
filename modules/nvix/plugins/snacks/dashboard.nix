@@ -33,7 +33,8 @@ in
             local cmds = {
               {
                 title = "Notifications",
-                cmd = "PAGER= gh notify -s -a -n5",
+                cmd = "gh api notifications -q '.[0:5][] | " ..
+                  "(.repository.full_name + \": \" + .subject.title)'",
                 action = function()
                   vim.ui.open("https://github.com/notifications")
                 end,

@@ -1,34 +1,42 @@
-# *arr media stack day-0 setup - resources
+# Arr Media Stack Day 0 Resources
 
-> how many resources are required, which one requires VPN?
+Diataxis type: Reference
 
-## Resources & Proxmox settings
+Use this page as a sizing and platform reference when creating the day-0 media stack on Proxmox.
 
-**LXC (qBittorrent + Prowlarr):**
-- **CPU:** 2 cores
-- **RAM:** 4GB (qBittorrent can use more if handling many torrents)
-- **Storage:** Direct passthrough to ZFS pool for downloads
-- **Network:** Bridged, VPN routed
-- **Settings:**
-  - Enable `privileged: true` for qBittorrent (needed for port forwarding, filesystem access)
-  - Set `nesting: true` if using Docker inside LXC
-  - Assign static IP
+## Resource Profile
 
-**VM (Radarr, Sonarr, Bazarr, Jellyfin):**
-- **CPU:** 4 cores (Jellyfin transcoding benefits from more)
-- **RAM:** 8GB (Jellyfin + *arr services)
-- **Storage:** ZFS dataset mount for media
-- **GPU:** Pass through Intel iGPU to VM for Jellyfin hardware acceleration
-- **Settings:**
-  - Enable `hardware: virtio` for GPU passthrough
-  - Set `cpu: host` for Jellyfin (better transcoding performance)
-  - Allocate 1GB VRAM to VM if using iGPU
+### LXC (qBittorrent + Prowlarr)
 
-**Shared:**
-- Use `virtio` for disk and network for best performance
+- CPU: 2 cores
+- RAM: 4 GB (increase for heavy torrent workloads)
+- Storage: direct passthrough to ZFS pool for downloads
+- Network: bridged, VPN-routed
+- Proxmox settings:
+	- `privileged: true` (required for some qBittorrent filesystem and networking use-cases)
+	- `nesting: true` if running Docker inside the container
+	- static IP assignment
+
+### VM (Radarr, Sonarr, Bazarr, Jellyfin)
+
+- CPU: 4 cores (more if transcoding is heavy)
+- RAM: 8 GB
+- Storage: ZFS dataset mounted for media
+- GPU: Intel iGPU passthrough recommended for Jellyfin hardware acceleration
+- Proxmox settings:
+	- `hardware: virtio` for passthrough path
+	- `cpu: host` for better transcoding performance
+	- 1 GB vRAM allocation when using iGPU passthrough
+
+### Shared Platform Settings
+
+- Use `virtio` for disk and network interfaces
 - Enable `discard: on` for ZFS thin provisioning
-- Set `swap: 1GB` for LXC, `swap: 2GB` for VM
+- Swap sizing guideline:
+	- LXC: 1 GB
+	- VM: 2 GB
 
-## VPN requirement
+## Network Requirement
 
-- Prowlarr manages indexers. qBittorrent handles downloads. Both are required. Route both through the VPN
+- Route both qBittorrent and Prowlarr through VPN.
+- Prowlarr manages indexers and qBittorrent handles downloads; in this layout both are expected to use the VPN path.

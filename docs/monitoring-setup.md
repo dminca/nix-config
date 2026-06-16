@@ -1,48 +1,24 @@
-# Monitoring setup
+# Monitoring Setup (Prometheus, Loki, Grafana)
 
-## Resources
+Diataxis type: How-to guide
 
-Set retention for both metrics (Prometheus) and logs (Loki) to 7 days, storage requirements will be significantly reduced compared to longer retention
+Use this guide to deploy a 7-day retention monitoring stack with a central VM and per-host agents.
 
-### Prometheus (Metrics) — 7 Days Retention
-- Storage usage is roughly linear with retention.
-- Typical estimate: **~150–300 MB per 1,000 time series per day**.
-- For 7 days: **1–2 GB per 1,000 time series**.
-- Example: If you scrape 50 targets with 100 metrics each (5,000 time series), expect **5–10 GB** for 7 days.
+## Goal
 
-### Loki (Logs) — 7 Days Retention
-- Storage depends on log volume and compression.
-- Typical estimate: **~1 GB per 1,000 logs/sec per day** (varies by log size).
-- For 7 days: **7 GB per 1,000 logs/sec**.
-- For small setups (e.g., 10–100 logs/sec): **70 MB–700 MB for 7 days**.
-- For moderate setups (e.g., 500 logs/sec): **~3.5 GB for 7 days**.
+Deploy:
 
-### Summary Table (7d Retention)
+- Central VM: Prometheus, Loki, Grafana
+- Each host: Promtail, Node Exporter
 
-| Component   | Storage per 7d (approx.) |
-|-------------|-------------------------|
-| Prometheus  | 1–2 GB per 1,000 time series |
-| Loki        | 0.1–7 GB (depends on log rate) |
+Retention target:
 
-**RAM and CPU requirements remain the same** as before; only storage is affected by retention.
+- Metrics: 7 days
+- Logs: 7 days
 
-**Tips:**
-- Always monitor actual usage after deployment; these are estimates.
-- You can further reduce storage by increasing scrape intervals (Prometheus) or log filtering (Loki).
-- Both Prometheus and Loki support compaction and retention policies to automatically delete old data.
+## 1. Configure the central VM
 
-## Configuration
-
-NixOS configuration snippets for:
-
-- The central VM (Prometheus, Loki, Grafana)
-- Each host (Promtail, Node Exporter)
-
----
-
-### 1. Central VM (Prometheus, Loki, Grafana)
-
-Add to your central VM’s `configuration.nix`:
+Add to central VM `configuration.nix`:
 
 ```nix
 { config, pkgs, ... }:
@@ -129,11 +105,9 @@ Add to your central VM’s `configuration.nix`:
 }
 ```
 
----
+## 2. Configure each host
 
-### 2. Each Host (Promtail, Node Exporter)
-
-Add to each host’s `configuration.nix`:
+Add to each host `configuration.nix`:
 
 ```nix
 { config, pkgs, ... }:
@@ -180,3 +154,29 @@ Add to each host’s `configuration.nix`:
 
 - Replace `central-vm-ip` with your central VM’s IP address.
 - Add all your hosts’ IPs to the Prometheus `targets` list on the central VM.
+
+## Capacity reference for 7-day retention
+
+### Prometheus
+
+- Typical estimate: 150-300 MB per 1,000 time series per day
+- Approximate 7-day total: 1-2 GB per 1,000 time series
+
+Example:
+
+- 5,000 time series can require roughly 5-10 GB for 7 days
+
+### Loki
+
+- Typical estimate: around 1 GB per 1,000 logs/sec per day (depends on log size and compression)
+- Approximate 7-day total: 7 GB per 1,000 logs/sec
+
+Common ranges:
+
+- 10-100 logs/sec: about 70 MB-700 MB for 7 days
+- 500 logs/sec: about 3.5 GB for 7 days
+
+### Notes
+
+- CPU and RAM profile is usually less affected than storage by retention changes.
+- Validate real usage after deployment and tune scrape/log settings as needed.

@@ -1,7 +1,10 @@
-# Running the Nix Flake
+# Deploy a Nix Flake to a Remote Host
 
-> JYC this is forgotten, this is how you'd normally deploy some of these
-flakes to remote stations
+Diataxis type: How-to guide
+
+Use this command pattern to build and switch a remote NixOS host directly from your local flake.
+
+## Command
 
 ```sh
 nix shell nixpkgs#nixos-rebuild \
@@ -12,3 +15,9 @@ nix shell nixpkgs#nixos-rebuild \
     --no-reexec \
     --sudo
 ```
+
+## Adjust for your environment
+
+- Replace `.#rp-nixos-01` with your target flake output.
+- Replace `admin@192.168.178.70` with the correct SSH user and host.
+- If running from Darwin/non-Linux, include options required by your environment, such as `--fast`.

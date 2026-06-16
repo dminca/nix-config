@@ -1,58 +1,55 @@
-# Nextcloud throwing `Invalid scopes: openid profile email groups`
+# Fix Nextcloud OIDC Error: Invalid Scopes
 
-> on a fresh reinstall of Keycloak, if it was already configured on Nextcloud etc.; this error will be thrown after restoring Keycloak from backup
+Diataxis type: How-to guide
 
-```json
-{
-  "reqId": "xC35NekT7XCLJDWSmWNo",
-  "level": 2,
-  "time": "2026-05-20T05:20:36+00:00",
-  "remoteAddr": "192.168.178.104",
-  "user": "--",
-  "app": "user_oidc",
-  "method": "GET",
-  "url": "/apps/user_oidc/code?error=invalid_scope&error_description=Invalid+scopes%3A+openid+profile+email+groups&state=OG1RTVIKEK28FCDZXKO45K5SGEI5TOOY&iss=https%3A%2F%2Fkc.mrbl.dedyn.io%2Frealms%2Fhome",
-  "scriptName": "/index.php",
-  "message": "Code login error",
-  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15",
-  "version": "33.0.2.2",
-  "data": {
-    "app": "user_oidc",
-    "error": "invalid_scope",
-    "error_description": "Invalid scopes: openid profile email groups"
-  }
-}
-```
+Use this guide when Nextcloud login fails with `Invalid scopes: openid profile email groups` after a Keycloak reinstall or partial restore.
 
-The root cause: `groups` is not a built-in Keycloak scope — it was lost when reinstalled. Nextcloud's `user_oidc` app requests it, but Keycloak has no record of it.
+## Symptom
 
-**Fix: Create the `groups` client scope in Keycloak**
+Nextcloud `user_oidc` reports an `invalid_scope` error mentioning `groups`.
 
-1. **Keycloak Admin Console** → select realm (`home`) → **Client Scopes** → **Create client scope**
-   - Name: `groups`
-   - Type: `Optional` (or `Default`)
-   - Protocol: `OpenID Connect`
-   - Save
+## Cause
 
-2. Go into the new `groups` scope → **Mappers** tab → **Add mapper** → **By configuration** → **Group Membership**
-   - Name: `groups`
-   - Token Claim Name: `groups`
-   - Full group path: OFF (just group names, not `/admins`)
-   - Add to ID token: ON
-   - Add to access token: ON
-   - Add to userinfo: ON
-   - Save
+`groups` is typically a custom Keycloak client scope. If the realm was rebuilt without restoring custom scopes, Nextcloud still requests `groups` but Keycloak no longer has it.
 
-3. **Clients** → your Nextcloud client → **Client Scopes** tab → **Add client scope** → add `groups` as **Optional** (or Default)
+## Fix
 
-4. Do the same for the Linkwarden client if it also requests groups (though from your config it doesn't seem to — it only uses `openid profile email`).
+### 1. Recreate the `groups` client scope
 
-**Why this happened:** Keycloak ships with `openid`, `profile`, `email`, `roles`, etc. as built-in scopes, but `groups` is a custom scope you had previously created manually. A fresh install wipes all realm customizations unless you restore from a realm export JSON.
+In Keycloak Admin for realm `home`:
 
-**To avoid this in future reinstalls**, export a full realm backup from **Realm Settings** → **Action** → **Partial export** (include clients and roles) and commit to nix-config. Can then import it on fresh installs.
+1. Open Client Scopes.
+2. Create scope:
+3. Name: `groups`
+4. Type: `Optional` (or `Default`)
+5. Protocol: `OpenID Connect`
 
-**Pro tip**: this is how to check available scopes:
-1. Realm settings
-1. General tab (scroll to bottom)
-1. Endpoints
-1. (click) OpenID Endpoint Configuration
+### 2. Add a Group Membership mapper
+
+Inside the `groups` scope:
+
+1. Mappers -> Add mapper -> Group Membership
+2. Name: `groups`
+3. Token Claim Name: `groups`
+4. Full group path: off (or on if your policy expects full path)
+5. Add to ID token: on
+6. Add to access token: on
+7. Add to userinfo: on
+
+### 3. Attach `groups` to the Nextcloud client
+
+1. Clients -> `nextcloud` -> Client Scopes
+2. Add `groups` as Optional (or Default)
+
+If another client requests `groups`, attach it there as well.
+
+## Prevention
+
+- Export and version realm configuration (clients, scopes, roles) before reinstalling Keycloak.
+- Restore the exported realm on fresh deployments.
+
+## Verification
+
+1. Retry Nextcloud OIDC login.
+2. Confirm the error is gone.
+3. Optionally inspect the OIDC discovery document and client scopes in Keycloak endpoints.

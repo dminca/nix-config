@@ -1,7 +1,15 @@
-# Supported images by the nixos-generator
+# Supported Images in nixos-generator
 
-> To check what images are supported by the generator execute
+Diataxis type: Reference
+
+Use this command to list available image outputs exposed by the `nixos-generator` flake configuration.
+
+## Command
 
 ```sh
 nix eval --json ./nixos-generator#nixosConfigurations.dbserver.config.system.build.images --apply builtins.attrNames
 ```
+
+## Output
+
+- JSON array of image attribute names that can be built from that configuration.

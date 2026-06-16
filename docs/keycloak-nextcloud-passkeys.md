@@ -1,5 +1,7 @@
 # Keycloak + Nextcloud Passwordless (Passkeys)
 
+Diataxis type: How-to guide
+
 This runbook configures a dedicated Keycloak realm for Nextcloud and enables WebAuthn Passwordless for manually created users.
 
 ## Topology assumptions

@@ -1,59 +1,76 @@
-# qBittorrent and Prowlarr on yggdrasil network
+# qBittorrent and Prowlarr on Yggdrasil
 
-> in case there aren't any peers to connect qBittorrent or Prowlarr to, one
-can easily switch to using the yggdrasil net
+Diataxis type: How-to guide
 
-## Key Requirements
+Use this guide when qBittorrent and Prowlarr cannot find useful peers over the default path and you want to route them over Yggdrasil.
 
-1. **Yggdrasil service enabled** on the LXC container (md-nixos-02)
-2. **Bind qBittorrent & Prowlarr to Yggdrasil's interface** (usually `tun0` by default)
-3. **Network access from LXC container to Yggdrasil peers** (may need to configure LXC network settings)
+## Prerequisites
 
-## Configuration for md-nixos-02
+1. Yggdrasil service can be enabled on the media LXC host.
+2. qBittorrent can bind to a specific interface.
+3. LXC networking and firewall rules allow Yggdrasil traffic.
 
-Add to sneeky.nix:
+## Steps
+
+### 1. Enable Yggdrasil
+
+Add a Yggdrasil configuration to the target host module:
 
 ```nix
-# Enable Yggdrasil service
 services.yggdrasil = {
   enable = true;
   config = {
     Peers = [
-      # Add your Yggdrasil peers here
-      # Format: "tls://ip:port"
+      # Add peers in the format "tls://ip:port"
     ];
-    InterfaceNonce = ""; # Leave empty for random
+    InterfaceNonce = "";
   };
 };
+```
 
-# Bind qBittorrent to Yggdrasil interface
+### 2. Bind qBittorrent to the Yggdrasil interface
+
+Configure qBittorrent to bind traffic to `tun0`:
+
+```nix
 services.qbittorrent = {
-  # ... existing config ...
   serverConfig = {
     Preferences = {
       SavePath = "/mnt/arr-data/downloads/complete";
       TempPath = "/mnt/arr-data/downloads/incomplete";
       TempPathEnabled = true;
-
-      # Bind to Yggdrasil interface
       Connection = {
-        Interface = "tun0"; # Yggdrasil's interface
+        Interface = "tun0";
       };
     };
   };
 };
+```
 
-# Bind Prowlarr to Yggdrasil (via proxy or interface binding)
+### 3. Align Prowlarr network path
+
+Ensure Prowlarr follows the same network path, either by binding/listening on the Yggdrasil address or by using an explicit proxy path that uses Yggdrasil.
+
+```nix
 services.prowlarr = {
-  # ... existing config ...
-  # Prowlarr may need to listen on Yggdrasil's IP
+  # Keep existing service config.
+  # Ensure listen/proxy settings use the Yggdrasil network path.
 };
 ```
 
-## Important Considerations
+### 4. Validate connectivity
 
-- **LXC networking**: Verify the container can access Yggdrasil peers (may need raw socket access or specific LXC device settings)
-- **Firewall rules**: Open Prowlarr/qBittorrent ports on the Yggdrasil interface
-- **Peer discovery**: Configure Yggdrasil peers; without them, the network won't connect
-- **IP assignment**: After enabling Yggdrasil, run `ip addr` to find the Yggdrasil IPv6 address
+Run:
+
+```sh
+ip addr
+```
+
+Confirm the Yggdrasil address exists and `tun0` is up.
+
+## Troubleshooting
+
+- Verify the container can reach at least one Yggdrasil peer.
+- Verify firewall rules allow the required ports on `tun0`.
+- If there are no peers configured, Yggdrasil will not establish a usable network.
 

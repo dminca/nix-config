@@ -1,22 +1,34 @@
-# Partition disks - store data separately
+# Partition Disks for Nextcloud and PostgreSQL Data
 
-> PostgreSQL and Nextcloud are stateful apps, so let's store the data on
-separate disks for easing the back-up/restore process
+Diataxis type: How-to guide
 
-1. **Power off the VM**
-2. **In Proxmox**: Add 2 new disks (for PostgreSQL and Nextcloud data)
-3. **Power on the VM**
-4. **SSH into the VM and run**:
+Use this guide to move stateful Nextcloud and PostgreSQL data to separate disks for easier backup and restore workflows.
+
+## Steps
+
+1. Power off the VM.
+2. In Proxmox, attach two new disks:
+	- one for PostgreSQL
+	- one for Nextcloud data
+3. Power on the VM.
+4. SSH into the VM and apply partition layout:
 
 ```bash
 sudo nix run github:nix-community/disko -- --mode disko apply-partitions ./disk-config.nix
 ```
-5. **Apply the NixOS config**:
+
+5. Apply NixOS configuration:
 
 ```bash
 sudo nixos-rebuild switch --flake .
 ```
 
-The `disko apply-partitions` command will partition and format the new disks according to your disk-config.nix, then `nixos-rebuild` will mount them and initialize the PostgreSQL and Nextcloud data directories.
+## Result
 
-**Note**: Make sure you're in the flake directory when running these commands, or adjust the path to disk-config.nix accordingly.
+- New disks are partitioned and formatted per `disk-config.nix`.
+- Mounts and service paths are activated during rebuild.
+
+## Notes
+
+- Run commands from the flake directory, or provide full path to `disk-config.nix`.
+- Validate mounts after rebuild with `lsblk` and `findmnt`.

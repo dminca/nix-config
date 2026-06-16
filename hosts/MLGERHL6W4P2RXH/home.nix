@@ -63,6 +63,7 @@
     # Apps #
     ########
     jetbrains.idea
+    drawio
   ];
 
   sops = {

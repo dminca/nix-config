@@ -3,7 +3,7 @@
 [![built with nix](https://img.shields.io/static/v1?logo=nixos&logoColor=white&label=&message=Built%20with%20Nix&color=41439a)](https://builtwithnix.org)
 
 # nix-config
-NixOS configuration for bootstrapping Daniel's station (Darwin)
+NixOS configuration for bootstrapping Daniel's station (Darwin).
 
 > [!CAUTION]
 > This hosts system and home configurations are public for your own learning and
@@ -11,64 +11,120 @@ NixOS configuration for bootstrapping Daniel's station (Darwin)
 > Trying to build and deploy them to other systems without appropriate changes
 > can render your machines unbootable and damage data.
 
-## Description
-At the current point in time, this configuration is aimed at aarch64-darwin architecture (Apple Silicon)
+## Diataxis Documentation
 
-## Installation
+This README is organized using the Diataxis framework:
 
-### Install `nix`
+- Tutorial: learn by doing a first successful activation.
+- How-to guides: solve specific operational tasks.
+- Reference: quick command and environment lookup.
+- Explanation: understand design choices and constraints.
 
-1. Just follow this guide [&nearr;&nbsp;from DeterminateSystems][1]
+## Tutorial
 
-### Install `home-manager`
+### Get your first successful activation on Darwin
 
-1. it's already baked into DeterminateSystems Nix installer
+This tutorial is for first-time users who want a working local activation of this flake on Apple Silicon.
 
-## Usage
+Prerequisites:
+
+- macOS on Apple Silicon (`aarch64-darwin` target).
+- Administrative access on your machine.
+- Git installed.
+
+Step 1. Install Nix (Determinate Systems installer):
+
+1. Follow the Determinate Systems installation guide [from Determinate Systems][1].
+
+Step 2. Verify Nix is available:
 
 ```sh
-# remote activation
-nix run github:dminca/nix-config
+nix --version
+```
 
-# local activation
+Step 3. Clone this repository and move into it:
+
+```sh
+git clone https://github.com/dminca/nix-config.git
+cd nix-config
+```
+
+Step 4. Run local activation:
+
+```sh
 nix run .
 ```
 
-### Secret management with `sops-nix`
+Step 5. Confirm the command completed without errors and your expected Home Manager changes are present.
 
-#### Day-1
+What you achieved:
 
-- sample `.sops.yaml` & `secrets/example.yaml` [&nearr;&nbsp;source][4]
+- Installed and validated Nix.
+- Executed the flake locally.
+- Reached a reproducible baseline for further customization.
+
+## How-to Guides
+
+### Activate configuration from GitHub (remote source)
+
+Use this when you do not want to clone the repository first.
 
 ```sh
-# create dir where key will be added
+nix run github:dminca/nix-config
+```
+
+### Activate configuration from a local clone
+
+Use this when working on local changes.
+
+```sh
+nix run .
+```
+
+### Manage secrets with `sops-nix`
+
+#### Create and encrypt secrets (day 1 setup)
+
+Sample `.sops.yaml` and `secrets/example.yaml` are based on [sops-nix examples][4].
+
+1. Create the key directory:
+
+```sh
 mkdir -vp ~/.config/sops/age
+```
 
-# generate key
+2. Generate an age key:
+
+```sh
 nix-shell -p age --run "age-keygen -o ~/.config/sops/age/keys.txt"
+```
 
-# prepare data to encrypt
+3. Create plaintext secret content:
+
+```sh
 vi secrets/example.yaml
+```
 
-# have .sops.yaml filled
+4. Ensure `.sops.yaml` recipients/rules are configured.
 
-# encrypt data
+5. Encrypt the file:
+
+```sh
 nix-shell -p sops --run "sops --encrypt secrets/example.yaml" | pbcopy
 ```
 
-#### Day-2
+#### Edit encrypted secrets later (day 2 workflow)
 
 ```sh
-# add/remove entries from secrets file
 nix-shell -p sops --run "sops secrets/example.yaml"
 ```
 
-### Searching for `tmux` or `vim` plugins
+### Find plugin packages for Home Manager
+
+Use these commands to search package names you can place in a Home Manager `plugins = []` list.
 
 > [!IMPORTANT]
-> These plugins can only be used within `home-manager` setup (it's the only way I tested).
-> The search will retrieve a list of packages from the Nix Store, this means
-> you can add them in the `plugins = []` section
+> Plugin commands below were tested in Home Manager workflows.
 
 ```sh
 nix-env -f '<nixpkgs>' -qaP -A vimPlugins
@@ -78,9 +134,9 @@ nix-env -f '<nixpkgs>' -qaP -A vimPlugins
 nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
 ```
 
-### Building the NixOS host remotely
+### Build a NixOS host remotely
 
-To remotely build the NixOS host run
+Use this from a workstation to build and switch a remote NixOS target.
 
 ```sh
 nix shell nixpkgs#nixos-rebuild \
@@ -92,16 +148,91 @@ nix shell nixpkgs#nixos-rebuild \
     --sudo
 ```
 
-> [!NOTE]  
-> Required to pass `--fast` and `--target-host user@host` if execution is triggered
-> from a Darwin or non-linux workstation.
+> [!NOTE]
+> When triggered from Darwin or another non-Linux workstation, include `--fast` and `--target-host user@host` as required by your environment.
 
-## Roadmap [completed] 🎉
-- [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
-- [x] port dotfiles (zshrc, neovim etc.)
-- [x] install `kubectl` for user profile
-- [x] install `helm` for user profile
-- [x] install `kubectx` for user profile
+## Reference
+
+### Supported platform
+
+- Primary target: `aarch64-darwin` (Apple Silicon).
+
+### Core activation commands
+
+```sh
+# remote activation
+nix run github:dminca/nix-config
+
+# local activation
+nix run .
+```
+
+### Secret management commands
+
+```sh
+# generate age key
+nix-shell -p age --run "age-keygen -o ~/.config/sops/age/keys.txt"
+
+# encrypt secret file
+nix-shell -p sops --run "sops --encrypt secrets/example.yaml"
+
+# edit encrypted secret file
+nix-shell -p sops --run "sops secrets/example.yaml"
+```
+
+### Plugin discovery commands
+
+```sh
+nix-env -f '<nixpkgs>' -qaP -A vimPlugins
+nix-env -f '<nixpkgs>' -qaP -A tmuxPlugins
+```
+
+### Remote host build command
+
+```sh
+nix shell nixpkgs#nixos-rebuild \
+    --command nixos-rebuild switch \
+    --flake .#nixos \
+    --target-host dminca@nixos \
+    --build-host dminca@nixos \
+    --no-reexec \
+    --sudo
+```
+
+### External links
+
+- Nix installer: [Determinate Systems guide][1]
+- nix-darwin project: [LnL7/nix-darwin][2]
+- secrets tooling: [Mic92/sops-nix][4]
+
+## Explanation
+
+### Why this repository is public but not generally reusable
+
+This configuration captures one real workstation/server fleet and includes host-specific assumptions (hardware, topology, service composition, and operational preferences). Publishing it helps others learn patterns, but applying it unchanged to another machine is unsafe.
+
+### Why the docs separate Darwin activation from NixOS host deployment
+
+The repository supports both:
+
+- Local Darwin activation for user environment bootstrapping.
+- Remote NixOS host build/deploy workflows.
+
+These workflows have different risk profiles and execution contexts, so they are documented separately to reduce operator error.
+
+### Why secrets are handled with `sops-nix`
+
+`sops-nix` keeps encrypted secrets in versioned configuration while allowing controlled decryption on authorized systems. This balances reproducibility and security for declarative infrastructure.
+
+## Status
+
+### Roadmap completed
+
+- [x] Port all brew packages (listed in `Brewfile`).
+- [x] Port dotfiles (`zshrc`, `neovim`, and related setup).
+- [x] Install `kubectl` in user profile.
+- [x] Install `helm` in user profile.
+- [x] Install `kubectx` in user profile.
 
 [1]: https://docs.determinate.systems/getting-started/individuals/
 [2]: https://github.com/LnL7/nix-darwin

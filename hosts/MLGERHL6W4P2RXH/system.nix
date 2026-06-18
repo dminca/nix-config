@@ -23,6 +23,10 @@
         name = "krita";
         greedy = true;
       }
+      {
+        name = "orchard";
+        greedy = true;
+      }
     ];
   };
 }

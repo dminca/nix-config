@@ -2,7 +2,7 @@
 {
   colorschemes = {
     kanagawa = {
-      enable = true;
+      enable = false;
       settings = {
         colors.theme.all.ui.bg_gutter = "none";
         undercurl = true;
@@ -46,7 +46,7 @@
       };
     };
     catppuccin = {
-      enable = false;
+      enable = true;
       settings = {
         integrations.native_lsp = {
           enabled = true;

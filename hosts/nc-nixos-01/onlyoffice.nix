@@ -31,8 +31,13 @@
     postgresUser = "onlyoffice";
     securityNonceFile = config.sops.secrets.onlyofficeNonce.path;
     jwtSecretFile = config.sops.secrets.onlyofficeJwt.path;
-    wopi = true;
+    # WOPI mode is finicky with the Nextcloud connector; use the classic
+    # JWT-based integration which is the reliable, well-supported path.
+    wopi = false;
     allowLocalConnections = true;
+    # Temporary: verbose logging to capture any download error. Revert to
+    # "WARN" once document opening is confirmed working.
+    loglevel = "DEBUG";
   };
 
   # Ensure onlyoffice services wait for sops to decrypt the nonce file

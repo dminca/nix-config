@@ -288,7 +288,4 @@
   programs.jq = {
     enable = true;
   };
-  programs.vscode = {
-    enable = lib.mkForce false;
-  };
 }

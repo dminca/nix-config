@@ -4,9 +4,8 @@
 {
   imports = [
     ./home.nix
-    #./neovim.nix
+    ./vscode.nix
     ./git.nix
     ./zshrc.nix
   ];
 }
-

@@ -35,9 +35,7 @@
     # JWT-based integration which is the reliable, well-supported path.
     wopi = false;
     allowLocalConnections = true;
-    # Temporary: verbose logging to capture any download error. Revert to
-    # "WARN" once document opening is confirmed working.
-    loglevel = "DEBUG";
+    loglevel = "WARN";
   };
 
   # Ensure onlyoffice services wait for sops to decrypt the nonce file

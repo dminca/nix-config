@@ -14,6 +14,15 @@
     group = "onlyoffice";
     mode = "0440";
   };
+  # Same JWT secret, readable by the nextcloud user so the occ config
+  # service can hand it to the ONLYOFFICE app (must match the doc server).
+  sops.secrets.onlyofficeJwtNextcloud = {
+    sopsFile = ./secrets/nextcloud.yaml;
+    key = "onlyofficeJwt";
+    owner = "nextcloud";
+    group = "nextcloud";
+    mode = "0400";
+  };
   services.onlyoffice = {
     enable = true;
     hostname = "office.mrbl.dedyn.io";
@@ -21,7 +30,7 @@
     postgresName = "onlyoffice";
     postgresUser = "onlyoffice";
     securityNonceFile = config.sops.secrets.onlyofficeNonce.path;
-    jwtSecretFile = config.sops.secrets.onlyofficeNonce.path;
+    jwtSecretFile = config.sops.secrets.onlyofficeJwt.path;
     wopi = true;
     allowLocalConnections = true;
   };
@@ -39,8 +48,12 @@
   # Runs once after nextcloud-setup; idempotent (occ config/app commands are safe to re-run).
   systemd.services.nextcloud-onlyoffice-config = {
     description = "Configure Nextcloud ONLYOFFICE app";
-    after = [ "nextcloud-setup.service" ];
+    after = [
+      "nextcloud-setup.service"
+      "sops-nix.service"
+    ];
     requires = [ "nextcloud-setup.service" ];
+    wants = [ "sops-nix.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -49,6 +62,7 @@
       ExecStart = pkgs.writeScript "configure-onlyoffice" ''
         #!${pkgs.bash}/bin/bash
         set -euo pipefail
+        jwt_secret="$(cat ${config.sops.secrets.onlyofficeJwtNextcloud.path})"
         /run/current-system/sw/bin/nextcloud-occ app:disable richdocuments || true
         /run/current-system/sw/bin/nextcloud-occ app:enable onlyoffice
         /run/current-system/sw/bin/nextcloud-occ config:app:set onlyoffice DocumentServerUrl \
@@ -57,6 +71,12 @@
           --value="https://office.mrbl.dedyn.io/"
         /run/current-system/sw/bin/nextcloud-occ config:app:set onlyoffice StorageUrl \
           --value="https://nc.mrbl.dedyn.io/"
+        # JWT secret must match the document server's jwtSecretFile, otherwise
+        # every editor request is rejected and documents fail to open.
+        /run/current-system/sw/bin/nextcloud-occ config:app:set onlyoffice jwt_secret \
+          --value="$jwt_secret"
+        /run/current-system/sw/bin/nextcloud-occ config:app:set onlyoffice jwt_header \
+          --value="Authorization"
       '';
     };
   };

@@ -65,69 +65,6 @@ in
           '';
       };
     };
-    obsidian = {
-      enable = true;
-      settings = {
-        legacy_commands = false;
-        ui.enable = false;
-        footer.enabled = false;
-        link.style = "markdown";
-        note_id_func =
-          # lua
-          mkRaw ''
-            function(title)
-              return title
-            end
-          '';
-        note_path_func =
-          # lua
-          mkRaw ''
-            function(spec)
-              local raw = spec.id or spec.title or tostring(os.time())
-
-              -- normalize once, centrally
-              local normalized = raw
-                :gsub("\\", "/")
-                :gsub("^%./", "")                  -- remove leading ./
-                :gsub("%s+", "-")
-                :gsub("[^A-Za-z0-9%-%./]", "")
-                :lower()
-
-              local parts = vim.split(normalized, "/")
-              local filename = parts[#parts]
-              table.remove(parts, #parts)
-
-              local dir = spec.dir
-              for _, p in ipairs(parts) do
-                dir = dir / p
-              end
-
-              return (dir / filename):with_suffix(".md")
-            end
-          '';
-        templates = {
-          folder = ".notes/templates";
-        };
-        workspaces = [
-          {
-            name = "Notes";
-            # Use a function so the directory is created on first run if missing.
-            # obsidian.nvim's Workspace.new requires `path` to exist; otherwise it
-            # silently drops the spec and setup errors with "At least one workspace
-            # is required!" -- bad UX for first-time users.
-            path =
-              # lua
-              mkRaw ''
-                function()
-                  local p = vim.fn.expand("~/.notes")
-                  vim.fn.mkdir(p, "p")
-                  return p
-                end
-              '';
-          }
-        ];
-      };
-    };
     glow = {
       enable = true;
       lazyLoad.settings = {
@@ -177,17 +114,6 @@ in
   ];
 
   keymaps = [
-    (mkKeymap "n" "<leader>os" "<cmd>Obsidian quick_switch<cr>" "Obsidian Quick Switch")
-    (mkKeymap "n" "<leader>o/" "<cmd>Obsidian search<cr>" "Obsidian Switch")
-    (mkKeymap "n" "<leader>ot" "<cmd>Obsidian tags<cr>" "Obsidian tag search")
-    (mkKeymap "n" "<leader>ol" "<cmd>Obsidian links<cr>" "Obsidian Buffer links")
-    (mkKeymap "n" "<leader>or" "<cmd>Obsidian backlinks<cr>" "Who links Current Buffer")
-    (mkKeymap "n" "<leader>o|" "<cmd>Obsidian follow_link vsplit<cr>"
-      "Open the link in a vertical split"
-    )
-    (mkKeymap "n" "<leader>o-" "<cmd>Obsidian follow_link hsplit<cr>"
-      "Open the link in a horizontal split"
-    )
     (mkKeymap "n" "<leader>o<cr>" (
       # lua
       mkRaw ''
@@ -217,9 +143,6 @@ in
           vim.api.nvim_win_set_cursor(0, { row, start_col - 1 })
           vim.cmd("normal! v")
           vim.api.nvim_win_set_cursor(0, { row, end_col })
-
-          -- run command (expects visual selection)
-          vim.cmd("Obsidian link_new")
         end
       ''
     ) "Make note from text under cursor")
@@ -229,11 +152,6 @@ in
       "<leader>p"
       ""
       "preview"
-    ])
-    (wKeyObj [
-      "<leader>o"
-      ""
-      "Obsidian"
     ])
   ];
 }

@@ -70,13 +70,21 @@
             format json
           }
 
+          # The OnlyOffice doc server's bundled nginx overwrites
+          # X-Forwarded-Proto with its own $scheme (http on the Caddy->nginx
+          # hop), so it emits http:// cache URLs (e.g. Editor.bin). The editor
+          # is loaded over https, so those become blocked mixed content
+          # ("Download failed"). Tell the browser to upgrade same-origin
+          # http sub-requests to https; Caddy serves them over TLS normally.
+          header +Content-Security-Policy "upgrade-insecure-requests"
+
           reverse_proxy 10.10.10.156 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
             header_up X-Forwarded-Host {host}
             header_up X-Forwarded-Proto {scheme}
-            # Keep WOPI and websocket traffic unbuffered through the edge proxy.
+            # Keep websocket traffic unbuffered through the edge proxy.
             flush_interval -1
             transport http {
               read_timeout  1h

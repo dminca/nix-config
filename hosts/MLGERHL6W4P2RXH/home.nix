@@ -2,9 +2,16 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
+let
+  unstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs) system;
+    config.allowUnfree = true;
+  };
+in
 {
   home.username = "mida4001";
   home.homeDirectory = "/Users/mida4001";
@@ -56,7 +63,7 @@
     terraform-docs
     tflint
     crane
-    kluctl
+    unstable.kluctl
     vault
     container
     ########

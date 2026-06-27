@@ -1,6 +1,7 @@
 # https://just.systems
 
 nh := require("nh")
+nix := require("nix")
 
 default:
   @just --choose
@@ -62,3 +63,6 @@ wmac:
     {{nh}} home switch \
         . \
         --configuration MLGERHL6W4P2RXH
+
+update:
+    {{nix}} flake update

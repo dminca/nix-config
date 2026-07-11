@@ -24,6 +24,7 @@
     discord
     devenv
     yggdrasil
+    localsend
   ];
 
   sops = {

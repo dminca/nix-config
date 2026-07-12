@@ -21,7 +21,6 @@
     ########
     # Apps #
     ########
-    discord
     devenv
     yggdrasil
     localsend

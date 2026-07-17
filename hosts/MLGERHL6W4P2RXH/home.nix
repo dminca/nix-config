@@ -32,6 +32,7 @@
     gh
     fluxcd
     just
+    istioctl
     ########################
     # cloud-native tooling #
     ########################

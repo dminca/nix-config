@@ -299,6 +299,9 @@
   programs.npm = {
     enable = true;
   };
+  programs.superfile = {
+    enable = true;
+  };
 
   home.activation.createObsidianVault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ${config.home.homeDirectory}/Notes/my-vault

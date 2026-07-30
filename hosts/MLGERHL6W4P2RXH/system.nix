@@ -27,6 +27,10 @@
         name = "orchard";
         greedy = true;
       }
+      {
+        name = "kde-connect";
+        greedy = true;
+      }
     ];
   };
 }

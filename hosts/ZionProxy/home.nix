@@ -23,7 +23,6 @@
     ########
     devenv
     yggdrasil
-    localsend
   ];
 
   sops = {

@@ -65,7 +65,6 @@
     ########
     jetbrains.idea
     drawio
-    localsend
   ];
 
   sops = {

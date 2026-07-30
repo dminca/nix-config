@@ -35,6 +35,10 @@
         name = "onlyoffice";
         greedy = true;
       }
+      {
+        name = "kde-connect";
+        greedy = true;
+      }
     ];
   };
 }

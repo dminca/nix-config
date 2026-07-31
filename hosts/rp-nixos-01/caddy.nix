@@ -3,58 +3,55 @@
   ...
 }:
 {
-  sops.secrets."fullchain.pem" = {
-    sopsFile = ./secrets/certs.yaml;
-    key = "fullchain";
+  # Store deSEC API token as a sops secret
+  sops.secrets."desec_api_token" = {
+    sopsFile = ./secrets/acme.yaml;
+    key = "desec_token";
     owner = "caddy";
     group = "caddy";
-  };
-  sops.secrets."privkey.pem" = {
-    sopsFile = ./secrets/certs.yaml;
-    key = "privkey";
-    owner = "caddy";
-    group = "caddy";
+    mode = "0400";
   };
 
   services.caddy = {
     enable = true;
+    email = "admin@mrbl.dedyn.io";
+    extraConfig = ''
+      (desec_credentials) {
+        auth_uri https://desec.io/api/v1/
+        credentials {env.DESEC_API_TOKEN}
+      }
+    '';
+    globalConfig = ''
+      acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+      acme_dns desec {
+        import desec_credentials
+      }
+    '';
+    environment = {
+      DESEC_API_TOKEN = "file://${config.sops.secrets."desec_api_token".path}";
+    };
     virtualHosts = {
-      "fw.mrbl.dedyn.io" = {
+      "*.mrbl.dedyn.io" = {
+        useACMEHost = "mrbl.dedyn.io";
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
           log {
             output stderr
             format json
           }
-
+        '';
+      };
+      "fw.mrbl.dedyn.io" = {
+        extraConfig = ''
           reverse_proxy 192.168.178.3
         '';
       };
       "dns.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 192.168.178.2
         '';
       };
       "nc.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 10.10.10.156 {
             header_up X-Real-IP {remote_host}
           }
@@ -62,14 +59,6 @@
       };
       "office.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           # The OnlyOffice doc server's bundled nginx overwrites
           # X-Forwarded-Proto with its own $scheme (http on the Caddy->nginx
           # hop), so it emits http:// cache URLs (e.g. Editor.bin). The editor
@@ -95,14 +84,6 @@
       };
       "kc.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 10.10.10.118 {
               header_up Host {host}
               header_up X-Real-IP {remote}
@@ -112,14 +93,6 @@
       };
       "lw.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 10.10.10.153:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -131,14 +104,6 @@
       };
       "ic.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 10.10.10.162:2283 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -150,14 +115,6 @@
       };
       "mon.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy 10.10.10.187:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -169,14 +126,6 @@
       };
       "pve.mrbl.dedyn.io" = {
         extraConfig = ''
-          tls ${config.sops.secrets."fullchain.pem".path} \
-              ${config.sops.secrets."privkey.pem".path}
-
-          log {
-            output stderr
-            format json
-          }
-
           reverse_proxy https://192.168.178.16:8006 {
               transport http {
                   tls_insecure_skip_verify

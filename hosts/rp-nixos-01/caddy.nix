@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   ...
 }:
 {
@@ -15,6 +16,10 @@
   services.caddy = {
     enable = true;
     email = "admin@mrbl.dedyn.io";
+    package = pkgs.caddy.withPlugins {
+      plugins = [ "github.com/caddy-dns/desec@v0.4.1" ];
+      hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    };
     globalConfig = ''
       acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
       acme_dns desec {

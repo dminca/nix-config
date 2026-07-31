@@ -35,7 +35,11 @@ ic:
     --build-host admin@10.10.10.162
 
 rp:
-    {{nix}} run nixpkgs#nixos-rebuild -- switch --flake .#rp-nixos-01 --target-host admin@10.10.10.135 --build-host admin@10.10.10.135 --use-remote-sudo
+    {{nix}} run nixpkgs#nixos-rebuild -- switch \
+    --flake .#rp-nixos-01 \
+    --target-host admin@10.10.10.135 \
+    --build-host admin@10.10.10.135 \
+    --elevate=sudo
 
 mon:
     {{nh}} os switch \

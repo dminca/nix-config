@@ -3,10 +3,10 @@
   ...
 }:
 {
-  # Store deSEC API token as a sops secret
-  sops.secrets."desec_api_token" = {
+  # Store deSEC API token as a sops secret in environment file format
+  sops.secrets."desec_env" = {
     sopsFile = ./secrets/acme.yaml;
-    key = "desec_token";
+    key = "desec_env";
     owner = "caddy";
     group = "caddy";
     mode = "0400";
@@ -27,9 +27,7 @@
         import desec_credentials
       }
     '';
-    environment = {
-      DESEC_API_TOKEN = "file://${config.sops.secrets."desec_api_token".path}";
-    };
+    environmentFile = config.sops.secrets."desec_env".path;
     virtualHosts = {
       "*.mrbl.dedyn.io" = {
         useACMEHost = "mrbl.dedyn.io";

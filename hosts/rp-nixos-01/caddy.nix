@@ -29,27 +29,33 @@
     '';
     environmentFile = config.sops.secrets."desec_env".path;
     virtualHosts = {
-      "*.mrbl.dedyn.io" = {
-        useACMEHost = "mrbl.dedyn.io";
+      "fw.mrbl.dedyn.io" = {
         extraConfig = ''
           log {
             output stderr
             format json
           }
-        '';
-      };
-      "fw.mrbl.dedyn.io" = {
-        extraConfig = ''
+
           reverse_proxy 192.168.178.3
         '';
       };
       "dns.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 192.168.178.2
         '';
       };
       "nc.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.156 {
             header_up X-Real-IP {remote_host}
           }
@@ -57,6 +63,11 @@
       };
       "office.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           # The OnlyOffice doc server's bundled nginx overwrites
           # X-Forwarded-Proto with its own $scheme (http on the Caddy->nginx
           # hop), so it emits http:// cache URLs (e.g. Editor.bin). The editor
@@ -82,6 +93,11 @@
       };
       "kc.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.118 {
               header_up Host {host}
               header_up X-Real-IP {remote}
@@ -91,6 +107,11 @@
       };
       "lw.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.153:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -102,6 +123,11 @@
       };
       "ic.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.162:2283 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -113,6 +139,11 @@
       };
       "mon.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy 10.10.10.187:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
@@ -124,6 +155,11 @@
       };
       "pve.mrbl.dedyn.io" = {
         extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
           reverse_proxy https://192.168.178.16:8006 {
               transport http {
                   tls_insecure_skip_verify

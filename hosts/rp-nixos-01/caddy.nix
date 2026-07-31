@@ -28,6 +28,14 @@
     '';
     environmentFile = config.sops.secrets."desec_env".path;
     virtualHosts = {
+      "*.mrbl.dedyn.io" = {
+        extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+        '';
+      };
       "fw.mrbl.dedyn.io" = {
         extraConfig = ''
           log {

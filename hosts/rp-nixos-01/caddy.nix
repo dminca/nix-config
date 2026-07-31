@@ -17,7 +17,7 @@
     enable = true;
     email = "admin@mrbl.dedyn.io";
     package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/desec@v0.4.1" ];
+      plugins = [ "github.com/caddy-dns/desec@v1.1.0" ];
       hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
     };
     globalConfig = ''

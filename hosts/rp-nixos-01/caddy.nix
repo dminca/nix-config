@@ -176,9 +176,6 @@
     };
   };
 
-  # Override the caddy systemd service to load secrets securely
-  systemd.services.caddy.serviceConfig = {
-    LoadCredential = "desec_env:${config.sops.secrets."desec_env".path}";
-    EnvironmentFile = "%d/desec_env";
-  };
+  # Override the caddy systemd service to include the environment file
+  systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets."desec_env".path;
 }

@@ -23,8 +23,7 @@
     globalConfig = ''
       acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
       acme_dns desec {
-        auth_uri https://desec.io/api/v1/
-        credentials {env.DESEC_API_TOKEN}
+        token {env.DESEC_API_TOKEN}
       }
     '';
     environmentFile = config.sops.secrets."desec_env".path;

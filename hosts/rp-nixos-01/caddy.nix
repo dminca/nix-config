@@ -26,7 +26,6 @@
         token {env.DESEC_API_TOKEN}
       }
     '';
-    environmentFile = config.sops.secrets."desec_env".path;
     virtualHosts = {
       "*.mrbl.dedyn.io" = {
         extraConfig = ''
@@ -176,4 +175,7 @@
       };
     };
   };
+
+  # Override the caddy systemd service to include the environment file
+  systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets."desec_env".path;
 }

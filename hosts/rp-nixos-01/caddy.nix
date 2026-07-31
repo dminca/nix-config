@@ -15,16 +15,11 @@
   services.caddy = {
     enable = true;
     email = "admin@mrbl.dedyn.io";
-    extraConfig = ''
-      (desec_credentials) {
-        auth_uri https://desec.io/api/v1/
-        credentials {env.DESEC_API_TOKEN}
-      }
-    '';
     globalConfig = ''
       acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
       acme_dns desec {
-        import desec_credentials
+        auth_uri https://desec.io/api/v1/
+        credentials {env.DESEC_API_TOKEN}
       }
     '';
     environmentFile = config.sops.secrets."desec_env".path;

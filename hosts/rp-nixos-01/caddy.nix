@@ -24,7 +24,6 @@
       acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
       acme_dns desec {
         token {env.DESEC_API_TOKEN}
-        propagation_timeout 120s
       }
     '';
     virtualHosts = {

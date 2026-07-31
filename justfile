@@ -35,11 +35,7 @@ ic:
     --build-host admin@10.10.10.162
 
 rp:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#rp-nixos-01 \
-    --hostname rp-nixos-01 \
-    --target-host admin@10.10.10.135 \
-    --build-host admin@10.10.10.135
+    {{nix}} run nixpkgs#nixos-rebuild -- switch --flake .#rp-nixos-01 --target-host admin@10.10.10.135 --build-host admin@10.10.10.135 --use-remote-sudo
 
 mon:
     {{nh}} os switch \

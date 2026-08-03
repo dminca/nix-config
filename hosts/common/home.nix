@@ -263,23 +263,18 @@
       ];
     };
   };
-  programs.rio = {
+  programs.wezterm = {
     enable = true;
-    settings = {
-      theme = "dracula";
-      fonts = {
-        size = 12;
-        family = "JetBrainsMono Nerd Font";
-        disable-warnings-not-found = false;
-      };
-      window = {
-        opacity = 0.5;
-        decorations = "enabled";
-        blur = true;
-      };
-      navigation = {
-        mode = "BottomTab";
-      };
-    };
+    extraConfig = ''
+      local wezterm = require 'wezterm'
+      local config = wezterm.config_builder()
+
+      config.color_scheme = 'Catppuccin Mocha'
+      config.font = wezterm.font('JetBrains Mono')
+      config.font_size = 12
+      config.window_decorations = 'RESIZE'
+
+      return config
+    '';
   };
 }

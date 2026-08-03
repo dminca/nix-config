@@ -302,21 +302,6 @@
     enable = true;
   };
 
-  programs.wezterm = {
-    enable = true;
-    extraConfig = ''
-      local wezterm = require 'wezterm'
-      local config = wezterm.config_builder()
-
-      config.color_scheme = 'Catppuccin Mocha'
-      config.font = wezterm.font('JetBrains Mono')
-      config.font_size = 12
-      config.window_decorations = 'RESIZE'
-
-      return config
-    '';
-  };
-
   home.activation.createObsidianVault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ${config.home.homeDirectory}/Notes/my-vault
   '';

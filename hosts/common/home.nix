@@ -274,6 +274,73 @@
       config.font_size = 12
       config.window_decorations = 'RESIZE'
 
+      -- Custom key bindings for splits
+      config.keys = {
+        {
+          key = 'h',
+          mods = 'SUPER|ALT',
+          action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+        },
+        {
+          key = 'v',
+          mods = 'SUPER|ALT',
+          action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+        },
+        -- Unbind default split shortcuts
+        {
+          key = '"',
+          mods = 'CTRL|SHIFT|ALT',
+          action = wezterm.action.Nop,
+        },
+        {
+          key = '%',
+          mods = 'CTRL|SHIFT|ALT',
+          action = wezterm.action.Nop,
+        },
+        -- Vim-like pane navigation (SUPER+SHIFT+hjkl)
+        {
+          key = 'h',
+          mods = 'SUPER|SHIFT',
+          action = wezterm.action.ActivatePaneDirection 'Left',
+        },
+        {
+          key = 'j',
+          mods = 'SUPER|SHIFT',
+          action = wezterm.action.ActivatePaneDirection 'Down',
+        },
+        {
+          key = 'k',
+          mods = 'SUPER|SHIFT',
+          action = wezterm.action.ActivatePaneDirection 'Up',
+        },
+        {
+          key = 'l',
+          mods = 'SUPER|SHIFT',
+          action = wezterm.action.ActivatePaneDirection 'Right',
+        },
+        -- Unbind default pane direction shortcuts
+        {
+          key = 'UpArrow',
+          mods = 'CTRL|SHIFT',
+          action = wezterm.action.Nop,
+        },
+        {
+          key = 'DownArrow',
+          mods = 'CTRL|SHIFT',
+          action = wezterm.action.Nop,
+        },
+        {
+          key = 'LeftArrow',
+          mods = 'CTRL|SHIFT',
+          action = wezterm.action.Nop,
+        },
+        {
+          key = 'RightArrow',
+          mods = 'CTRL|SHIFT',
+          action = wezterm.action.Nop,
+        },
+      }
+
       return config
     '';
   };

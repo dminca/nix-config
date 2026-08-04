@@ -293,6 +293,11 @@
     enable = true;
     vaults."my-vault" = {
       target = "${config.home.homeDirectory}/Notes/my-vault";
+      settings = {
+        app = {
+          "showLineNumber" = true;
+        };
+      };
     };
   };
   programs.npm = {

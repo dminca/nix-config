@@ -77,7 +77,7 @@ in
     (mkKeymap "n" "<leader>ss" "<cmd>:lua Snacks.picker.smart()<cr>" "Smart")
     (mkKeymap "n" "<leader>st" "<cmd>:lua Snacks.picker.todo_comments()<cr>" "Todo")
     (mkKeymap "n" "<leader>sT"
-      ''<cmd>:lua Snacks.picker.todo_comments({keywords = {"TODO", "FIX", "FIXME"})<cr>''
+      "<cmd>:lua Snacks.picker.todo_comments({keywords = {\"TODO\", \"FIX\", \"FIXME\"}})<cr>"
       "Todo"
     )
     (mkKeymap "n" "<leader>s:" "<cmd>:lua Snacks.picker.command_history()<cr>" "Command History")

@@ -338,6 +338,23 @@
           mods = 'CTRL|SHIFT',
           action = wezterm.action.Nop,
         },
+        -- Word jump with Option+Arrow keys (macOS Terminal.app style)
+        {
+          key = 'LeftArrow',
+          mods = 'OPT',
+          action = wezterm.action.SendKey {
+            key = 'b',
+            mods = 'ALT',
+          },
+        },
+        {
+          key = 'RightArrow',
+          mods = 'OPT',
+          action = wezterm.action.SendKey {
+            key = 'f',
+            mods = 'ALT',
+          },
+        },
       }
 
       return config

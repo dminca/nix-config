@@ -49,12 +49,8 @@ mon:
     --build-host admin@10.10.10.187
 
 pmac:
-    {{nh}} darwin switch \
-        .#ZionProxy
-
-    {{nh}} home switch \
-        . \
-        --configuration ZionProxy
+    sudo {{nix}} run nix-darwin -- switch --flake .#ZionProxy
+    home-manager switch --flake .#ZionProxy
 
 wmac:
     sudo {{nix}} run nix-darwin -- switch --flake .#MLGERHL6W4P2RXH

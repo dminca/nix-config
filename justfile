@@ -57,8 +57,12 @@ pmac:
         --configuration ZionProxy
 
 wmac:
-    sudo {{nix}} run nix-darwin -- switch --flake .#MLGERHL6W4P2RXH
-    home-manager switch --flake .#MLGERHL6W4P2RXH
+    {{nh}} darwin switch \
+        .#MLGERHL6W4P2RXH
+
+    {{nh}} home switch \
+        . \
+        --configuration MLGERHL6W4P2RXH
 
 update:
     {{nix}} flake update

@@ -289,19 +289,17 @@
   programs.jq = {
     enable = true;
   };
-  # Temporarily disabled: obsidian 1.13.4 DMG structure changed, causing build failures
-  # See: https://github.com/NixOS/nixpkgs/issues/XXXXX
-  # programs.obsidian = {
-  #   enable = true;
-  #   vaults."my-vault" = {
-  #     target = "${config.home.homeDirectory}/Notes/my-vault";
-  #     settings = {
-  #       app = {
-  #         "showLineNumber" = true;
-  #       };
-  #     };
-  #   };
-  # };
+  programs.obsidian = {
+    enable = true;
+    vaults."my-vault" = {
+      target = "${config.home.homeDirectory}/Notes/my-vault";
+      settings = {
+        app = {
+          "showLineNumber" = true;
+        };
+      };
+    };
+  };
   programs.npm = {
     enable = true;
   };

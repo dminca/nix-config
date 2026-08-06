@@ -30,103 +30,133 @@
       disko,
       ...
     }:
+    let
+      # ========================================================================
+      # HELPER: mkNixosHost
+      # ========================================================================
+      # Creates a NixOS system configuration with standardized module setup.
+      #
+      # Args:
+      #   - hostname: name of the host (matches ./hosts/${hostname}/ directory)
+      #   - system: architecture ("x86_64-linux", "aarch64-linux", etc.)
+      #   - hasHardwareConfig: whether to include hardware-configuration.nix
+      #   - useDisko: whether to include disko for disk partitioning (default: true)
+      #   - extraModules: additional modules to append (default: [])
+      #
+      # Note: rp-nixos-01 has hasHardwareConfig=false and useDisko=false because
+      # it's an LXC container host (no hardware config needed).
+      mkNixosHost = { hostname, system, hasHardwareConfig ? true, useDisko ? true, extraModules ? [] }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules =
+            [
+              ./hosts/${hostname}/configuration.nix
+            ]
+            ++ (if hasHardwareConfig then [ ./hosts/${hostname}/hardware-configuration.nix ] else [])
+            ++ [
+              ./modules
+              sops-nix.nixosModules.sops
+            ]
+            ++ (if useDisko then [ disko.nixosModules.disko ] else [])
+            ++ extraModules;
+        };
+
+      # ========================================================================
+      # HELPER: mkDarwinHomeConfig
+      # ========================================================================
+      # Creates a home-manager configuration for nix-darwin systems.
+      mkDarwinHomeConfig = hostname:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { system = "aarch64-darwin"; };
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            sops-nix.homeManagerModules.sops
+            ./hosts/common
+            ./hosts/${hostname}
+          ];
+        };
+
+      # ========================================================================
+      # HOST DECLARATIONS
+      # ========================================================================
+      # Declarative registry of all NixOS hosts.
+      nixosHosts = {
+        nc-nixos-01 = { system = "x86_64-linux"; };
+        kc-nixos-01 = { system = "x86_64-linux"; };
+        # rp-nixos-01: LXC container host. No hardware config or disko needed.
+        rp-nixos-01 = { system = "x86_64-linux"; hasHardwareConfig = false; useDisko = false; };
+        lw-nixos-01 = { system = "x86_64-linux"; };
+        ic-nixos-01 = { system = "x86_64-linux"; };
+        mon-nixos-01 = { system = "x86_64-linux"; };
+      };
+
+      darwinHosts = [ "ZionProxy" "MLGERHL6W4P2RXH" ];
+    in
     {
-      darwinConfigurations = {
-        "ZionProxy" = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./hosts/common/system.nix
-            ./hosts/ZionProxy/system.nix
-          ];
-        };
+      darwinConfigurations = builtins.listToAttrs (
+        map (hostname: {
+          name = hostname;
+          value = nix-darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            modules = [
+              ./hosts/common/system.nix
+              ./hosts/${hostname}/system.nix
+            ];
+          };
+        })
+        darwinHosts
+      );
 
-        "MLGERHL6W4P2RXH" = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./hosts/common/system.nix
-            ./hosts/MLGERHL6W4P2RXH/system.nix
-          ];
+      nixosConfigurations = builtins.mapAttrs
+        (hostname: cfg: mkNixosHost ({ inherit hostname; } // cfg))
+        nixosHosts;
+
+      homeConfigurations = builtins.listToAttrs (
+        map (hostname: {
+          name = hostname;
+          value = mkDarwinHomeConfig hostname;
+        })
+        darwinHosts
+      );
+
+      # ========================================================================
+      # FLAKE CHECKS
+      # ========================================================================
+      checks = {
+        x86_64-linux = {
+          # Validate one NixOS config
+          flake-check = self.nixosConfigurations."nc-nixos-01".config.system.build.toplevel;
         };
-      };
-      nixosConfigurations = {
-        "nc-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/nc-nixos-01/configuration.nix
-            ./hosts/nc-nixos-01/hardware-configuration.nix
-            ./modules
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-          ];
-        };
-        "kc-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/kc-nixos-01/configuration.nix
-            ./hosts/kc-nixos-01/hardware-configuration.nix
-            ./modules
-            disko.nixosModules.disko
-            sops-nix.nixosModules.sops
-          ];
-        };
-        "rp-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/rp-nixos-01/configuration.nix
-            ./modules
-            sops-nix.nixosModules.sops
-          ];
-        };
-        "lw-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/lw-nixos-01/configuration.nix
-            ./hosts/lw-nixos-01/hardware-configuration.nix
-            ./modules
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-          ];
-        };
-        "ic-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/ic-nixos-01/configuration.nix
-            ./hosts/ic-nixos-01/hardware-configuration.nix
-            ./modules
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-          ];
-        };
-        "mon-nixos-01" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/mon-nixos-01/configuration.nix
-            ./hosts/mon-nixos-01/hardware-configuration.nix
-            ./modules
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-          ];
+        aarch64-darwin = {
+          # Validate one Darwin config
+          flake-check = self.darwinConfigurations."ZionProxy".system;
         };
       };
 
-      homeConfigurations = {
-        "ZionProxy" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { system = "aarch64-darwin"; };
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            sops-nix.homeManagerModules.sops
-            ./hosts/common
-            ./hosts/ZionProxy
+      # ========================================================================
+      # FORMATTERS
+      # ========================================================================
+      formatter = {
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
+      };
+
+      # ========================================================================
+      # DEVELOPMENT SHELL
+      # ========================================================================
+      devShells = {
+        x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+          buildInputs = with nixpkgs.legacyPackages.x86_64-linux; [
+            sops
+            age
+            nixfmt
           ];
         };
-
-        "MLGERHL6W4P2RXH" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { system = "aarch64-darwin"; };
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            sops-nix.homeManagerModules.sops
-            ./hosts/common
-            ./hosts/MLGERHL6W4P2RXH
+        aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
+          buildInputs = with nixpkgs.legacyPackages.aarch64-darwin; [
+            sops
+            age
+            nixfmt
           ];
         };
       };

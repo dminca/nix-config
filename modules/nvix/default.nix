@@ -2,18 +2,10 @@
   config,
   inputs,
   lib,
-  pkgs,
   ...
 }:
 let
   cfg = config.programs.nvix;
-
-  mkNixvim =
-    modules:
-    inputs.nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvimWithModule {
-      extraSpecialArgs = { inherit inputs; };
-      module = modules;
-    };
 
   nvixPlugins = {
     common = ./plugins/common;
@@ -62,9 +54,10 @@ let
     }
     .${cfg.package};
 
-  nvixPackage = mkNixvim (packageModules ++ cfg.extraModules ++ [ cfg.settings ]);
 in
 {
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+
   options.programs.nvix = {
     enable = lib.mkEnableOption "the vendored nvix Neovim package";
 
@@ -98,6 +91,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ nvixPackage ];
+    programs.nixvim = lib.mkMerge [
+      {
+        enable = true;
+        defaultEditor = true;
+        vimdiffAlias = true;
+        viAlias = lib.mkDefault true;
+        vimAlias = lib.mkDefault true;
+        imports = packageModules ++ cfg.extraModules;
+      }
+      cfg.settings
+    ];
   };
 }

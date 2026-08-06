@@ -56,7 +56,7 @@ let
 
 in
 {
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+  imports = [ inputs.nixvim.homeModules.nixvim ];
 
   options.programs.nvix = {
     enable = lib.mkEnableOption "the vendored nvix Neovim package";

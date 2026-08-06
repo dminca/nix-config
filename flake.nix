@@ -151,6 +151,7 @@
             age
             nixfmt
           ];
+          SOPS_EDITOR = "nvim";
         };
         aarch64-darwin.default = nixpkgs.legacyPackages.aarch64-darwin.mkShell {
           buildInputs = with nixpkgs.legacyPackages.aarch64-darwin; [
@@ -158,6 +159,7 @@
             age
             nixfmt
           ];
+          SOPS_EDITOR = "nvim";
         };
       };
     };

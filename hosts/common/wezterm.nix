@@ -7,11 +7,16 @@
     extraConfig = ''
       local wezterm = require 'wezterm'
       local config = wezterm.config_builder()
+      local act = wezterm.action
 
       config.color_scheme = 'Catppuccin Mocha'
       config.font = wezterm.font('JetBrains Mono')
       config.font_size = 12
       config.window_decorations = 'RESIZE'
+      config.unix_domains = {
+        { name = 'unix' },
+      }
+      config.default_gui_startup_args = { 'connect', 'unix' }
 
       -- Custom key bindings for splits
       config.keys = {
@@ -24,6 +29,20 @@
           key = 'd',
           mods = 'CMD',
           action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+        },
+        -- Remap Cmd+W to detach from the current mux domain and preserve tabs
+        {
+          key = 'w',
+          mods = 'CMD',
+          action = wezterm.action_callback(function(window, pane)
+            local domain = pane:get_domain_name()
+
+            if domain ~= 'local' then
+              window:perform_action(act.DetachDomain { DomainName = domain }, pane)
+            end
+
+            window:perform_action(act.QuitApplication, pane)
+          end),
         },
         -- Unbind default split shortcuts
         {

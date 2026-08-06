@@ -16,13 +16,13 @@
       -- Custom key bindings for splits
       config.keys = {
         {
-          key = 'h',
-          mods = 'SUPER|ALT',
+          key = 'd',
+          mods = 'CMD|SHIFT',
           action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
         },
         {
-          key = 'v',
-          mods = 'SUPER|ALT',
+          key = 'd',
+          mods = 'CMD',
           action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
         },
         -- Unbind default split shortcuts

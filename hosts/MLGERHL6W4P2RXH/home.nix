@@ -289,17 +289,6 @@
   programs.jq = {
     enable = true;
   };
-  programs.obsidian = {
-    enable = true;
-    vaults."my-vault" = {
-      target = "${config.home.homeDirectory}/Notes/my-vault";
-      settings = {
-        app = {
-          "showLineNumber" = true;
-        };
-      };
-    };
-  };
   programs.npm = {
     enable = true;
   };
@@ -307,6 +296,7 @@
     enable = true;
   };
 
+  # Ensure vault directory exists for Obsidian app
   home.activation.createObsidianVault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ${config.home.homeDirectory}/Notes/my-vault
   '';

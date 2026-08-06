@@ -32,6 +32,10 @@
     };
     casks = [
       {
+        name = "obsidian";
+        greedy = true;
+      }
+      {
         name = "vivaldi";
         greedy = true;
       }

@@ -65,6 +65,7 @@
     ########
     jetbrains.idea
     drawio
+    keycastr
   ];
 
   sops = {

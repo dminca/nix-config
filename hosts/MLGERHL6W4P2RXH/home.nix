@@ -34,6 +34,7 @@
     just
     istioctl
     witr
+    popeye
     ########################
     # cloud-native tooling #
     ########################

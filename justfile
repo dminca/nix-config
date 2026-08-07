@@ -24,7 +24,7 @@ _deploy-macos target:
     {{nh}} darwin switch .#{{target}}
     {{nh}} home switch . --configuration {{target}}
 
-_target_macos := if `hostname` == "Zions-MacBook-Pro.local" { "ZionProxy" } else if `hostname` == "MLGERHL6W4P2RXH" { "MLGERHL6W4P2RXH" } else { error("Unknown hostname: " + `hostname`) }
+_target_macos := if `hostname` == "ZionProxy" { "ZionProxy" } else if `hostname` == "MLGERHL6W4P2RXH" { "MLGERHL6W4P2RXH" } else { error("Unknown hostname: " + `hostname`) }
 
 macos: (_deploy-macos _target_macos)
 

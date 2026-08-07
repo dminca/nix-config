@@ -6,63 +6,27 @@ nix := require("nix")
 default:
   @just --choose
 
-nc:
+_deploy-nixos host ip:
     {{nh}} os switch \
-    --elevation-strategy passwordless .#nc-nixos-01 \
-    --hostname nc-nixos-01 \
-    --target-host admin@10.10.10.156 \
-    --build-host admin@10.10.10.156
+    --elevation-strategy passwordless .#{{host}} \
+    --hostname {{host}} \
+    --target-host admin@{{ip}} \
+    --build-host admin@{{ip}}
 
-kc:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#kc-nixos-01 \
-    --hostname kc-nixos-01 \
-    --target-host admin@10.10.10.118 \
-    --build-host admin@10.10.10.118
+nc: (_deploy-nixos "nc-nixos-01" "10.10.10.156")
+kc: (_deploy-nixos "kc-nixos-01" "10.10.10.118")
+lw: (_deploy-nixos "lw-nixos-01" "10.10.10.153")
+ic: (_deploy-nixos "ic-nixos-01" "10.10.10.162")
+rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
+mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
 
-lw:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#lw-nixos-01 \
-    --hostname lw-nixos-01 \
-    --target-host admin@10.10.10.153 \
-    --build-host admin@10.10.10.153
+_deploy-macos target:
+    {{nh}} darwin switch .#{{target}}
+    {{nh}} home switch . --configuration {{target}}
 
-ic:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#ic-nixos-01 \
-    --hostname ic-nixos-01 \
-    --target-host admin@10.10.10.162 \
-    --build-host admin@10.10.10.162
+_target_macos := if `hostname` == "Zions-MacBook-Pro.local" { "ZionProxy" } else if `hostname` == "MLGERHL6W4P2RXH" { "MLGERHL6W4P2RXH" } else { error("Unknown hostname: " + `hostname`) }
 
-rp:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#rp-nixos-01 \
-    --hostname rp-nixos-01 \
-    --target-host admin@10.10.10.135 \
-    --build-host admin@10.10.10.135
-
-mon:
-    {{nh}} os switch \
-    --elevation-strategy passwordless .#mon-nixos-01 \
-    --hostname mon-nixos-01 \
-    --target-host admin@10.10.10.187 \
-    --build-host admin@10.10.10.187
-
-pmac:
-    {{nh}} darwin switch \
-        .#ZionProxy
-
-    {{nh}} home switch \
-        . \
-        --configuration ZionProxy
-
-wmac:
-    {{nh}} darwin switch \
-        .#MLGERHL6W4P2RXH
-
-    {{nh}} home switch \
-        . \
-        --configuration MLGERHL6W4P2RXH
+macos: (_deploy-macos _target_macos)
 
 update:
     {{nix}} flake update

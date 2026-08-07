@@ -33,6 +33,7 @@
     fluxcd
     just
     istioctl
+    witr
     ########################
     # cloud-native tooling #
     ########################

@@ -19,6 +19,7 @@
       "10.10.10.153:9100" # lw-nixos-01
       "10.10.10.135:9100" # rp-nixos-01
       "10.10.10.118:9100" # kc-nixos-01
+      "10.10.10.173:9100" # notes-nixos-01 (replace with DHCP-assigned IP)
     ];
     dashboardFiles = [
       ../../modules/monitoring/grafana-dashboards/node-overview.json

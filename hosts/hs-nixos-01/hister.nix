@@ -27,10 +27,16 @@ in
     port = 4433;
     openFirewall = true;
     settings = {
-      app.log_level = "info";
-      server.address = "0.0.0.0:4433";
-      server.base_url = "https://search.mrbl.dedyn.io";
-      server.database = "host=/run/postgresql user=hister dbname=hister sslmode=disable";
+      app = {
+        log_level = "info";
+        search_url = "https://google.com/search?q={query}";
+        open_results_on_new_tab = true;
+      };
+      server = {
+        address = "0.0.0.0:4433";
+        base_url = "https://search.mrbl.dedyn.io";
+        database = "host=/run/postgresql user=hister dbname=hister sslmode=disable";
+      };
     };
   };
 

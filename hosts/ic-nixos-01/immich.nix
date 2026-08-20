@@ -17,9 +17,9 @@
     ];
   };
 
-  services.postgresql = {
+  homelab.postgresql = {
     enable = true;
-    dataDir = "/mnt/postgresql-data/pgdata";
+    profile = "small";
     ensureDatabases = [ "immich" ];
     ensureUsers = [
       {
@@ -27,20 +27,6 @@
         ensureDBOwnership = true;
       }
     ];
-    settings = {
-      max_connections = 200;
-      shared_buffers = "256MB";
-      effective_cache_size = "1GB";
-      maintenance_work_mem = "64MB";
-      checkpoint_completion_target = 0.9;
-      wal_buffers = "16MB";
-      default_statistics_target = 100;
-      random_page_cost = 1.1;
-      effective_io_concurrency = 200;
-      work_mem = "1310kB";
-      min_wal_size = "1GB";
-      max_wal_size = "4GB";
-    };
   };
 
   # Use Valkey as the Redis-compatible backend.
@@ -104,7 +90,6 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
     "d /mnt/appdata/immich 0700 immich immich -"
     "d /mnt/postgresql-data/valkey 0750 redis redis -"
   ];
@@ -117,4 +102,3 @@
     mode = "0400";
   };
 }
-

@@ -5,5 +5,6 @@
   imports = [
     ./monitoring
     ./maintenance
+    ./postgresql
   ];
 }

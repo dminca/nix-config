@@ -88,35 +88,23 @@
     "pm" = "dynamic";
     "pm.max_requests" = "500";
   };
-  services = {
-    postgresql = {
-      enable = true;
-      dataDir = "/mnt/postgresql-data/pgdata";
-      ensureDatabases = [
-        "nextcloud"
-        "onlyoffice"
-      ];
-      ensureUsers = [
-        {
-          name = "nextcloud";
-          ensureDBOwnership = true;
-        }
-        {
-          name = "onlyoffice";
-          ensureDBOwnership = true;
-        }
-      ];
-      settings = {
-        max_connections = 500;
-        max_wal_senders = 16;
-        max_locks_per_transaction = 1024;
-        shared_buffers = "512MB";
-        wal_keep_size = "4GB";
-        archive_timeout = 300;
-        max_wal_size = "16GB";
-        min_wal_size = "1GB";
-      };
-    };
+  homelab.postgresql = {
+    enable = true;
+    profile = "large";
+    ensureDatabases = [
+      "nextcloud"
+      "onlyoffice"
+    ];
+    ensureUsers = [
+      {
+        name = "nextcloud";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "onlyoffice";
+        ensureDBOwnership = true;
+      }
+    ];
   };
   services.redis.package = pkgs.valkey;
 
@@ -148,7 +136,6 @@
     mode = "0640";
   };
   systemd.tmpfiles.rules = [
-    "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
     "d /mnt/nextcloud-data/nextcloud 0700 nextcloud nextcloud -"
   ];
 

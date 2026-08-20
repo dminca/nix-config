@@ -7,24 +7,10 @@ let
   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
 in
 {
-  services.postgresql = {
+  homelab.postgresql = {
     enable = true;
-    dataDir = "/mnt/postgresql-data/pgdata";
-    settings = {
-      unix_socket_directories = "/run/postgresql";
-      max_connections = 200;
-      shared_buffers = "256MB";
-      effective_cache_size = "1GB";
-      maintenance_work_mem = "64MB";
-      checkpoint_completion_target = 0.9;
-      wal_buffers = "16MB";
-      default_statistics_target = 100;
-      random_page_cost = 1.1;
-      effective_io_concurrency = 200;
-      work_mem = "1310kB";
-      min_wal_size = "1GB";
-      max_wal_size = "4GB";
-    };
+    profile = "small";
+    settings.unix_socket_directories = "/run/postgresql";
     ensureDatabases = [ "hister" ];
     ensureUsers = [
       {
@@ -52,8 +38,4 @@ in
     after = [ "postgresql.service" ];
     wants = [ "postgresql.service" ];
   };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/postgresql-data/pgdata 0700 postgres postgres -"
-  ];
 }

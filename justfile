@@ -20,6 +20,7 @@ ic: (_deploy-nixos "ic-nixos-01" "10.10.10.162")
 rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
 mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
 hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
+notes: (_deploy-nixos "notes-nixos-01" "10.10.10.173")
 
 _deploy-macos target:
     {{nh}} darwin switch .#{{target}}

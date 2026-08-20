@@ -47,28 +47,35 @@
       #
       # Note: rp-nixos-01 has hasHardwareConfig=false and useDisko=false because
       # it's an LXC container host (no hardware config needed).
-      mkNixosHost = { hostname, system, hasHardwareConfig ? true, useDisko ? true, extraModules ? [] }:
+      mkNixosHost =
+        {
+          hostname,
+          system,
+          hasHardwareConfig ? true,
+          useDisko ? true,
+          extraModules ? [ ],
+        }:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
-          modules =
-            [
-              ./hosts/${hostname}/configuration.nix
-            ]
-            ++ (if hasHardwareConfig then [ ./hosts/${hostname}/hardware-configuration.nix ] else [])
-            ++ [
-              ./modules
-              sops-nix.nixosModules.sops
-            ]
-            ++ (if useDisko then [ disko.nixosModules.disko ] else [])
-            ++ extraModules;
+          modules = [
+            ./hosts/${hostname}/configuration.nix
+          ]
+          ++ (if hasHardwareConfig then [ ./hosts/${hostname}/hardware-configuration.nix ] else [ ])
+          ++ [
+            ./modules
+            sops-nix.nixosModules.sops
+          ]
+          ++ (if useDisko then [ disko.nixosModules.disko ] else [ ])
+          ++ extraModules;
         };
 
       # ========================================================================
       # HELPER: mkDarwinHomeConfig
       # ========================================================================
       # Creates a home-manager configuration for nix-darwin systems.
-      mkDarwinHomeConfig = hostname:
+      mkDarwinHomeConfig =
+        hostname:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { system = "aarch64-darwin"; };
           extraSpecialArgs = { inherit inputs; };
@@ -84,20 +91,40 @@
       # ========================================================================
       # Declarative registry of all NixOS hosts.
       nixosHosts = {
-        nc-nixos-01 = { system = "x86_64-linux"; };
-        kc-nixos-01 = { system = "x86_64-linux"; };
+        nc-nixos-01 = {
+          system = "x86_64-linux";
+        };
+        kc-nixos-01 = {
+          system = "x86_64-linux";
+        };
         # rp-nixos-01: LXC container host. No hardware config or disko needed.
-        rp-nixos-01 = { system = "x86_64-linux"; hasHardwareConfig = false; useDisko = false; };
-        lw-nixos-01 = { system = "x86_64-linux"; };
-        ic-nixos-01 = { system = "x86_64-linux"; };
-        mon-nixos-01 = { system = "x86_64-linux"; };
+        rp-nixos-01 = {
+          system = "x86_64-linux";
+          hasHardwareConfig = false;
+          useDisko = false;
+        };
+        lw-nixos-01 = {
+          system = "x86_64-linux";
+        };
+        ic-nixos-01 = {
+          system = "x86_64-linux";
+        };
+        mon-nixos-01 = {
+          system = "x86_64-linux";
+        };
+        notes-nixos-01 = {
+          system = "x86_64-linux";
+        };
         hs-nixos-01 = {
           system = "x86_64-linux";
           extraModules = [ (nixpkgs-unstable + "/nixos/modules/services/web-apps/hister.nix") ];
         };
       };
 
-      darwinHosts = [ "ZionProxy" "MLGERHL6W4P2RXH" ];
+      darwinHosts = [
+        "ZionProxy"
+        "MLGERHL6W4P2RXH"
+      ];
     in
     {
       darwinConfigurations = builtins.listToAttrs (
@@ -110,20 +137,18 @@
               ./hosts/${hostname}/system.nix
             ];
           };
-        })
-        darwinHosts
+        }) darwinHosts
       );
 
-      nixosConfigurations = builtins.mapAttrs
-        (hostname: cfg: mkNixosHost ({ inherit hostname; } // cfg))
-        nixosHosts;
+      nixosConfigurations = builtins.mapAttrs (
+        hostname: cfg: mkNixosHost ({ inherit hostname; } // cfg)
+      ) nixosHosts;
 
       homeConfigurations = builtins.listToAttrs (
         map (hostname: {
           name = hostname;
           value = mkDarwinHomeConfig hostname;
-        })
-        darwinHosts
+        }) darwinHosts
       );
 
       # ========================================================================

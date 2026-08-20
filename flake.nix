@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixvim = {
@@ -25,6 +26,7 @@
       self,
       nix-darwin,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       sops-nix,
       disko,
@@ -48,6 +50,7 @@
       mkNixosHost = { hostname, system, hasHardwareConfig ? true, useDisko ? true, extraModules ? [] }:
         nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = { inherit inputs; };
           modules =
             [
               ./hosts/${hostname}/configuration.nix
@@ -88,6 +91,10 @@
         lw-nixos-01 = { system = "x86_64-linux"; };
         ic-nixos-01 = { system = "x86_64-linux"; };
         mon-nixos-01 = { system = "x86_64-linux"; };
+        hs-nixos-01 = {
+          system = "x86_64-linux";
+          extraModules = [ (nixpkgs-unstable + "/nixos/modules/services/web-apps/hister.nix") ];
+        };
       };
 
       darwinHosts = [ "ZionProxy" "MLGERHL6W4P2RXH" ];

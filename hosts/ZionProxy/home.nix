@@ -1,9 +1,13 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }:
 
+let
+  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+in
 {
   home.username = "dminca";
   home.homeDirectory = "/Users/dminca";
@@ -18,6 +22,7 @@
     btop
     yt-dlp
     just
+    unstablePkgs.hister
     ########
     # Apps #
     ########

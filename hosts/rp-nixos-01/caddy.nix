@@ -173,6 +173,22 @@
           }
         '';
       };
+      "search.mrbl.dedyn.io" = {
+        extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
+          reverse_proxy 10.10.10.157:4433 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-Host {host}
+          }
+        '';
+      };
     };
   };
 

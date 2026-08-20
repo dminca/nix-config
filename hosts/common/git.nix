@@ -33,7 +33,7 @@
       };
       merge = {
         log = true;
-        tool = "opendiff";
+        tool = "vimdiff";
       };
       difftool = {
         prompt = false;
@@ -76,4 +76,3 @@
     enableGitIntegration = true;
   };
 }
-

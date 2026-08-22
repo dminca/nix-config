@@ -32,7 +32,7 @@
         greedy = true;
       }
       {
-        name = "onlyoffice";
+        name = "libreoffice";
         greedy = true;
       }
       {

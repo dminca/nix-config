@@ -27,6 +27,7 @@ in
         address: 0.0.0.0:4433
         base_url: https://search.mrbl.dedyn.io
         database: host=/run/postgresql user=hister dbname=hister sslmode=disable
+        oauth_only: true
         oauth:
           oidc:
             client_id: hister

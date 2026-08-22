@@ -9,10 +9,7 @@
     enable = true;
     profile = "small";
     dataDir = "/mnt/postgresql-data/pgdata";
-    settings = {
-      unix_socket_directories = "/run/postgresql";
-      listen_addresses = lib.mkForce "";
-    };
+    settings.unix_socket_directories = "/run/postgresql";
     ensureDatabases = [ "memos" ];
     ensureUsers = [
       {
@@ -35,11 +32,7 @@
   };
 
   systemd.services.memos = {
-    after = [
-      "postgresql.service"
-    ];
-    wants = [
-      "postgresql.service"
-    ];
+    after = [ "postgresql.service" ];
+    wants = [ "postgresql.service" ];
   };
 }

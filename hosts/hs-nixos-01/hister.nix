@@ -16,9 +16,26 @@ in
     mode = "0400";
   };
 
-  sops.templates."hister-oidc.env" = {
+  sops.templates."hister-config.yml" = {
     content = ''
-      HISTER_SERVER__OAUTH__OIDC__CLIENT_SECRET=${config.sops.placeholder."hister-oidc-client-secret"}
+      app:
+        log_level: info
+        search_url: "https://google.com/search?q={query}"
+        open_results_on_new_tab: true
+        user_handling: true
+      server:
+        address: 0.0.0.0:4433
+        base_url: https://search.mrbl.dedyn.io
+        database: host=/run/postgresql user=hister dbname=hister sslmode=disable
+        oauth:
+          oidc:
+            client_id: hister
+            client_secret: ${config.sops.placeholder."hister-oidc-client-secret"}
+            configuration_url: https://kc.mrbl.dedyn.io/realms/home/.well-known/openid-configuration
+            scopes:
+              - openid
+              - email
+              - profile
     '';
     owner = "hister";
     group = "hister";
@@ -44,29 +61,7 @@ in
     dataDir = "/mnt/appdata";
     port = 4433;
     openFirewall = true;
-    environmentFile = config.sops.templates."hister-oidc.env".path;
-    settings = {
-      app = {
-        log_level = "info";
-        search_url = "https://google.com/search?q={query}";
-        open_results_on_new_tab = true;
-        user_handling = true;
-      };
-      server = {
-        address = "0.0.0.0:4433";
-        base_url = "https://search.mrbl.dedyn.io";
-        database = "host=/run/postgresql user=hister dbname=hister sslmode=disable";
-        oauth.oidc = {
-          client_id = "hister";
-          configuration_url = "https://kc.mrbl.dedyn.io/realms/home/.well-known/openid-configuration";
-          scopes = [
-            "openid"
-            "email"
-            "profile"
-          ];
-        };
-      };
-    };
+    configPath = config.sops.templates."hister-config.yml".path;
   };
 
   systemd.services.hister = {

@@ -6,12 +6,12 @@ nix := require("nix")
 default:
   @just --choose
 
-_deploy-nixos host ip:
+_deploy-nixos host ip user='admin':
     {{nh}} os switch \
-    --elevation-strategy passwordless .#{{host}} \
+    .#{{host}} \
     --hostname {{host}} \
-    --target-host admin@{{ip}} \
-    --build-host admin@{{ip}}
+    --target-host {{user}}@{{ip}} \
+    --build-host {{user}}@{{ip}}
 
 nc: (_deploy-nixos "nc-nixos-01" "10.10.10.156")
 kc: (_deploy-nixos "kc-nixos-01" "10.10.10.118")
@@ -20,6 +20,7 @@ ic: (_deploy-nixos "ic-nixos-01" "10.10.10.162")
 rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
 mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
 hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
+hephaestus: (_deploy-nixos "hephaestus" "192.168.178.87" "dminca")
 notes: (_deploy-nixos "notes-nixos-01" "10.10.10.173")
 
 _deploy-macos target:

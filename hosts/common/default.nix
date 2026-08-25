@@ -4,10 +4,11 @@
 {
   imports = [
     ./home.nix
-    ../../modules/nvix
-    ./git.nix
     ./tmux.nix
-    ./wezterm.nix
-    ./zshrc.nix
   ];
+
+  profiles.common.shell.enable = true;
+  profiles.common.git.enable = true;
+  profiles.common.wezterm.enable = true;
+  programs.nvix.enable = true;
 }

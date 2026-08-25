@@ -12,7 +12,9 @@ NixOS configuration for bootstrapping Daniel's station (Darwin)
 > can render your machines unbootable and damage data.
 
 ## Description
-At the current point in time, this configuration is aimed at aarch64-darwin architecture (Apple Silicon)
+This repository contains both:
+- nix-darwin + Home Manager profiles for aarch64-darwin (Apple Silicon)
+- NixOS host profiles for x86_64-linux systems
 
 ## Installation
 
@@ -95,6 +97,10 @@ nix shell nixpkgs#nixos-rebuild \
 > [!NOTE]  
 > Required to pass `--fast` and `--target-host user@host` if execution is triggered
 > from a Darwin or non-linux workstation.
+
+### Installing `hephaestus` from macOS with `nixos-anywhere`
+
+Use the dedicated template in [`./hephaestus`](./hephaestus) and run the command shown in its README.
 
 ## Roadmap [completed] 🎉
 - [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)

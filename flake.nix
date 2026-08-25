@@ -19,6 +19,7 @@
     };
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
@@ -30,6 +31,7 @@
       home-manager,
       sops-nix,
       disko,
+      nixos-hardware,
       ...
     }:
     let
@@ -81,6 +83,7 @@
           extraSpecialArgs = { inherit inputs; };
           modules = [
             sops-nix.homeManagerModules.sops
+            ./modules/home-manager
             ./hosts/common
             ./hosts/${hostname}
           ];
@@ -118,6 +121,19 @@
         hs-nixos-01 = {
           system = "x86_64-linux";
           extraModules = [ (nixpkgs-unstable + "/nixos/modules/services/web-apps/hister.nix") ];
+        };
+        hephaestus = {
+          system = "x86_64-linux";
+          extraModules = [
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.sharedModules = [
+                sops-nix.homeManagerModules.sops
+                ./modules/home-manager
+              ];
+            }
+          ];
         };
       };
 

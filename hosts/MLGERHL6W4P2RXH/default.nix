@@ -8,4 +8,6 @@
     ./git.nix
     ./zshrc.nix
   ];
+
+  profiles.shell.zsh.enable = true;
 }

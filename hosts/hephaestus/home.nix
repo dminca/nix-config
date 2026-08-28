@@ -58,6 +58,7 @@
       hl.config({
         input = {
           kb_layout = "us",
+          kb_options = "caps:swapescape",
           repeat_delay = 150,
           repeat_rate = 50,
           natural_scroll = true,

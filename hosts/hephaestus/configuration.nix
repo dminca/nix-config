@@ -37,7 +37,10 @@ in
   services.libinput.enable = true;
   services.fprintd.enable = true;
 
-  security.pam.services.sudo.fprintAuth = true;
+  security.pam.services.sudo = {
+    fprintAuth = true;
+    unixAuth = true;
+  };
   security.sudo.wheelNeedsPassword = true;
 
   users.users.${username} = {
@@ -139,6 +142,7 @@ in
     nh
     foot
     wezterm
+    fprintd
     signal-desktop
     nextcloud-client
   ];

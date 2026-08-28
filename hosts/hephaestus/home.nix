@@ -230,12 +230,48 @@
   ];
 
   xdg.configFile."hypr/hyprlock.conf".text = ''
+    general {
+      hide_cursor = false
+    }
+
+    background {
+      monitor =
+      path = screenshot
+      blur_passes = 3
+      blur_size = 6
+      noise = 0.0117
+      contrast = 0.8916
+      brightness = 0.8172
+      vibrancy = 0.1696
+      vibrancy_darkness = 0.0
+    }
+
     auth {
       fingerprint {
         enabled = true
         ready_message = Scan fingerprint to unlock
         present_message = Scanning fingerprint...
+        retry_delay = 250
       }
+    }
+
+    input-field {
+      monitor =
+      size = 320, 56
+      outline_thickness = 2
+      dots_size = 0.25
+      dots_spacing = 0.2
+      dots_center = true
+      inner_color = rgba(00000088)
+      outer_color = rgba(ffffffff)
+      font_color = rgb(ffffff)
+      fade_on_empty = false
+      rounding = 12
+      placeholder_text = Input password...
+      hide_input = false
+      position = 0, -40
+      halign = center
+      valign = center
     }
   '';
 

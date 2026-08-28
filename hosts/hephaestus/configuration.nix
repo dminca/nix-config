@@ -139,6 +139,8 @@ in
     nh
     foot
     wezterm
+    signal-desktop
+    nextcloud-client
   ];
 
   home-manager = {

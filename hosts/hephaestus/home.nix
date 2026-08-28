@@ -229,6 +229,16 @@
     lxqt.lxqt-policykit
   ];
 
+  xdg.configFile."hypr/hyprlock.conf".text = ''
+    auth {
+      fingerprint {
+        enabled = true
+        ready_message = Scan fingerprint to unlock
+        present_message = Scanning fingerprint...
+      }
+    }
+  '';
+
   xdg.configFile."wlogout/layout".text = ''
     {
       "label" : "shutdown",

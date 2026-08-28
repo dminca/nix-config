@@ -29,9 +29,7 @@ in
 
   services.xserver = {
     xkb = {
-      layout = "us,ro,de";
-      variant = ",std,qwertz";
-      options = "grp:alt_shift_toggle,caps:escape";
+      layout = "us";
     };
   };
   console.useXkbConfig = true;

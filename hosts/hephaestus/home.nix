@@ -57,8 +57,7 @@
 
       hl.config({
         input = {
-          kb_layout = "us,ro,de",
-          kb_options = "grp:alt_shift_toggle,caps:escape",
+          kb_layout = "us",
           repeat_delay = 150,
           repeat_rate = 50,
           natural_scroll = true,

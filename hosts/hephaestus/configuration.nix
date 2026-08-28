@@ -148,6 +148,9 @@ in
     wezterm
     fprintd
     signal-desktop
+    telegram-desktop
+    fluffychat
+    discord
     nextcloud-client
   ];
 

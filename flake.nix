@@ -198,6 +198,7 @@
             sops
             age
             nixfmt
+            just
           ];
           SOPS_EDITOR = "nvim";
         };

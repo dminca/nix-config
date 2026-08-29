@@ -88,7 +88,7 @@
       hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
 
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("wezterm"))
-      hl.bind("SUPER + D", hl.dsp.exec_cmd("wofi --show drun"))
+      hl.bind("SUPER + D", hl.dsp.exec_cmd("fuzzel"))
       hl.bind("SUPER + V", hl.dsp.exec_cmd("vivaldi"))
       hl.bind("SUPER + G", hl.dsp.exec_cmd("kdeconnect-app"))
       hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
@@ -217,6 +217,7 @@
     wezterm
     waybar
     dunst
+    fuzzel
     wofi
     wlogout
     wl-clipboard

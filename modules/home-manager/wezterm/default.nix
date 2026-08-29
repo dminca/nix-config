@@ -9,18 +9,44 @@ let
     {
       key = 'LeftArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey {
-        key = 'b',
-        mods = 'ALT',
-      },
+      action = wezterm.action.SendKey { key = 'b', mods = 'ALT' },
     },
     {
       key = 'RightArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey {
-        key = 'f',
-        mods = 'ALT',
-      },
+      action = wezterm.action.SendKey { key = 'f', mods = 'ALT' },
+    },
+  '';
+  hephaestusPaneBindings = ''
+    {
+      key = 'h',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Left',
+    },
+    {
+      key = 'j',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Down',
+    },
+    {
+      key = 'k',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Up',
+    },
+    {
+      key = 'l',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Right',
+    },
+    {
+      key = 'a',
+      mods = 'SUPER|SHIFT',
+      action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+    },
+    {
+      key = 's',
+      mods = 'SUPER|SHIFT',
+      action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
   '';
 in
@@ -152,6 +178,7 @@ in
 
             config.keys = {
               ${wordJumpBindings}
+              ${hephaestusPaneBindings}
             }
 
             return config

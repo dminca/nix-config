@@ -8,10 +8,13 @@
   imports = [
     ./caddy.nix
   ];
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-users = [ "admin" ];
+  };
   # ── Boot ──────────────────────────────────────────────────────────────────
   boot = {
     # Proxmox LXC containers do not own the host boot process.

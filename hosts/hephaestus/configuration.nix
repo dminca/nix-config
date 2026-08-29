@@ -28,21 +28,29 @@ in
   ];
 
   services.xserver = {
+    enable = true;
     xkb = {
       layout = "us";
+      options = "caps:escape";
     };
+    autoRepeatDelay = 233;
+    autoRepeatInterval = 17;
   };
   console.useXkbConfig = true;
 
-  services.libinput.enable = true;
+  services.libinput = {
+    enable = true;
+    touchpad.naturalScrolling = true;
+  };
   services.fprintd.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
   security.pam.services.sudo = {
     fprintAuth = true;
     unixAuth = true;
   };
-  security.pam.services.hyprlock = {
-    # hyprlock handles fingerprint natively; keep PAM for password fallback.
+  security.pam.services.i3lock = {
+    fprintAuth = true;
     unixAuth = true;
   };
   security.sudo.wheelNeedsPassword = true;
@@ -64,33 +72,19 @@ in
 
   programs.zsh.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
-  };
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        user = username;
-        command = "${lib.getExe pkgs.tuigreet} --time --remember --cmd 'uwsm start hyprland.desktop'";
-      };
-    };
-  };
+  services.xserver.windowManager.i3.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.displayManager.defaultSession = "none+i3";
 
   xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
-    ];
-    configPackages = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
-    ];
+   enable = true;
+   xdgOpenUsePortal = true;
+   extraPortals = with pkgs; [
+     xdg-desktop-portal-gtk
+   ];
+   configPackages = with pkgs; [
+     xdg-desktop-portal-gtk
+   ];
   };
 
   hardware.graphics = {
@@ -147,11 +141,6 @@ in
     foot
     wezterm
     fprintd
-    signal-desktop
-    telegram-desktop
-    fluffychat
-    discord
-    nextcloud-client
   ];
 
   home-manager = {

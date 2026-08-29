@@ -1,8 +1,12 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
+let
+  terminalCommand = "${pkgs.wezterm}/bin/wezterm";
+  launcherCommand = "${pkgs.rofi}/bin/rofi -show drun";
+  clipboardCommand = "${pkgs.copyq}/bin/copyq toggle";
+  emojiCommand = "${pkgs.rofimoji}/bin/rofimoji --selector rofi";
+  lockCommand = "${pkgs.i3lock}/bin/i3lock -c 000000";
+  screenshotCopyCommand = "${pkgs.flameshot}/bin/flameshot gui --raw | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
+in
 {
   imports = [
     ./git.nix
@@ -32,138 +36,91 @@
 
   home.sessionVariables = {
     TERMINAL = "wezterm";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    NIXOS_OZONE_WL = "1";
+    XDG_SESSION_TYPE = "x11";
+    XDG_CURRENT_DESKTOP = "i3";
+    XDG_SESSION_DESKTOP = "i3";
   };
 
-  # Keep HM session variables visible to user systemd services when launched via UWSM.
-  xdg.configFile."uwsm/env".source =
-    "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+  home.file.".i3/config".text = ''
+    set $mod Mod4
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    package = null;
-    portalPackage = null;
-    systemd.enable = false;
-    extraConfig = ''
-      hl.monitor({
-        output = "eDP-1",
-        mode = "preferred",
-        position = "0x0",
-        scale = "1.25",
-      })
+    font pango:JetBrains Mono 10
+    floating_modifier $mod
 
-      hl.config({
-        input = {
-          kb_layout = "us",
-          kb_options = "caps:swapescape",
-          repeat_delay = 150,
-          repeat_rate = 50,
-          natural_scroll = true,
-          touchpad = {
-            natural_scroll = true,
-          },
-        }
-      })
+    exec --no-startup-id copyq
 
-      hl.config({
-        gestures = {
-          workspace_swipe_invert = false,
-        }
-      })
+    bindsym XF86AudioMute exec amixer -q set Master toggle
+    bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
+    bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
+    bindsym XF86AudioMicMute exec amixer -q set Capture toggle
+    bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
-      hl.gesture({
-        fingers = 3,
-        direction = "horizontal",
-        action = "workspace",
-      })
+    bindsym $mod+Return exec ${terminalCommand}
+    bindsym $mod+d exec ${launcherCommand}
+    bindsym $mod+v exec vivaldi
+    bindsym $mod+g exec kdeconnect-app
+    bindsym Print exec flameshot gui
+    bindsym $mod+Shift+p exec ${screenshotCopyCommand}
+    bindsym $mod+Ctrl+v exec ${clipboardCommand}
+    bindsym $mod+Ctrl+space exec ${emojiCommand}
+    bindsym $mod+space floating toggle
+    bindsym $mod+q kill
+    bindsym $mod+f fullscreen toggle
+    bindsym $mod+BackSpace exec ${lockCommand}
+    bindsym $mod+Shift+e exec i3-msg exit
 
-      hl.bind("XF86AudioMute", hl.dsp.exec_cmd("amixer -q set Master toggle"))
-      hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("amixer -q set Master 5%-"))
-      hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("amixer -q set Master 5%+"))
-      hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("amixer -q set Capture toggle"))
-      hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"))
-      hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
+    bindsym $mod+h focus left
+    bindsym $mod+j focus down
+    bindsym $mod+k focus up
+    bindsym $mod+l focus right
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
 
-      hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("wezterm"))
-      hl.bind("SUPER + D", hl.dsp.exec_cmd("wofi --show drun"))
-      hl.bind("SUPER + V", hl.dsp.exec_cmd("vivaldi"))
-      hl.bind("SUPER + G", hl.dsp.exec_cmd("kdeconnect-app"))
-      hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("flameshot gui"))
-      hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh -c 'flameshot gui --raw | wl-copy --type image/png'"))
-      hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
-      hl.bind("ALT + TAB", hl.dsp.window.cycle_next({ next = true, tiled = true, floating = true }))
-      hl.bind("ALT + SHIFT + TAB", hl.dsp.window.cycle_next({ next = false, tiled = true, floating = true }))
-      hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))
-      hl.bind("SUPER + Q", hl.dsp.window.close())
-      hl.bind("SUPER + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
-      hl.bind("SUPER + BACKSPACE", hl.dsp.exec_cmd("wlogout"))
-      hl.bind("SUPER + SHIFT + E", hl.dsp.exit())
+    bindsym $mod+Shift+h move left
+    bindsym $mod+Shift+j move down
+    bindsym $mod+Shift+k move up
+    bindsym $mod+Shift+l move right
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
 
-      hl.bind("SUPER + H", hl.dsp.focus({ direction = "left" }))
-      hl.bind("SUPER + J", hl.dsp.focus({ direction = "down" }))
-      hl.bind("SUPER + K", hl.dsp.focus({ direction = "up" }))
-      hl.bind("SUPER + L", hl.dsp.focus({ direction = "right" }))
-      hl.bind("SUPER + LEFT", hl.dsp.focus({ direction = "left" }))
-      hl.bind("SUPER + DOWN", hl.dsp.focus({ direction = "down" }))
-      hl.bind("SUPER + UP", hl.dsp.focus({ direction = "up" }))
-      hl.bind("SUPER + RIGHT", hl.dsp.focus({ direction = "right" }))
+    bindsym $mod+Ctrl+h resize shrink width 40 px or 40 ppt
+    bindsym $mod+Ctrl+j resize grow height 40 px or 40 ppt
+    bindsym $mod+Ctrl+k resize shrink height 40 px or 40 ppt
+    bindsym $mod+Ctrl+l resize grow width 40 px or 40 ppt
+    bindsym $mod+Ctrl+Left resize shrink width 40 px or 40 ppt
+    bindsym $mod+Ctrl+Down resize grow height 40 px or 40 ppt
+    bindsym $mod+Ctrl+Up resize shrink height 40 px or 40 ppt
+    bindsym $mod+Ctrl+Right resize grow width 40 px or 40 ppt
 
-      hl.bind("SUPER + SHIFT + H", hl.dsp.window.move({ direction = "left" }))
-      hl.bind("SUPER + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
-      hl.bind("SUPER + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
-      hl.bind("SUPER + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
-      hl.bind("SUPER + SHIFT + LEFT", hl.dsp.window.move({ direction = "left" }))
-      hl.bind("SUPER + SHIFT + DOWN", hl.dsp.window.move({ direction = "down" }))
-      hl.bind("SUPER + SHIFT + UP", hl.dsp.window.move({ direction = "up" }))
-      hl.bind("SUPER + SHIFT + RIGHT", hl.dsp.window.move({ direction = "right" }))
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
 
-      hl.bind("SUPER + CTRL + H", hl.dsp.window.resize({ x = -40, y = 0, relative = true }))
-      hl.bind("SUPER + CTRL + J", hl.dsp.window.resize({ x = 0, y = 40, relative = true }))
-      hl.bind("SUPER + CTRL + K", hl.dsp.window.resize({ x = 0, y = -40, relative = true }))
-      hl.bind("SUPER + CTRL + L", hl.dsp.window.resize({ x = 40, y = 0, relative = true }))
-      hl.bind("SUPER + CTRL + LEFT", hl.dsp.window.resize({ x = -40, y = 0, relative = true }))
-      hl.bind("SUPER + CTRL + DOWN", hl.dsp.window.resize({ x = 0, y = 40, relative = true }))
-      hl.bind("SUPER + CTRL + UP", hl.dsp.window.resize({ x = 0, y = -40, relative = true }))
-      hl.bind("SUPER + CTRL + RIGHT", hl.dsp.window.resize({ x = 40, y = 0, relative = true }))
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
 
-      hl.bind("SUPER + 1", hl.dsp.focus({ workspace = "1" }))
-      hl.bind("SUPER + 2", hl.dsp.focus({ workspace = "2" }))
-      hl.bind("SUPER + 3", hl.dsp.focus({ workspace = "3" }))
-      hl.bind("SUPER + 4", hl.dsp.focus({ workspace = "4" }))
-      hl.bind("SUPER + 5", hl.dsp.focus({ workspace = "5" }))
-      hl.bind("SUPER + 6", hl.dsp.focus({ workspace = "6" }))
-      hl.bind("SUPER + 7", hl.dsp.focus({ workspace = "7" }))
-      hl.bind("SUPER + 8", hl.dsp.focus({ workspace = "8" }))
-      hl.bind("SUPER + 9", hl.dsp.focus({ workspace = "9" }))
-
-      hl.bind("SUPER + SHIFT + 1", hl.dsp.window.move({ workspace = "1" }))
-      hl.bind("SUPER + SHIFT + 2", hl.dsp.window.move({ workspace = "2" }))
-      hl.bind("SUPER + SHIFT + 3", hl.dsp.window.move({ workspace = "3" }))
-      hl.bind("SUPER + SHIFT + 4", hl.dsp.window.move({ workspace = "4" }))
-      hl.bind("SUPER + SHIFT + 5", hl.dsp.window.move({ workspace = "5" }))
-      hl.bind("SUPER + SHIFT + 6", hl.dsp.window.move({ workspace = "6" }))
-      hl.bind("SUPER + SHIFT + 7", hl.dsp.window.move({ workspace = "7" }))
-      hl.bind("SUPER + SHIFT + 8", hl.dsp.window.move({ workspace = "8" }))
-      hl.bind("SUPER + SHIFT + 9", hl.dsp.window.move({ workspace = "9" }))
-    '';
-  };
-
-  systemd.user.services.waybar = {
-    Unit = {
-      Description = "Waybar";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.waybar}/bin/waybar";
-      Restart = "on-failure";
-      RestartSec = 2;
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
+    bar {
+      status_command i3status
+    }
+  '';
 
   systemd.user.services.dunst = {
     Unit = {
@@ -173,20 +130,6 @@
     };
     Service = {
       ExecStart = "${pkgs.dunst}/bin/dunst";
-      Restart = "on-failure";
-      RestartSec = 2;
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
-
-  systemd.user.services.cliphist = {
-    Unit = {
-      Description = "Clipboard history daemon";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store";
       Restart = "on-failure";
       RestartSec = 2;
     };
@@ -211,252 +154,21 @@
     nerd-fonts.jetbrains-mono
     alsa-utils
     brightnessctl
-    cliphist
     flameshot
     vivaldi
     wezterm
-    waybar
     dunst
-    wofi
-    wlogout
-    wl-clipboard
-    grim
-    slurp
-    hyprlock
-    hypridle
-    xdg-desktop-portal-hyprland
+    rofi
+    copyq
+    rofimoji
+    xclip
     networkmanagerapplet
     lxqt.lxqt-policykit
+    libreoffice
+    signal-desktop
+    telegram-desktop
+    fluffychat
+    discord
+    nextcloud-client
   ];
-
-  xdg.configFile."hypr/hyprlock.conf".text = ''
-    general {
-      hide_cursor = false
-    }
-
-    background {
-      monitor =
-      path = screenshot
-      blur_passes = 3
-      blur_size = 6
-      noise = 0.0117
-      contrast = 0.8916
-      brightness = 0.8172
-      vibrancy = 0.1696
-      vibrancy_darkness = 0.0
-    }
-
-    auth {
-      fingerprint {
-        enabled = true
-        ready_message = Scan fingerprint to unlock
-        present_message = Scanning fingerprint...
-        retry_delay = 250
-      }
-    }
-
-    input-field {
-      monitor =
-      size = 320, 56
-      outline_thickness = 2
-      dots_size = 0.25
-      dots_spacing = 0.2
-      dots_center = true
-      inner_color = rgba(00000088)
-      outer_color = rgba(ffffffff)
-      font_color = rgb(ffffff)
-      fade_on_empty = false
-      rounding = 12
-      placeholder_text = Input password...
-      hide_input = false
-      position = 0, -40
-      halign = center
-      valign = center
-    }
-  '';
-
-  xdg.configFile."wlogout/layout".text = ''
-    {
-      "label" : "shutdown",
-      "action" : "systemctl poweroff",
-      "text" : "Shutdown",
-      "keybind" : "s"
-    }
-    {
-      "label" : "reboot",
-      "action" : "systemctl reboot",
-      "text" : "Reboot",
-      "keybind" : "r"
-    }
-    {
-      "label" : "logout",
-      "action" : "hyprctl dispatch exit",
-      "text" : "Exit",
-      "keybind" : "e"
-    }
-    {
-      "label" : "suspend",
-      "action" : "systemctl suspend",
-      "text" : "Suspend",
-      "keybind" : "u"
-    }
-    {
-      "label" : "lock",
-      "action" : "hyprlock",
-      "text" : "Lock",
-      "keybind" : "l"
-    }
-    {
-      "label" : "hibernate",
-      "action" : "systemctl hibernate",
-      "text" : "Hibernate",
-      "keybind" : "h"
-    }
-  '';
-
-  xdg.configFile."wlogout/style.css".text = ''
-    * {
-      font-family: "JetBrains Mono Nerd Font";
-      background-image: none;
-      transition: 20ms;
-    }
-
-    window {
-      background-color: rgba(12, 12, 12, 0.1);
-    }
-
-    button {
-      color: #e0def4;
-      font-size: 20px;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 25%;
-      border-style: solid;
-      background-color: rgba(12, 12, 12, 0.3);
-      border: 3px solid #e0def4;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    button:focus,
-    button:active,
-    button:hover {
-      color: #c4a7e7;
-      background-color: rgba(12, 12, 12, 0.5);
-      border: 3px solid #c4a7e7;
-    }
-
-    #logout, #suspend, #shutdown, #reboot, #lock, #hibernate {
-      margin: 10px;
-      border-radius: 20px;
-    }
-  '';
-
-  xdg.configFile."waybar/config".text = builtins.toJSON {
-    layer = "top";
-    position = "top";
-    height = 34;
-    spacing = 4;
-    modules-left = [ "hyprland/workspaces" ];
-    modules-center = [ "clock" ];
-    modules-right = [
-      "cpu"
-      "memory"
-      "temperature"
-      "battery"
-      "backlight"
-      "tray"
-      "network"
-      "pulseaudio"
-      "custom/power"
-    ];
-    cpu = {
-      format = " {usage}%";
-      tooltip = true;
-    };
-    memory = {
-      format = "󰍛 {percentage}%";
-      tooltip = true;
-    };
-    temperature = {
-      format = " {temperatureC}°C";
-      tooltip = true;
-    };
-    battery = {
-      format = "󰁹 {capacity}%";
-      states = {
-        warning = 30;
-        critical = 15;
-      };
-      tooltip = true;
-    };
-    backlight = {
-      format = "󰃠 {percent}%";
-      tooltip = true;
-    };
-    network = {
-      format-wifi = "󰖩 {essid} {bandwidthDownBits}";
-      format-ethernet = "󰈀 {ipaddr}";
-      format-disconnected = "󰖪";
-      tooltip = true;
-    };
-    pulseaudio = {
-      format = " {volume}%";
-      format-muted = "󰖁 muted";
-      tooltip = true;
-    };
-    "custom/power" = {
-      format = "⏻";
-      tooltip = false;
-      on-click = "${pkgs.wlogout}/bin/wlogout";
-    };
-  };
-
-  xdg.configFile."waybar/style.css".text = ''
-    * {
-      border: none;
-      border-radius: 0px;
-      font-family: "JetBrains Mono Nerd Font";
-      font-weight: bold;
-      font-size: 15px;
-      min-height: 13px;
-    }
-
-    window#waybar {
-      background-color: rgba(0, 0, 0, 0);
-    }
-
-    #clock,
-    #tray,
-    #network,
-    #pulseaudio,
-    #cpu,
-    #memory,
-    #temperature,
-    #battery,
-    #backlight,
-    #custom-power,
-    #workspaces {
-      color: #e0def4;
-      background: #232136;
-      margin: 4px 0px 4px 0px;
-      opacity: 1;
-      border: 0px solid #181825;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-
-    #custom-power {
-      margin-right: 9px;
-      padding-left: 12px;
-      padding-right: 12px;
-      border-radius: 0px 22px 22px 0px;
-    }
-
-    #workspaces {
-      padding-left: 5px;
-      padding-right: 5px;
-      border-radius: 22px 0px 0px 22px;
-      margin-left: 9px;
-    }
-  '';
 }

@@ -9,18 +9,24 @@ let
     {
       key = 'LeftArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey {
-        key = 'b',
-        mods = 'ALT',
-      },
+      action = wezterm.action.MoveBackwardWord,
     },
     {
       key = 'RightArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey {
-        key = 'f',
-        mods = 'ALT',
-      },
+      action = wezterm.action.MoveForwardWord,
+    },
+  '';
+  hephaestusPaneBindings = ''
+    {
+      key = 'a',
+      mods = 'SUPER|SHIFT',
+      action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+    },
+    {
+      key = 's',
+      mods = 'SUPER|SHIFT',
+      action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
   '';
 in
@@ -152,6 +158,7 @@ in
 
             config.keys = {
               ${wordJumpBindings}
+              ${hephaestusPaneBindings}
             }
 
             return config

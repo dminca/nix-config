@@ -88,12 +88,13 @@
       hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
 
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("wezterm"))
-      hl.bind("SUPER + D", hl.dsp.exec_cmd("wofi --show drun"))
+      hl.bind("SUPER + D", hl.dsp.exec_cmd("walker"))
       hl.bind("SUPER + V", hl.dsp.exec_cmd("vivaldi"))
       hl.bind("SUPER + G", hl.dsp.exec_cmd("kdeconnect-app"))
-      hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("flameshot gui"))
+      hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
       hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh -c 'flameshot gui --raw | wl-copy --type image/png'"))
-      hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
+      hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("walker --provider clipboard"))
+      hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("walker --provider unicode"))
       hl.bind("ALT + TAB", hl.dsp.window.cycle_next({ next = true, tiled = true, floating = true }))
       hl.bind("ALT + SHIFT + TAB", hl.dsp.window.cycle_next({ next = false, tiled = true, floating = true }))
       hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))
@@ -217,7 +218,7 @@
     wezterm
     waybar
     dunst
-    wofi
+    walker
     wlogout
     wl-clipboard
     grim
@@ -244,15 +245,6 @@
       brightness = 0.8172
       vibrancy = 0.1696
       vibrancy_darkness = 0.0
-    }
-
-    auth {
-      fingerprint {
-        enabled = true
-        ready_message = Scan fingerprint to unlock
-        present_message = Scanning fingerprint...
-        retry_delay = 250
-      }
     }
 
     input-field {

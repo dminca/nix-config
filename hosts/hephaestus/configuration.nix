@@ -42,7 +42,7 @@ in
     unixAuth = true;
   };
   security.pam.services.hyprlock = {
-    # hyprlock handles fingerprint natively; keep PAM for password fallback.
+    fprintAuth = true;
     unixAuth = true;
   };
   security.sudo.wheelNeedsPassword = true;

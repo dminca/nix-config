@@ -42,6 +42,11 @@
   xdg.configFile."uwsm/env".source =
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
 
+  xdg.configFile."elephant/elephant.toml".text = ''
+    auto_detect_launch_prefix = false
+    launch_prefix = "uwsm-app --"
+  '';
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;

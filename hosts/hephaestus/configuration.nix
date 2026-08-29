@@ -70,6 +70,7 @@ in
     withUWSM = true;
     xwayland.enable = true;
   };
+  programs.uwsm.enable = true;
 
   services.greetd = {
     enable = true;

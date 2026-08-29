@@ -37,7 +37,6 @@ in
   services.libinput.enable = true;
   services.fprintd.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  services.elephant.enable = true;
 
   security.pam.services.sudo = {
     fprintAuth = true;
@@ -71,7 +70,6 @@ in
     withUWSM = true;
     xwayland.enable = true;
   };
-  programs.uwsm.enable = true;
 
   services.greetd = {
     enable = true;

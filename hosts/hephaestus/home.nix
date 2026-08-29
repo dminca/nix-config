@@ -42,15 +42,6 @@
   xdg.configFile."uwsm/env".source =
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
 
-  xdg.configFile."walker/config.toml".text = ''
-    app_launch_prefix = "uwsm app -- "
-  '';
-
-  xdg.configFile."elephant/elephant.toml".text = ''
-    auto_detect_launch_prefix = false
-    launch_prefix = "uwsm app --"
-  '';
-
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
@@ -97,13 +88,12 @@
       hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
 
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("wezterm"))
-      hl.bind("SUPER + D", hl.dsp.exec_cmd("walker"))
+      hl.bind("SUPER + D", hl.dsp.exec_cmd("wofi --show drun"))
       hl.bind("SUPER + V", hl.dsp.exec_cmd("vivaldi"))
       hl.bind("SUPER + G", hl.dsp.exec_cmd("kdeconnect-app"))
       hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
       hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh -c 'flameshot gui --raw | wl-copy --type image/png'"))
-      hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("walker --provider clipboard"))
-      hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("walker --provider unicode"))
+      hl.bind("SUPER + CTRL + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
       hl.bind("ALT + TAB", hl.dsp.window.cycle_next({ next = true, tiled = true, floating = true }))
       hl.bind("ALT + SHIFT + TAB", hl.dsp.window.cycle_next({ next = false, tiled = true, floating = true }))
       hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))
@@ -203,20 +193,6 @@
     Install.WantedBy = [ "graphical-session.target" ];
   };
 
-  systemd.user.services.walker = {
-    Unit = {
-      Description = "Walker launcher service";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.walker}/bin/walker --gapplication-service";
-      Restart = "on-failure";
-      RestartSec = 2;
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
-
   systemd.user.services.polkit-agent = {
     Unit = {
       Description = "LXQt policykit agent";
@@ -241,7 +217,7 @@
     wezterm
     waybar
     dunst
-    walker
+    wofi
     wlogout
     wl-clipboard
     grim

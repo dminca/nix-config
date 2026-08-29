@@ -36,6 +36,7 @@ in
 
   services.libinput.enable = true;
   services.fprintd.enable = true;
+  services.elephant.enable = true;
 
   security.pam.services.sudo = {
     fprintAuth = true;

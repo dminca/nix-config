@@ -194,6 +194,20 @@
     Install.WantedBy = [ "graphical-session.target" ];
   };
 
+  systemd.user.services.walker = {
+    Unit = {
+      Description = "Walker launcher service";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.walker}/bin/walker --gapplication-service";
+      Restart = "on-failure";
+      RestartSec = 2;
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
   systemd.user.services.polkit-agent = {
     Unit = {
       Description = "LXQt policykit agent";

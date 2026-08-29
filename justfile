@@ -23,6 +23,11 @@ _deploy-nixos host ip user='admin':
     exit 1; \
     fi
 
+_deploy-nixos-local host:
+    {{nh}} os switch \
+    .#{{host}} \
+    --hostname {{host}}
+
 nc: (_deploy-nixos "nc-nixos-01" "10.10.10.156")
 kc: (_deploy-nixos "kc-nixos-01" "10.10.10.118")
 lw: (_deploy-nixos "lw-nixos-01" "10.10.10.153")
@@ -31,6 +36,7 @@ rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
 mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
 hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
 hephaestus: (_deploy-nixos "hephaestus" "192.168.178.87" "dminca")
+hephaestus-local: (_deploy-nixos-local "hephaestus")
 notes: (_deploy-nixos "notes-nixos-01" "10.10.10.173")
 
 _deploy-macos target:

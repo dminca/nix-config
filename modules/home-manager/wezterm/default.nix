@@ -9,12 +9,12 @@ let
     {
       key = 'LeftArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey { key = 'LeftArrow', mods = 'CTRL' },
+      action = wezterm.action.SendKey { key = 'b', mods = 'ALT' },
     },
     {
       key = 'RightArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey { key = 'RightArrow', mods = 'CTRL' },
+      action = wezterm.action.SendKey { key = 'f', mods = 'ALT' },
     },
   '';
   hephaestusPaneBindings = ''

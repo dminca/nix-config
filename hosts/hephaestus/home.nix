@@ -42,9 +42,13 @@
   xdg.configFile."uwsm/env".source =
     "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
 
+  xdg.configFile."walker/config.toml".text = ''
+    app_launch_prefix = "uwsm app -- "
+  '';
+
   xdg.configFile."elephant/elephant.toml".text = ''
     auto_detect_launch_prefix = false
-    launch_prefix = "uwsm-app --"
+    launch_prefix = "uwsm app --"
   '';
 
   wayland.windowManager.hyprland = {
@@ -93,13 +97,13 @@
       hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +5%"))
 
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("wezterm"))
-      hl.bind("SUPER + D", hl.dsp.exec_cmd("sh -c 'systemctl --user start elephant.service walker.service >/dev/null 2>&1; sleep 1; walker'"))
+      hl.bind("SUPER + D", hl.dsp.exec_cmd("walker"))
       hl.bind("SUPER + V", hl.dsp.exec_cmd("vivaldi"))
       hl.bind("SUPER + G", hl.dsp.exec_cmd("kdeconnect-app"))
       hl.bind("PRINT", hl.dsp.exec_cmd("flameshot gui"))
       hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("sh -c 'flameshot gui --raw | wl-copy --type image/png'"))
-      hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("sh -c 'systemctl --user start elephant.service walker.service >/dev/null 2>&1; sleep 1; walker --provider clipboard'"))
-      hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("sh -c 'systemctl --user start elephant.service walker.service >/dev/null 2>&1; sleep 1; walker --provider unicode'"))
+      hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("walker --provider clipboard"))
+      hl.bind("SUPER + CTRL + Space", hl.dsp.exec_cmd("walker --provider unicode"))
       hl.bind("ALT + TAB", hl.dsp.window.cycle_next({ next = true, tiled = true, floating = true }))
       hl.bind("ALT + SHIFT + TAB", hl.dsp.window.cycle_next({ next = false, tiled = true, floating = true }))
       hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -27,6 +28,19 @@
     dataDir = "/mnt/appdata/freshrss";
     authType = "http_auth";
     defaultUser = "admin";
+    extensions = [
+      (pkgs.freshrss-extensions.buildFreshRssExtension {
+        FreshRssExtUniqueId = "ArticleFullText";
+        pname = "article-full-text";
+        version = "1.3.2";
+        src = pkgs.fetchFromGitHub {
+          owner = "Niehztog";
+          repo = "freshrss-af-readability";
+          rev = "master";
+          hash = "sha256-lfUZOwLqAzoiUyqSLIe+Q7mTq1clDsm3WhKMI5G8nGA=";
+        };
+      })
+    ];
     database = {
       type = "pgsql";
       host = "/run/postgresql";

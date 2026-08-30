@@ -23,6 +23,7 @@
 
   services.freshrss = {
     enable = true;
+    api.enable = true;
     baseUrl = "https://rss.mrbl.dedyn.io";
     virtualHost = "rss.mrbl.dedyn.io";
     dataDir = "/mnt/appdata/freshrss";

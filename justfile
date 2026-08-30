@@ -47,6 +47,7 @@ hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
 hephaestus: (_deploy-nixos "hephaestus" "192.168.178.87")
 hephaestus-local: (_deploy-nixos-local "hephaestus")
 notes: (_deploy-nixos "notes-nixos-01" "10.10.10.173")
+rss: (_deploy-nixos "rss-nixos-01" "10.10.10.136")
 
 _deploy-macos target:
     {{nh}} darwin switch .#{{target}}

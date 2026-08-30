@@ -102,6 +102,10 @@ nix shell nixpkgs#nixos-rebuild \
 
 Use the dedicated template in [`./hephaestus`](./hephaestus) and run the command shown in its README.
 
+### Installing `rss-nixos-01` with `nixos-anywhere`
+
+Use the dedicated template in [`./rss-nixos-01`](./rss-nixos-01) and run the command shown in its README.
+
 ## Roadmap [completed] 🎉
 - [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)

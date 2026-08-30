@@ -118,6 +118,9 @@
         notes-nixos-01 = {
           system = "x86_64-linux";
         };
+        rss-nixos-01 = {
+          system = "x86_64-linux";
+        };
         hs-nixos-01 = {
           system = "x86_64-linux";
           extraModules = [ (nixpkgs-unstable + "/nixos/modules/services/web-apps/hister.nix") ];

@@ -205,6 +205,38 @@
           }
         '';
       };
+      "rss.mrbl.dedyn.io" = {
+        extraConfig = ''
+          log {
+            output stderr
+            format json
+          }
+
+          @oauth2 path /oauth2/*
+          handle @oauth2 {
+            reverse_proxy 127.0.0.1:4180
+          }
+
+          handle {
+            forward_auth 127.0.0.1:4180 {
+              uri /oauth2/auth
+              copy_headers X-Auth-Request-User>X-WebAuth-User X-Auth-Request-Email>Remote-Email
+              @unauth status 401
+              handle_response @unauth {
+                redir * /oauth2/start?rd={uri} 302
+              }
+            }
+
+            reverse_proxy 10.10.10.136:80 {
+              header_up Host {host}
+              header_up X-Real-IP {remote_host}
+              header_up X-Forwarded-For {remote_host}
+              header_up X-Forwarded-Proto {scheme}
+              header_up X-Forwarded-Host {host}
+            }
+          }
+        '';
+      };
     };
   };
 

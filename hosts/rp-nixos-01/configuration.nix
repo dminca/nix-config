@@ -7,6 +7,7 @@
 {
   imports = [
     ./caddy.nix
+    ./rss-oidc.nix
   ];
   nix.settings = {
     experimental-features = [

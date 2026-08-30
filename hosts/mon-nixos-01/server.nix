@@ -21,6 +21,7 @@
       "10.10.10.118:9100" # kc-nixos-01
       "10.10.10.157:9100" # hs-nixos-01
       "10.10.10.173:9100" # notes-nixos-01
+      "10.10.10.136:9100" # rss-nixos-01
     ];
     dashboardFiles = [
       ../../modules/monitoring/grafana-dashboards/node-overview.json

@@ -122,7 +122,6 @@ in
     }
   '';
 
-
   home.file.".inputrc".text = ''
     "\e[1;5C": forward-word
     "\e[1;5D": backward-word
@@ -178,4 +177,8 @@ in
     discord
     nextcloud-client
   ];
+
+  programs = {
+    btop.enable = true;
+  };
 }

@@ -122,6 +122,12 @@ in
     }
   '';
 
+
+  home.file.".inputrc".text = ''
+    "\e[1;5C": forward-word
+    "\e[1;5D": backward-word
+  '';
+
   systemd.user.services.dunst = {
     Unit = {
       Description = "Dunst notification daemon";

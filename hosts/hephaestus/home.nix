@@ -157,6 +157,7 @@ in
     flameshot
     vivaldi
     wezterm
+    st
     dunst
     rofi
     copyq

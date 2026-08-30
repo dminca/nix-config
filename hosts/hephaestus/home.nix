@@ -176,6 +176,7 @@ in
     fluffychat
     discord
     nextcloud-client
+    gnucash
   ];
 
   programs = {

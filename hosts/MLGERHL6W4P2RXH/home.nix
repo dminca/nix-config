@@ -126,9 +126,24 @@
     sopsFile = ./secrets/froggo.yaml;
     key = "virtual";
   };
+  sops.secrets.cocojambo = {
+    sopsFile = ./secrets/copilot-mcp-secrets.yaml;
+    key = "COCOJAMBO";
+  };
+  sops.secrets.copilot_confluence_personal_token = {
+    sopsFile = ./secrets/copilot-mcp-secrets.yaml;
+    key = "CONFLUENCE_PERSONAL_TOKEN";
+  };
+  sops.secrets.copilot_jira_personal_token = {
+    sopsFile = ./secrets/copilot-mcp-secrets.yaml;
+    key = "JIRA_PERSONAL_TOKEN";
+  };
 
   home.sessionVariables = {
     GOPATH = "${config.home.homeDirectory}/Repos/open-source/others/gopath";
+    COCOJAMBO = "$(cat ${config.sops.secrets.cocojambo.path})";
+    CONFLUENCE_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_confluence_personal_token.path})";
+    JIRA_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_jira_personal_token.path})";
   };
 
   home.sessionPath = [

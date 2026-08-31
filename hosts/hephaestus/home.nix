@@ -31,6 +31,11 @@ in
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
   };
 
+  sops.secrets.halloy = {
+    sopsFile = ./secrets/hloy.yaml;
+    key = "pwd";
+  };
+
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
 
@@ -181,5 +186,26 @@ in
 
   programs = {
     btop.enable = true;
+    halloy = {
+      enable = true;
+      settings = {
+        buffer.channel.topic.enabled = true;
+        servers.liberachat = {
+          server = "irc.libera.chat";
+          use_tls = true;
+          nickname = "dminca2";
+          nick_password_file = config.sops.secrets.halloy.path;
+          channels = [
+            "#nixos"
+            "#gentoo"
+            "#nix-darwin"
+            "#nixos-chat"
+            "#nixos-de"
+            "#yggdrasil"
+            "#halloy"
+          ];
+        };
+      };
+    };
   };
 }

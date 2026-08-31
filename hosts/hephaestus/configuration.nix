@@ -100,6 +100,16 @@ in
   zramSwap.enable = true;
   services.thermald.enable = true;
   powerManagement.powertop.enable = true;
+  # Hibernation support
+  boot.resumeDevice = "/dev/mapper/cryptroot";
+  boot.kernelParams = [ "resume=/dev/mapper/cryptroot" ];
+  powerManagement.enable = true;
+  
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024;
+  }];
+
 
   services.openssh = {
     enable = true;

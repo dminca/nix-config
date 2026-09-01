@@ -138,7 +138,6 @@ in
     wget
     htop
     nh
-    foot
     wezterm
     fprintd
   ];

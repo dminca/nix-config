@@ -178,7 +178,7 @@ in
     libreoffice
     signal-desktop
     telegram-desktop
-    fluffychat
+    element-desktop
     discord
     nextcloud-client
     gnucash

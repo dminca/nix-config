@@ -180,6 +180,7 @@ in
               ${wordJumpBindings}
               ${hephaestusPaneBindings}
             }
+            config.font_size = 10
 
             return config
           '';

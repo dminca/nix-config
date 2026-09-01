@@ -74,6 +74,7 @@ in
     bindsym $mod+f fullscreen toggle
     bindsym $mod+BackSpace exec ${lockCommand}
     bindsym $mod+Shift+e exec i3-msg exit
+    bindsym $mod+Tab exec --no-startup-id ${lib.getExe pkgs.rofi} -modi combi -combi-modi window -show combi
 
     bindsym $mod+h focus left
     bindsym $mod+j focus down

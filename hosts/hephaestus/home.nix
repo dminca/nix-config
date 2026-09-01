@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  terminalCommand = "${pkgs.wezterm}/bin/wezterm";
-  launcherCommand = "${pkgs.rofi}/bin/rofi -show drun";
-  clipboardCommand = "${pkgs.copyq}/bin/copyq toggle";
-  emojiCommand = "${pkgs.rofimoji}/bin/rofimoji --selector rofi";
-  lockCommand = "${pkgs.i3lock}/bin/i3lock -c 000000";
-  screenshotCopyCommand = "${pkgs.flameshot}/bin/flameshot gui --raw | ${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
+  terminalCommand = "${lib.getExe pkgs.wezterm}";
+  launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
+  clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
+  emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
+  lockCommand = "${lib.getExe pkgs.i3lock} -c 000000";
+  screenshotCopyCommand = "${lib.getExe pkgs.flameshot} gui --raw | ${lib.getExe pkgs.xclip} -selection clipboard -t image/png -i";
 in
 {
   imports = [

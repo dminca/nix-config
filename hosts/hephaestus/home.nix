@@ -165,6 +165,7 @@ in
     alsa-utils
     brightnessctl
     flameshot
+    bramble
     vivaldi
     wezterm
     st

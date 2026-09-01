@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "bramble-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788145555,
+        "narHash": "sha256-B1VwGd4xyN+G714TlKbxfovWHplJI1W1wmf2AzbZbdk=",
+        "owner": "flythenimbus",
+        "repo": "bramble",
+        "rev": "4ce1461c1b58719da7c29a06fa19ca47d34f5b91",
+        "type": "github"
+      },
+      "original": {
+        "owner": "flythenimbus",
+        "repo": "bramble",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -186,6 +202,7 @@
     },
     "root": {
       "inputs": {
+        "bramble-src": "bramble-src",
         "disko": "disko",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",

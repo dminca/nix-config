@@ -151,7 +151,6 @@
         };
         hs-nixos-01 = {
           system = "x86_64-linux";
-          extraModules = [ (nixpkgs-unstable + "/nixos/modules/services/web-apps/hister.nix") ];
         };
         hephaestus = {
           system = "x86_64-linux";

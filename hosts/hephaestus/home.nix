@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   terminalCommand = "${lib.getExe pkgs.wezterm}";
   launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
@@ -184,6 +189,7 @@ in
     discord
     nextcloud-client
     gnucash
+    f2
   ];
 
   programs = {
@@ -208,6 +214,10 @@ in
           ];
         };
       };
+    };
+    yazi = {
+      enable = true;
+      enableZshIntegration = true;
     };
   };
 }

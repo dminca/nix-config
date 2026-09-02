@@ -190,6 +190,7 @@ in
     nextcloud-client
     gnucash
     f2
+    doggo
   ];
 
   programs = {

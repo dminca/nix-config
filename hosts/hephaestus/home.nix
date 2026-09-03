@@ -11,6 +11,27 @@ let
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
   lockCommand = "${lib.getExe pkgs.i3lock} -c 000000";
   screenshotCopyCommand = "${lib.getExe pkgs.flameshot} gui --raw | ${lib.getExe pkgs.xclip} -selection clipboard -t image/png -i";
+  buildFirefoxXpiAddon =
+    {
+      pname,
+      version,
+      addonId,
+      url,
+      sha256,
+      meta ? { },
+    }:
+    pkgs.stdenvNoCC.mkDerivation {
+      inherit pname version meta;
+      src = pkgs.fetchurl {
+        inherit url sha256;
+      };
+      dontUnpack = true;
+      installPhase = ''
+        runHook preInstall
+        install -Dm644 "$src" "$out/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/${addonId}.xpi"
+        runHook postInstall
+      '';
+    };
 in
 {
   imports = [
@@ -219,6 +240,41 @@ in
     yazi = {
       enable = true;
       enableZshIntegration = true;
+    };
+    firefox = {
+      enable = true;
+      profiles.default = {
+        isDefault = true;
+        settings = {
+          "extensions.autoDisableScopes" = 0;
+        };
+        extensions.packages = [
+          (buildFirefoxXpiAddon {
+            pname = "hister";
+            version = "0.28.0";
+            addonId = "{f0bda7ce-0cda-42dc-9ea8-126b20fed280}";
+            url = "https://addons.mozilla.org/firefox/downloads/file/4934117/hister-0.28.0.xpi";
+            sha256 = "3c85cdfbd32dd00b0a59453a5a015ad76ed4b0ea27079cbada1aed92e49eb0e3";
+            meta = {
+              description = "Web history on steroids";
+              homepage = "https://addons.mozilla.org/en-US/firefox/addon/hister/";
+              platforms = lib.platforms.all;
+            };
+          })
+          (buildFirefoxXpiAddon {
+            pname = "bramble";
+            version = "1.21.0";
+            addonId = "firefox@bramble.app";
+            url = "https://addons.mozilla.org/firefox/downloads/file/4999297/bramble-1.21.0.xpi";
+            sha256 = "3596e43381cdb728e3caffa158084835af62deba183b7d8d136ad47676d36449";
+            meta = {
+              description = "Local-first, encrypted password manager";
+              homepage = "https://addons.mozilla.org/en-US/firefox/addon/bramble/";
+              platforms = lib.platforms.all;
+            };
+          })
+        ];
+      };
     };
   };
 }

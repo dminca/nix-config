@@ -62,8 +62,7 @@ in
       "video"
       "audio"
       "input"
-      "libvirtd"
-      "kvm"
+      "vboxusers"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
@@ -71,16 +70,11 @@ in
     ];
   };
 
-  # VM host support (QEMU/KVM via libvirt)
-  virtualisation.libvirtd = {
+  # VM host support (VirtualBox)
+  virtualisation.virtualbox.host = {
     enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      swtpm.enable = true;
-    };
+    enableExtensionPack = true;
   };
-  programs.virt-manager.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
 
   programs.zsh.enable = true;
 

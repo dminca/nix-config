@@ -1,17 +1,38 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
   cfg = config.profiles.common.tmux;
+  copySelectionConfig = lib.optionalString cfg.copySelectionToClipboard ''
+    set -g mouse on
+    set -g set-clipboard on
+    bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -in"
+    bind-key -T copy-mode MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -in"
+  '';
 in
 {
   options.profiles.common.tmux = {
     enable = lib.mkEnableOption "shared Home Manager tmux profile";
+
+    launchOnTerminalOpen = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Launch tmux automatically when opening the terminal.";
+    };
+
+    copySelectionToClipboard = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Copy selected text directly to the system clipboard.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    home.packages = lib.optionals cfg.copySelectionToClipboard [ pkgs.xclip ];
+
     programs.tmux = {
       enable = true;
       clock24 = true;
@@ -26,6 +47,7 @@ in
         set -g allow-passthrough on
         set -ga update-environment TERM
         set -ga update-environment TERM_PROGRAM
+        ${copySelectionConfig}
         # Set 'v' for vertical and 'h' for horizontal split
         bind v split-window -h -c '#{pane_current_path}'
         bind b split-window -v -c '#{pane_current_path}'

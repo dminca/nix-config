@@ -5,7 +5,6 @@
   ...
 }:
 let
-  terminalCommand = "${lib.getExe pkgs.st}";
   launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
   clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
@@ -41,7 +40,14 @@ in
   profiles.shell.zsh.enable = true;
   profiles.common.shell.enable = true;
   profiles.common.git.enable = true;
+  profiles.common.st = {
+    enable = true;
+    font = "JetBrainsMono Nerd Font";
+    fontSize = 11;
+  };
   profiles.common.tmux.enable = true;
+  profiles.common.tmux.launchOnTerminalOpen = false;
+  profiles.common.tmux.copySelectionToClipboard = true;
   profiles.common.wezterm = {
     enable = true;
     style = "word-jump-only";
@@ -67,7 +73,6 @@ in
   fonts.fontconfig.enable = true;
 
   home.sessionVariables = {
-    TERMINAL = "st";
     XDG_SESSION_TYPE = "x11";
     XDG_CURRENT_DESKTOP = "i3";
     XDG_SESSION_DESKTOP = "i3";
@@ -88,7 +93,7 @@ in
     bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
-    bindsym $mod+Return exec ${terminalCommand}
+    bindsym $mod+Return exec ${config.profiles.common.st.command}
     bindsym $mod+d exec ${launcherCommand}
     bindsym $mod+v exec vivaldi
     bindsym $mod+g exec kdeconnect-app
@@ -200,7 +205,6 @@ in
     bramble
     vivaldi
     wezterm
-    st
     dunst
     rofi
     copyq

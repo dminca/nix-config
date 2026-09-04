@@ -5,7 +5,7 @@
   ...
 }:
 let
-  terminalCommand = "${lib.getExe pkgs.wezterm}";
+  terminalCommand = "${lib.getExe pkgs.st}";
   launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
   clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
@@ -66,7 +66,7 @@ in
   fonts.fontconfig.enable = true;
 
   home.sessionVariables = {
-    TERMINAL = "wezterm";
+    TERMINAL = "st";
     XDG_SESSION_TYPE = "x11";
     XDG_CURRENT_DESKTOP = "i3";
     XDG_SESSION_DESKTOP = "i3";

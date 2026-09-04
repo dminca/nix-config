@@ -97,6 +97,10 @@ in
     bindsym $mod+Ctrl+space exec ${emojiCommand}
     bindsym $mod+space floating toggle
     bindsym $mod+q kill
+    bindsym $mod+Shift+q kill
+    bindsym $mod+e layout toggle split
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
     bindsym $mod+f fullscreen toggle
     bindsym $mod+BackSpace exec ${lockCommand}
     bindsym $mod+Shift+e exec i3-msg exit

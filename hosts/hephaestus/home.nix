@@ -41,6 +41,7 @@ in
   profiles.shell.zsh.enable = true;
   profiles.common.shell.enable = true;
   profiles.common.git.enable = true;
+  profiles.common.tmux.enable = true;
   profiles.common.wezterm = {
     enable = true;
     style = "word-jump-only";

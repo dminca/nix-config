@@ -67,10 +67,30 @@ in
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
 
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+    colorScheme = "dark";
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style.name = "adwaita-dark";
+  };
+
   home.sessionVariables = {
     XDG_SESSION_TYPE = "x11";
     XDG_CURRENT_DESKTOP = "i3";
     XDG_SESSION_DESKTOP = "i3";
+    GTK_THEME = "Adwaita-dark";
   };
 
   home.file.".i3/config".text = ''

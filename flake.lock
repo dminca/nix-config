@@ -3,11 +3,11 @@
     "bramble-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1788317520,
-        "narHash": "sha256-1eqY0vwElVpazuHvoyOiqlcca50IvuRTvuFlUQP1b2o=",
+        "lastModified": 1788482253,
+        "narHash": "sha256-SUdAnTUKrI5VhZz6Ym/hpmOfOmFt/S/h7FhfDhYJyrg=",
         "owner": "flythenimbus",
         "repo": "bramble",
-        "rev": "3acb87ac7aafbdb04adc46286c4f4ae9f7dd7d90",
+        "rev": "5f475ddaa236d99a8d36b90de54e660302dc2c6a",
         "type": "github"
       },
       "original": {
@@ -133,11 +133,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1788179007,
-        "narHash": "sha256-hn1oU2rue2SYK8dAr8+WNZWtbsz1S2W5mnHlSEuh3bo=",
+        "lastModified": 1788316716,
+        "narHash": "sha256-bc7rSpXIdn9QWGNqfWcPZWOhEVF8NoeAZkWq0XWnf/k=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "34ab99075ac4f7e40cf037eef32cb1c360bb85e9",
+        "rev": "3ed67ec0a4d3c7ab4ae1f04f8ee8df07bfa506a2",
         "type": "github"
       },
       "original": {
@@ -149,11 +149,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1788187754,
-        "narHash": "sha256-bu1QxmXKmPuvBLN7bHP355OV9Qo13x9WCiRDH62CqRM=",
+        "lastModified": 1788405554,
+        "narHash": "sha256-r2f1oUwixlgq9zOdYLqJLfS/lWBT60/IITjhTKI59JU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5dfba6236110080a54247d6460bc2ff5dda939cc",
+        "rev": "a5cc6f2c37bf518436dc8d1c288ccd0c43c2f4c4",
         "type": "github"
       },
       "original": {

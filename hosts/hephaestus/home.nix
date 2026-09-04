@@ -6,7 +6,7 @@
 }:
 let
   terminalCommand = "${lib.getExe pkgs.wezterm}";
-  launcherCommand = "${lib.getExe pkgs.rofi} -show combi -modi combi";
+  launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
   clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
   lockCommand = "${lib.getExe pkgs.i3lock} -c 000000";
@@ -155,12 +155,6 @@ in
 
     bar {
       status_command i3status
-    }
-  '';
-
-  home.file.".config/rofi/config.rasi".text = ''
-    configuration {
-      combi-modi: "drun,run";
     }
   '';
 

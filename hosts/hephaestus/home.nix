@@ -46,13 +46,8 @@ in
     fontSize = 11;
   };
   profiles.common.tmux.enable = true;
-  profiles.common.tmux.launchOnTerminalOpen = false;
+  profiles.common.tmux.launchOnTerminalOpen = true;
   profiles.common.tmux.copySelectionToClipboard = true;
-  profiles.common.wezterm = {
-    enable = true;
-    style = "word-jump-only";
-    wordJumpMods = "CTRL";
-  };
   programs.nvix.enable = true;
 
   home.username = "dminca";
@@ -204,7 +199,6 @@ in
     flameshot
     bramble
     vivaldi
-    wezterm
     dunst
     rofi
     copyq

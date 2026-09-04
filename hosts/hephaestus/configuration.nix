@@ -39,6 +39,7 @@ in
 
   services.libinput = {
     enable = true;
+    touchpad.disableWhileTyping = true;
     touchpad.naturalScrolling = true;
   };
   services.fprintd.enable = true;

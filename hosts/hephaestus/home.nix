@@ -197,7 +197,6 @@ in
     alsa-utils
     brightnessctl
     flameshot
-    bramble
     vivaldi
     dunst
     rofi

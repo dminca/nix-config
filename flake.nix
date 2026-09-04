@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    bramble-src = {
-      url = "github:flythenimbus/bramble";
-      flake = false;
-    };
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixvim = {
@@ -32,7 +28,6 @@
       nix-darwin,
       nixpkgs,
       nixpkgs-unstable,
-      bramble-src,
       home-manager,
       sops-nix,
       disko,
@@ -40,29 +35,6 @@
       ...
     }:
     let
-      brambleOverlay = final: _prev: {
-        bramble =
-          let
-            unstablePkgs = nixpkgs-unstable.legacyPackages.${final.system};
-            trayLibraryPath = unstablePkgs.lib.makeLibraryPath [ unstablePkgs.libayatana-appindicator ];
-          in
-          (unstablePkgs.callPackage (bramble-src + "/packages/platform-desktop/nix/package.nix") {
-            src = bramble-src;
-            fetchPnpmDeps = args: unstablePkgs.fetchPnpmDeps (
-              args
-              // {
-                hash = "sha256-j+4xK7MlJQdtmlGOijAn3LWoK4rFPmACK/rDzYJZ8eo=";
-              }
-            );
-          }).overrideAttrs (old: {
-            preFixup = (old.preFixup or "") + ''
-              gappsWrapperArgs+=(
-                --prefix LD_LIBRARY_PATH : ${trayLibraryPath}
-              )
-            '';
-          });
-      };
-
       # ========================================================================
       # HELPER: mkNixosHost
       # ========================================================================
@@ -173,8 +145,6 @@
       ];
     in
     {
-      overlays.default = brambleOverlay;
-
       darwinConfigurations = builtins.listToAttrs (
         map (hostname: {
           name = hostname;

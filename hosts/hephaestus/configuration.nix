@@ -154,7 +154,7 @@ in
     enable = true;
     openrouter.enable = true;
     ponytail = {
-      enable = true;
+      enable = false;
       autoInstall = false;
       user = username;
     };

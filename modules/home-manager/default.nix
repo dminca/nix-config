@@ -9,6 +9,7 @@
     ./st
     ./tmux
     ./wezterm
+    ./hermes-agent
     ../nvix
   ];
 }

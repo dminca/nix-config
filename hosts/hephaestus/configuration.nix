@@ -150,6 +150,16 @@ in
     fprintd
   ];
 
+  homelab.ai.hermes = {
+    enable = true;
+    openrouter.enable = true;
+    ponytail = {
+      enable = true;
+      autoInstall = true;
+      user = username;
+    };
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

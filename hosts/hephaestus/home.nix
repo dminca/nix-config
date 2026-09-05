@@ -48,6 +48,11 @@ in
   profiles.common.tmux.enable = true;
   profiles.common.tmux.launchOnTerminalOpen = true;
   profiles.common.tmux.copySelectionToClipboard = true;
+  profiles.ai.hermes = {
+    enable = true;
+    openrouter.enable = true;
+    ponytail.enable = true;
+  };
   programs.nvix.enable = true;
 
   home.username = "dminca";

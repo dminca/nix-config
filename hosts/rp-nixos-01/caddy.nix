@@ -228,6 +228,18 @@
             }
           }
 
+          # Let browsers fetch PWA install assets without auth redirects.
+          @freshrss_pwa path /themes/manifest.json /themes/icons/*
+          handle @freshrss_pwa {
+            reverse_proxy 10.10.10.136:80 {
+              header_up Host {host}
+              header_up X-Real-IP {remote_host}
+              header_up X-Forwarded-For {remote_host}
+              header_up X-Forwarded-Proto {scheme}
+              header_up X-Forwarded-Host {host}
+            }
+          }
+
           handle {
             forward_auth 127.0.0.1:4180 {
               uri /oauth2/auth

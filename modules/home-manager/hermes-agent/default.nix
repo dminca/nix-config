@@ -93,7 +93,7 @@ in
 
       autoInstall = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Whether to install/enable Ponytail during Home Manager activation.";
       };
     };

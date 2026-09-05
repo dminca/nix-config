@@ -51,7 +51,10 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
-    ponytail.enable = true;
+    ponytail = {
+      enable = true;
+      autoInstall = false;
+    };
   };
   programs.nvix.enable = true;
 

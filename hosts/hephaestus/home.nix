@@ -234,6 +234,7 @@ in
     gnucash
     f2
     doggo
+    drawio
   ];
 
   programs = {

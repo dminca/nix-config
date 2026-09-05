@@ -10,5 +10,6 @@
   profiles.common.git.enable = true;
   profiles.common.tmux.enable = true;
   profiles.common.wezterm.enable = true;
+  profiles.common.alacritty.enable = true;
   programs.nvix.enable = true;
 }

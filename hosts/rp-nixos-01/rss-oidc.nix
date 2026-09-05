@@ -28,6 +28,7 @@
     scope = "openid profile email";
     upstream = [ "static://202" ];
     reverseProxy = true;
+    trustedProxyIP = ["10.10.10.135"];
     setXauthrequest = true;
     extraConfig = {
       skip-provider-button = true;

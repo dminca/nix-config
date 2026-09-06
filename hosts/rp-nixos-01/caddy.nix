@@ -18,7 +18,7 @@
     email = "admin@mrbl.dedyn.io";
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/desec@v1.1.0" ];
-      hash = "sha256-/o/6Uw+HoZCLVRYE2/ymDtWT/AuQ/sxNGy0zVM+Wlco=";
+      hash = "sha256-oEKfWN5U1LI25vNvr/QZE2C8PQyIgBAGH/1YhUDoGr0=";
     };
     globalConfig = ''
       acme_ca https://acme-v02.api.letsencrypt.org/directory

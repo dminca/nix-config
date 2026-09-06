@@ -44,7 +44,10 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
-    local.enable = true;
+    local = {
+      enable = true;
+      startService = false;
+    };
   };
   profiles.common.wezterm = {
     enable = true;

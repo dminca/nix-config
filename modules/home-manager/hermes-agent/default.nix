@@ -161,6 +161,18 @@ in
         default = "24h";
         description = "OLLAMA_KEEP_ALIVE value for the local backend service.";
       };
+
+      maxLoadedModels = lib.mkOption {
+        type = lib.types.int;
+        default = 1;
+        description = "OLLAMA_MAX_LOADED_MODELS value for the local backend service.";
+      };
+
+      memoryMax = lib.mkOption {
+        type = lib.types.str;
+        default = "12G";
+        description = "systemd MemoryMax limit for the Ollama user service.";
+      };
     };
   };
 
@@ -203,7 +215,9 @@ in
         ExecStart = "${cfg.local.package}/bin/ollama serve";
         Environment = [
           "OLLAMA_KEEP_ALIVE=${cfg.local.keepAlive}"
+          "OLLAMA_MAX_LOADED_MODELS=${toString cfg.local.maxLoadedModels}"
         ];
+        MemoryMax = cfg.local.memoryMax;
         Restart = "always";
         RestartSec = 2;
       };

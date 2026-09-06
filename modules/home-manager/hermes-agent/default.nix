@@ -30,6 +30,25 @@ let
     set -eu
     exec ${cfg.package}/bin/hermes plugins install ${lib.escapeShellArg cfg.ponytail.pluginRef} --enable
   '';
+
+  configYaml =
+    let
+      localFallback = lib.optionalString cfg.openrouter.enable ''
+fallback_providers:
+  - provider: openrouter
+    model: "${cfg.openrouter.defaultModel}"
+'';
+    in
+    if cfg.local.enable then
+      ''
+model:
+  default: "${cfg.local.model}"
+  provider: "custom"
+  base_url: "${cfg.local.baseUrl}"
+  context_length: ${toString cfg.local.contextLength}
+${localFallback}''
+    else
+      null;
 in
 {
   options.profiles.ai.hermes = {
@@ -97,17 +116,67 @@ in
         description = "Whether to install/enable Ponytail during Home Manager activation.";
       };
     };
+
+    local = {
+      enable = lib.mkEnableOption "Local Ollama backend for Hermes";
+
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = pkgs.ollama;
+        description = "Ollama package used for the local Hermes backend.";
+      };
+
+      baseUrl = lib.mkOption {
+        type = lib.types.str;
+        default = "http://127.0.0.1:11434/v1";
+        description = "OpenAI-compatible local endpoint URL (Ollama defaults here).";
+      };
+
+      model = lib.mkOption {
+        type = lib.types.str;
+        default = "gemma4:31b";
+        description = "Local model name to set as Hermes default.";
+      };
+
+      contextLength = lib.mkOption {
+        type = lib.types.int;
+        default = 65536;
+        description = "Context length configured for Hermes when using the local model.";
+      };
+
+      apiTimeout = lib.mkOption {
+        type = lib.types.int;
+        default = 1800;
+        description = "Stream/API timeout used for slower local inference.";
+      };
+
+      startService = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to start ollama as a Home Manager user service.";
+      };
+
+      keepAlive = lib.mkOption {
+        type = lib.types.str;
+        default = "24h";
+        description = "OLLAMA_KEEP_ALIVE value for the local backend service.";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages =
       [ cfg.package openrouterModelsBin ]
+      ++ lib.optionals cfg.local.enable [ cfg.local.package ]
       ++ lib.optional cfg.ponytail.enable ponytailInstallBin;
 
     home.sessionVariables =
       lib.optionalAttrs cfg.openrouter.enable {
         OPENROUTER_BASE_URL = cfg.openrouter.baseUrl;
         HERMES_OPENROUTER_DEFAULT_MODEL = cfg.openrouter.defaultModel;
+      }
+      // lib.optionalAttrs cfg.local.enable {
+        HERMES_API_TIMEOUT = toString cfg.local.apiTimeout;
       }
       // {
         HERMES_OPENROUTER_FREE_MODELS_PATH = "${config.xdg.configHome}/hermes/openrouter-free-models";
@@ -120,6 +189,26 @@ in
       // lib.optionalAttrs (cfg.openrouter.enable && cfg.openrouter.apiKeyFile != null) {
         "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
       };
+
+    home.file = lib.optionalAttrs cfg.local.enable {
+      ".hermes/config.yaml".text = configYaml;
+    };
+
+    systemd.user.services.ollama = lib.mkIf (cfg.local.enable && cfg.local.startService) {
+      Unit = {
+        Description = "Ollama local model backend";
+        After = [ "network-online.target" ];
+      };
+      Service = {
+        ExecStart = "${cfg.local.package}/bin/ollama serve";
+        Environment = [
+          "OLLAMA_KEEP_ALIVE=${cfg.local.keepAlive}"
+        ];
+        Restart = "always";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
 
     home.activation.hermesPonytailInstall = lib.mkIf (cfg.ponytail.enable && cfg.ponytail.autoInstall) (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         if [ ! -f "${config.home.homeDirectory}/.hermes/.nix-ponytail-installed" ]; then

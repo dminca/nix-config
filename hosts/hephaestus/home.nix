@@ -44,6 +44,8 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    local.enable = true;
+    local.backend = "cpu";
   };
   profiles.common.wezterm = {
     enable = true;

@@ -32,23 +32,24 @@ let
   '';
 
   configYaml =
-    let
-      localFallback = lib.optionalString cfg.openrouter.enable ''
-fallback_providers:
-  - provider: openrouter
-    model: "${cfg.openrouter.defaultModel}"
-'';
-    in
-    if cfg.local.enable then
-      ''
-model:
-  default: "${cfg.local.model}"
-  provider: "custom"
-  base_url: "${cfg.local.baseUrl}"
-  context_length: ${toString cfg.local.contextLength}
-${localFallback}''
-    else
-      null;
+    (lib.optionalString cfg.local.enable ''
+      model:
+        default: "${cfg.local.model}"
+        provider: "llamacpp"
+
+      local_runtime:
+        enabled: true
+        backend: ${cfg.local.backend}
+    ''
+    + lib.optionalString (cfg.local.tag != null) ''
+        tag: ${cfg.local.tag}
+    ''
+    )
+    + lib.optionalString cfg.openrouter.enable ''
+      fallback_providers:
+        - provider: openrouter
+          model: "${cfg.openrouter.defaultModel}"
+    '';
 in
 {
   options.profiles.ai.hermes = {
@@ -118,30 +119,25 @@ in
     };
 
     local = {
-      enable = lib.mkEnableOption "Local Ollama backend for Hermes";
+      enable = lib.mkEnableOption "Hermes managed llama.cpp local runtime";
 
-      package = lib.mkOption {
-        type = lib.types.package;
-        default = pkgs.ollama;
-        description = "Ollama package used for the local Hermes backend.";
-      };
-
-      baseUrl = lib.mkOption {
-        type = lib.types.str;
-        default = "http://127.0.0.1:11434/v1";
-        description = "OpenAI-compatible local endpoint URL (Ollama defaults here).";
+      backend = lib.mkOption {
+        type = lib.types.enum [
+          "auto"
+          "cpu"
+          "cuda"
+          "metal"
+          "vulkan"
+          "hip"
+        ];
+        default = "cpu";
+        description = "Hermes local-runtime backend selection.";
       };
 
       model = lib.mkOption {
         type = lib.types.str;
-        default = "gemma4:31b";
+        default = "gemma2:9b";
         description = "Local model name to set as Hermes default.";
-      };
-
-      contextLength = lib.mkOption {
-        type = lib.types.int;
-        default = 65536;
-        description = "Context length configured for Hermes when using the local model.";
       };
 
       apiTimeout = lib.mkOption {
@@ -150,28 +146,10 @@ in
         description = "Stream/API timeout used for slower local inference.";
       };
 
-      startService = lib.mkOption {
-        type = lib.types.bool;
-        default = true;
-        description = "Whether to start ollama as a Home Manager user service.";
-      };
-
-      keepAlive = lib.mkOption {
-        type = lib.types.str;
-        default = "24h";
-        description = "OLLAMA_KEEP_ALIVE value for the local backend service.";
-      };
-
-      maxLoadedModels = lib.mkOption {
-        type = lib.types.int;
-        default = 1;
-        description = "OLLAMA_MAX_LOADED_MODELS value for the local backend service.";
-      };
-
-      memoryMax = lib.mkOption {
-        type = lib.types.str;
-        default = "12G";
-        description = "systemd MemoryMax limit for the Ollama user service.";
+      tag = lib.mkOption {
+        type = with lib.types; nullOr str;
+        default = null;
+        description = "Optional pinned llama.cpp runtime tag for Hermes local runtime.";
       };
     };
   };
@@ -179,7 +157,6 @@ in
   config = lib.mkIf cfg.enable {
     home.packages =
       [ cfg.package openrouterModelsBin ]
-      ++ lib.optionals cfg.local.enable [ cfg.local.package ]
       ++ lib.optional cfg.ponytail.enable ponytailInstallBin;
 
     home.sessionVariables =
@@ -204,24 +181,6 @@ in
 
     home.file = lib.optionalAttrs cfg.local.enable {
       ".hermes/config.yaml".text = configYaml;
-    };
-
-    systemd.user.services.ollama = lib.mkIf (cfg.local.enable && cfg.local.startService) {
-      Unit = {
-        Description = "Ollama local model backend";
-        After = [ "network-online.target" ];
-      };
-      Service = {
-        ExecStart = "${cfg.local.package}/bin/ollama serve";
-        Environment = [
-          "OLLAMA_KEEP_ALIVE=${cfg.local.keepAlive}"
-          "OLLAMA_MAX_LOADED_MODELS=${toString cfg.local.maxLoadedModels}"
-        ];
-        MemoryMax = cfg.local.memoryMax;
-        Restart = "always";
-        RestartSec = 2;
-      };
-      Install.WantedBy = [ "default.target" ];
     };
 
     home.activation.hermesPonytailInstall = lib.mkIf (cfg.ponytail.enable && cfg.ponytail.autoInstall) (lib.hm.dag.entryAfter [ "writeBoundary" ] ''

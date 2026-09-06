@@ -153,11 +153,6 @@ in
   homelab.ai.hermes = {
     enable = true;
     openrouter.enable = true;
-    ponytail = {
-      enable = false;
-      autoInstall = false;
-      user = username;
-    };
   };
 
   home-manager = {

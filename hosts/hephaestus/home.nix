@@ -240,6 +240,7 @@ in
     f2
     doggo
     drawio
+    witr
   ];
 
   programs = {

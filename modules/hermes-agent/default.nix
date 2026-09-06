@@ -17,6 +17,11 @@ let
       inputs."hermes-agent".packages.${system}.default
     else
       throw "homelab.ai.hermes: flake input `hermes-agent` is required and must provide packages for ${system}.";
+  defaultHermesDesktopPackage = pkgs.callPackage ./hermes-desktop.nix {
+    sourceRoot = inputs."hermes-agent".outPath;
+    hermesNpmLib = defaultHermesPackage.passthru.hermesNpmLib;
+    hermesAgent = defaultHermesPackage;
+  };
 
   freeModelsFile = pkgs.writeText "hermes-openrouter-free-models.txt" (
     lib.concatStringsSep "\n" cfg.openrouter.freeModels + "\n"
@@ -39,6 +44,16 @@ in
       type = lib.types.package;
       default = defaultHermesPackage;
       description = "Hermes Agent package to install.";
+    };
+
+    desktop = {
+      enable = lib.mkEnableOption "Hermes Desktop application";
+
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = defaultHermesDesktopPackage;
+        description = "Hermes Desktop package to install when desktop support is enabled.";
+      };
     };
 
     openrouter = {
@@ -108,6 +123,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages =
       [ cfg.package openrouterModelsBin ]
+      ++ lib.optional cfg.desktop.enable cfg.desktop.package
       ++ lib.optional cfg.ponytail.enable ponytailInstallBin;
 
     environment.etc =

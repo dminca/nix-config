@@ -44,6 +44,7 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    desktop.enable = true;
     local.enable = true;
     local.backend = "cpu";
   };

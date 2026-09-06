@@ -63,18 +63,11 @@ in
       "video"
       "audio"
       "input"
-      "vboxusers"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINuhmI6QfT3B6wMs7FaQClAtlEa2KHbW/fKFXvzE2+kX dminca@ZionProxy-2025-08-20"
     ];
-  };
-
-  # VM host support (VirtualBox)
-  virtualisation.virtualbox.host = {
-    enable = true;
-    enableExtensionPack = true;
   };
 
   programs.zsh.enable = true;

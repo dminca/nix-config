@@ -45,12 +45,6 @@ let
         tag: ${cfg.local.tag}
     ''
     )
-    + lib.optionalString (cfg.mcpMemos.enable) ''
-      mcp_servers:
-        memos:
-          command: "npx"
-          args: ["@jtsang/memos-mcp", "--base-url", "https://notes.mrbl.dedyn.io", "--access-token", "$MEMOS_ACCESS_TOKEN"]
-    ''
     + lib.optionalString cfg.openrouter.enable ''
       fallback_providers:
         - provider: openrouter
@@ -108,12 +102,8 @@ in
       };
     };
 
-    mcpMemos = {
-      enable = lib.mkEnableOption "Enable Memos MCP server for Hermes";
-    };
-
     ponytail = {
-      enable = lib.mkEnableOption "Ponytail plugin bootstrap helper for Hermes Agent";
+      enable = lib.mkEnableOption "Ponytail plugin bootstrap helper for Hermes";
 
       pluginRef = lib.mkOption {
         type = lib.types.str;
@@ -177,9 +167,6 @@ in
       // lib.optionalAttrs cfg.local.enable {
         HERMES_API_TIMEOUT = toString cfg.local.apiTimeout;
       }
-      // lib.optionalAttrs cfg.mcpMemos.enable {
-        MEMOS_ACCESS_TOKEN = "$(cat ${config.sops.secrets.memos.path})";
-      }
       // {
         HERMES_OPENROUTER_FREE_MODELS_PATH = "${config.xdg.configHome}/hermes/openrouter-free-models";
       };
@@ -192,11 +179,8 @@ in
         "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
       };
 
-    home.file = lib.optionalAttrs (cfg.local.enable || cfg.mcpMemos.enable) {
-      ".hermes/config.yaml" = {
-        text = configYaml;
-        force = true;
-      };
+    home.file = lib.optionalAttrs cfg.local.enable {
+      ".hermes/config.yaml".text = configYaml;
     };
 
     home.activation.hermesPonytailInstall = lib.mkIf (cfg.ponytail.enable && cfg.ponytail.autoInstall) (lib.hm.dag.entryAfter [ "writeBoundary" ] ''

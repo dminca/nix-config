@@ -61,9 +61,15 @@
   ];
   i18n.defaultLocale = "en_US.UTF-8";
 
+  security.apparmor.enable = true;
+
   programs.trivalent = {
     enable = true;
-    # ponytail: default complain mode for apparmor; switch enforce when soaked
+    apparmor = {
+      enable = true;
+      enforce = false; # ponytail: complain mode; upgrade to true after soak
+    };
+    # ponytail: default complain; switch enforce=true when soaked
   };
   system.stateVersion = "26.05";
 }

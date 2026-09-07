@@ -26,11 +26,6 @@ let
     cat ${freeModelsFile}
   '';
 
-  ponytailInstallBin = pkgs.writeShellScriptBin "hermes-ponytail-install" ''
-    set -eu
-    exec ${cfg.package}/bin/hermes plugins install ${lib.escapeShellArg cfg.ponytail.pluginRef} --enable --config ${lib.escapeShellArg (config.home.homeDirectory + "/.hermes/config.yaml")}
-  '';
-
   configYaml =
     lib.optionalString cfg.local.enable (
       ''
@@ -54,10 +49,6 @@ let
     + lib.optionalString (cfg.scanOnInstall != null) ''
       plugins:
         scan_on_install: ${if cfg.scanOnInstall then "true" else "false"}
-    ''
-    + lib.optionalString cfg.ponytail.enable ''
-        enabled:
-          - ponytail
     '';
 in
 {
@@ -111,22 +102,6 @@ in
       };
     };
 
-    ponytail = {
-      enable = lib.mkEnableOption "Ponytail plugin bootstrap helper for Hermes";
-
-      pluginRef = lib.mkOption {
-        type = lib.types.str;
-        default = "DietrichGebert/ponytail";
-        description = "Plugin reference used by `hermes plugins install`.";
-      };
-
-      autoInstall = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Whether to install/enable Ponytail during Home Manager activation.";
-      };
-    };
-
     scanOnInstall = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -174,7 +149,7 @@ in
       cfg.package
       openrouterModelsBin
     ]
-    ++ lib.optional cfg.ponytail.enable ponytailInstallBin;
+    ;
 
     home.sessionVariables =
       lib.optionalAttrs cfg.openrouter.enable {
@@ -202,22 +177,5 @@ in
       };
     };
 
-    home.activation.hermesPonytailInstall = lib.mkIf (cfg.ponytail.enable && cfg.ponytail.autoInstall) (
-      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [ ! -f "${config.home.homeDirectory}/.hermes/.nix-ponytail-installed" ]; then
-          $DRY_RUN_CMD ${
-            lib.escapeShellArgs [
-              "${cfg.package}/bin/hermes"
-              "plugins"
-              "install"
-              cfg.ponytail.pluginRef
-              "--enable"
-            ]
-          }
-          $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.hermes"
-          $DRY_RUN_CMD touch "${config.home.homeDirectory}/.hermes/.nix-ponytail-installed"
-        fi
-      ''
-    );
   };
 }

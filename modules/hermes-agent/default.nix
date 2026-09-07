@@ -26,10 +26,6 @@ let
     cat ${freeModelsFile}
   '';
 
-  ponytailInstallBin = pkgs.writeShellScriptBin "hermes-ponytail-install" ''
-    set -eu
-    exec ${cfg.package}/bin/hermes plugins install ${lib.escapeShellArg cfg.ponytail.pluginRef} --enable
-  '';
 in
 {
   options.homelab.ai.hermes = {
@@ -82,33 +78,11 @@ in
       };
     };
 
-    ponytail = {
-      enable = lib.mkEnableOption "Ponytail plugin bootstrap helper for Hermes";
-
-      pluginRef = lib.mkOption {
-        type = lib.types.str;
-        default = "DietrichGebert/ponytail";
-        description = "Plugin reference used by `hermes plugins install`.";
-      };
-
-      autoInstall = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Whether to run a systemd oneshot that installs the Ponytail plugin for a target user.";
-      };
-
-      user = lib.mkOption {
-        type = with lib.types; nullOr str;
-        default = null;
-        description = "User account that receives the Ponytail plugin when autoInstall is enabled.";
-      };
-    };
   };
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages =
-      [ cfg.package openrouterModelsBin ]
-      ++ lib.optional cfg.ponytail.enable ponytailInstallBin;
+      [ cfg.package openrouterModelsBin ];
 
     environment.etc =
       {
@@ -126,31 +100,6 @@ in
       // {
         HERMES_OPENROUTER_FREE_MODELS_PATH = "/etc/hermes/openrouter-free-models";
       };
-
-    assertions = [
-      {
-        assertion = !(cfg.ponytail.enable && cfg.ponytail.autoInstall && cfg.ponytail.user == null);
-        message = "homelab.ai.hermes.ponytail.user must be set when homelab.ai.hermes.ponytail.autoInstall is true.";
-      }
-    ];
-
-    systemd.services.hermes-ponytail-install = lib.mkIf (cfg.ponytail.enable && cfg.ponytail.autoInstall) {
-      description = "Install Ponytail plugin for Hermes Agent";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        User = cfg.ponytail.user;
-        ExecStart = lib.escapeShellArgs [
-          "${cfg.package}/bin/hermes"
-          "plugins"
-          "install"
-          cfg.ponytail.pluginRef
-          "--enable"
-        ];
-      };
-    };
 
   };
 }

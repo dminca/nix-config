@@ -24,6 +24,8 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    trivalent-nix.url = "github:hydroakri/trivalent-nix";
+    trivalent-nix.inputs.nixpkgs.follows = "nixpkgs";
     sofka = {
       url = "github:nklmilojevic/sofka";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -135,6 +137,7 @@
         hephaestus = {
           system = "x86_64-linux";
           extraModules = [
+            inputs.trivalent-nix.nixosModules.default
             nixos-hardware.nixosModules.lenovo-thinkpad-x1-9th-gen
             home-manager.nixosModules.home-manager
             {

@@ -26,13 +26,30 @@ let
     cat ${freeModelsFile}
   '';
 
-  configYaml =
-    lib.optionalString cfg.local.enable (
-      ''
-        model:
-          default: "${cfg.local.model}"
-          provider: "llamacpp"
+  effectiveProvider =
+    if cfg.local.enable then
+      "llamacpp"
+    else if cfg.openrouter.enable then
+      "openrouter"
+    else
+      null;
 
+  effectiveDefaultModel =
+    if cfg.local.enable then
+      cfg.local.model
+    else if cfg.openrouter.enable then
+      cfg.openrouter.defaultModel
+    else
+      null;
+
+  configYaml =
+    lib.optionalString (effectiveProvider != null && effectiveDefaultModel != null) ''
+      model:
+        provider: "${effectiveProvider}"
+        default: "${effectiveDefaultModel}"
+    ''
+    + lib.optionalString cfg.local.enable (
+      ''
         local_runtime:
           enabled: true
           backend: ${cfg.local.backend}
@@ -41,7 +58,7 @@ let
         tag: ${cfg.local.tag}
       ''
     )
-    + lib.optionalString cfg.openrouter.enable ''
+    + lib.optionalString (cfg.local.enable && cfg.openrouter.enable) ''
       fallback_providers:
         - provider: openrouter
           model: "${cfg.openrouter.defaultModel}"
@@ -50,6 +67,8 @@ let
       plugins:
         scan_on_install: ${if cfg.scanOnInstall then "true" else "false"}
     '';
+
+  configYamlFile = pkgs.writeText "hermes-config.yaml" configYaml;
 in
 {
   options.profiles.ai.hermes = {
@@ -148,8 +167,7 @@ in
     home.packages = [
       cfg.package
       openrouterModelsBin
-    ]
-    ;
+    ];
 
     home.sessionVariables =
       lib.optionalAttrs cfg.openrouter.enable {
@@ -170,12 +188,19 @@ in
       "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
     };
 
-    home.file = lib.optionalAttrs cfg.enable {
-      ".hermes/config.yaml" = {
-        text = configYaml;
-        force = true;
-      };
-    };
+    home.activation.hermesConfigSeed = lib.mkIf cfg.enable (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      hermes_dir="${config.home.homeDirectory}/.hermes"
+      hermes_config="$hermes_dir/config.yaml"
+
+      if [ -L "$hermes_config" ]; then
+        $DRY_RUN_CMD rm "$hermes_config"
+      fi
+
+      if [ ! -e "$hermes_config" ]; then
+        $DRY_RUN_CMD mkdir -p "$hermes_dir"
+        $DRY_RUN_CMD install -m 0600 ${configYamlFile} "$hermes_config"
+      fi
+    '');
 
   };
 }

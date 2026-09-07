@@ -240,7 +240,6 @@ in
     doggo
     drawio
     witr
-    nodejs_26
   ];
 
   programs = {

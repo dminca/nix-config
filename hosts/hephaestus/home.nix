@@ -44,6 +44,7 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    mcpMemos.enable = true;
   };
   profiles.common.wezterm = {
     enable = true;
@@ -59,6 +60,11 @@ in
   sops = {
     defaultSopsFile = ./secrets/example.yaml;
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+  };
+
+  sops.secrets.memos = {
+    sopsFile = ./secrets/memos.yaml;
+    key = "memos_access_token";
   };
 
   sops.secrets.halloy = {

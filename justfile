@@ -24,14 +24,6 @@ _deploy-nixos host ip:
     exit 1; \
     fi
 
-_deploy-nixos-remote-build host ip:
-    {{nh}} os switch \
-    .#{{host}} \
-    --hostname {{host}} \
-    --elevation-strategy passwordless \
-    --target-host admin@{{ip}} \
-    --build-host admin@{{ip}}
-
 _deploy-nixos-local host:
     {{nh}} os switch \
     .#{{host}} \
@@ -41,7 +33,7 @@ nc: (_deploy-nixos "nc-nixos-01" "10.10.10.156")
 kc: (_deploy-nixos "kc-nixos-01" "10.10.10.118")
 lw: (_deploy-nixos "lw-nixos-01" "10.10.10.153")
 ic: (_deploy-nixos "ic-nixos-01" "10.10.10.162")
-rp: (_deploy-nixos-remote-build "rp-nixos-01" "10.10.10.135")
+rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
 mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
 hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
 hephaestus: (_deploy-nixos "hephaestus" "192.168.178.87")

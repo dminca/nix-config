@@ -72,7 +72,7 @@ in
 
       defaultModel = lib.mkOption {
         type = lib.types.str;
-        default = "openai/gpt-oss-20b:free";
+        default = "thinkingmachines/inkling:free";
         description = "Default OpenRouter model for Hermes sessions.";
       };
 

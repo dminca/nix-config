@@ -44,6 +44,9 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    ponytail.enable = true;
+    ponytail.autoInstall = true;
+    scanOnInstall = false;
   };
   profiles.common.wezterm = {
     enable = true;

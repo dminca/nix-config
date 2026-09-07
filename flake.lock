@@ -333,7 +333,28 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",
+        "sofka": "sofka",
         "sops-nix": "sops-nix"
+      }
+    },
+    "sofka": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788798716,
+        "narHash": "sha256-N09jFeFw9G/ilkA6vhdHFZvbd6hpPsGv4/wsv+1Umjo=",
+        "owner": "nklmilojevic",
+        "repo": "sofka",
+        "rev": "6480d332c3f5d55026a1e17b8aa01bbf2dd0e0bd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nklmilojevic",
+        "repo": "sofka",
+        "type": "github"
       }
     },
     "sops-nix": {

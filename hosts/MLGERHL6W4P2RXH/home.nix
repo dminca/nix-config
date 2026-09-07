@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
@@ -35,6 +36,7 @@
     istioctl
     witr
     popeye
+    inputs.sofka.packages.${pkgs.stdenv.hostPlatform.system}.default
     ########################
     # cloud-native tooling #
     ########################

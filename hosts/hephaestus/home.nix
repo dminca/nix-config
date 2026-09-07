@@ -241,6 +241,12 @@ in
     doggo
     drawio
     witr
+# photography
+    krita
+    gimp
+    inkscape
+    blender
+    darktable
   ];
 
   programs = {

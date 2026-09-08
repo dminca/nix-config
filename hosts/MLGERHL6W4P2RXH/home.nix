@@ -148,6 +148,10 @@
     JIRA_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_jira_personal_token.path})";
   };
 
+  xdg.configFile."sofka/config.toml".text = ''
+    favorite_namespaces = ["monitoring"]
+  '';
+
   home.sessionPath = [
     "${config.home.homeDirectory}/.krew/bin"
   ];

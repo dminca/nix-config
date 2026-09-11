@@ -31,6 +31,10 @@
         name = "kde-connect";
         greedy = true;
       }
+      {
+        name = "libreoffice";
+        greedy = true;
+      }
     ];
   };
 }

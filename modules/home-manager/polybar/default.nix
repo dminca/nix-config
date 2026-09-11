@@ -50,16 +50,32 @@ in
       description = "Height of the polybar in pixels";
     };
     
-    enableModules = {
-      weather = lib.mkEnableOption "Weather module" // { default = cfg.enableModules.weather or true; };
-      network = lib.mkEnableOption "Network module" // { default = cfg.enableModules.network or true; };
-      cpu = lib.mkEnableOption "CPU module" // { default = cfg.enableModules.cpu or true; };
-      memory = lib.mkEnableOption "Memory module" // { default = cfg.enableModules.memory or true; };
-      battery = lib.mkEnableOption "Battery module" // { default = cfg.enableModules.battery or true; };
-      audio = lib.mkEnableOption "Audio module" // { default = cfg.enableModules.audio or true; };
-      clock = lib.mkEnableOption "Clock module" // { default = cfg.enableModules.clock or true; };
-      layout = lib.mkEnableOption "Keyboard layout indicator" // { default = cfg.enableModules.layout or true; };
-      tray = lib.mkEnableOption "System tray" // { default = cfg.enableModules.tray or true; };
+    enableModules = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          weather = lib.mkEnableOption "Weather module";
+          network = lib.mkEnableOption "Network module";
+          cpu = lib.mkEnableOption "CPU module";
+          memory = lib.mkEnableOption "Memory module";
+          battery = lib.mkEnableOption "Battery module";
+          audio = lib.mkEnableOption "Audio module";
+          clock = lib.mkEnableOption "Clock module";
+          layout = lib.mkEnableOption "Keyboard layout indicator";
+          tray = lib.mkEnableOption "System tray";
+        };
+      };
+      default = {
+        weather = true;
+        network = true;
+        cpu = true;
+        memory = true;
+        battery = true;
+        audio = true;
+        clock = true;
+        layout = true;
+        tray = true;
+      };
+      description = "Enable/disable individual polybar modules";
     };
   };
 

@@ -113,7 +113,7 @@ in
     exec --no-startup-id element-desktop
     exec --no-startup-id signal-desktop
     exec --no-startup-id discord
-    exec --no-startup-id nextcloud-client
+    exec --no-startup-id sleep 2 && nextcloud-client
 
     bindsym XF86AudioMute exec amixer -q set Master toggle
     bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
@@ -188,6 +188,16 @@ in
     bindsym $mod+Shift+7 move container to workspace number 7
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
+
+    # Set workspace 3 to tab mode
+    workspace 3 layout tabbed
+
+    # Assign apps to workspace 3
+    assign [class="TelegramDesktop"] 3
+    assign [class="element"] 3
+    assign [class="signal"] 3
+    assign [class="discord"] 3
+    assign [class="nextcloud"] 3
   '';
 
   home.file.".inputrc".text = ''

@@ -6,6 +6,8 @@
 }:
 let
   username = "dminca";
+  wallpaperStateDir = "/var/lib/hephaestus-wallpaper";
+  wallpaperCurrentPath = "${wallpaperStateDir}/current";
 in
 {
   imports = [
@@ -76,6 +78,9 @@ in
 
   services.xserver.windowManager.i3.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm.greeters.gtk.extraConfig = ''
+    background = ${wallpaperCurrentPath}
+  '';
   services.displayManager.defaultSession = "none+i3";
 
   xdg.portal = {
@@ -103,6 +108,9 @@ in
   zramSwap.enable = true;
   services.thermald.enable = true;
   powerManagement.powertop.enable = true;
+  systemd.tmpfiles.rules = [
+    "d ${wallpaperStateDir} 0755 ${username} users -"
+  ];
 
   services.openssh = {
     enable = true;

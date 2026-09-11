@@ -9,7 +9,8 @@ let
   launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
   clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
-  lockCommand = "${lib.getExe pkgs.i3lock} -c 000000";
+  wallpaperCurrentPath = "/var/lib/hephaestus-wallpaper/current";
+  lockCommand = "${lib.getExe pkgs.i3lock} -i ${wallpaperCurrentPath}";
   screenshotCopyCommand = "${lib.getExe pkgs.flameshot} gui --raw | ${lib.getExe pkgs.xclip} -selection clipboard -t image/png -i";
   buildFirefoxXpiAddon =
     {
@@ -53,8 +54,18 @@ in
   };
   profiles.desktop.polybar = {
     enable = true;
+    theme = "forest";
     position = "top";
-    height = 28;
+    height = 34;
+    networkInterface = "wlan0";
+    battery = "BAT0";
+    adapter = "AC0";
+    temperatureZone = 0;
+    temperatureBase = 0;
+    wallpaper = {
+      enable = true;
+      currentPath = wallpaperCurrentPath;
+    };
   };
   programs.nvix.enable = true;
 
@@ -131,6 +142,7 @@ in
     bindsym $mod+Ctrl+v exec ${clipboardCommand}
     bindsym Ctrl+space exec "${pkgs.xkb-switch}/bin/xkb-switch -n"
     bindsym $mod+Ctrl+space exec ${emojiCommand}
+    bindsym $mod+Shift+w exec forest-wallpaper-picker
     bindsym $mod+space floating toggle
     bindsym $mod+q kill
     bindsym $mod+Shift+q kill
@@ -189,7 +201,7 @@ in
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
 
-    workspace 3; layout tabbed; workspace 1
+    exec --no-startup-id i3-msg 'workspace 3; layout tabbed; workspace 1'
 
     # Assign apps to workspace 3
     assign [class="TelegramDesktop"] 3

@@ -23,10 +23,10 @@ let
 
     case "$LAYOUT" in
       us)
-        echo "🇺🇸 US"
+        echo "US"
         ;;
       ro)
-        echo "🇷🇴 RO"
+        echo "RO"
         ;;
       *)
         echo "$LAYOUT"
@@ -55,9 +55,6 @@ in
     home.packages = with pkgs; [
       polybar
       xkb-switch
-      xclip
-      jq
-      curl
     ];
 
     home.file.".config/polybar/config.ini".text = ''
@@ -210,9 +207,6 @@ in
 
       Service = {
         Type = "simple";
-        Environment = [
-          "PATH=${lib.makeBinPath (with pkgs; [ bash coreutils ])}"
-        ];
         ExecStart = "${lib.getExe pkgs.polybar} main";
         Restart = "on-failure";
         RestartSec = 3;

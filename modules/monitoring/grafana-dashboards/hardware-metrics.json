@@ -1444,6 +1444,7 @@
             },
             "tooltip": {
               "show": true,
+              "showColorScale": true,
               "yHistogram": false
             },
             "yAxis": {
@@ -1589,6 +1590,7 @@
             },
             "tooltip": {
               "show": true,
+              "showColorScale": true,
               "yHistogram": false
             },
             "yAxis": {
@@ -22420,7 +22422,6 @@
   "timezone": "utc",
   "title": "Hardware metrics",
   "uid": "metal",
-  "version": 1,
+  "version": 2,
   "weekStart": "monday"
 }
-

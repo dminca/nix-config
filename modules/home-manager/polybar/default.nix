@@ -87,7 +87,7 @@ in
       module-margin = 1
       separator = " | "
       font-0 = "JetBrains Mono:style=Regular:size=11;3"
-      font-1 = "Noto Color Emoji:style=Regular:size=10;3"
+      font-1 = "Noto Color Emoji:style=Regular:size=6;3"
       modules-left = i3 xwindow
       modules-center = clock
       modules-right = layout volume battery network cpu memory tray

@@ -8,19 +8,19 @@ let
   cfg = config.profiles.desktop.polybar;
   layoutToggleScript = pkgs.writeShellScriptBin "toggle-layout" ''
     # Get current layout
-    CURRENT=$(setxkbmap -query | grep layout | awk '{print $2}')
-    
+    CURRENT=$(${lib.getExe pkgs.xkb-switch} -p)
+
     # Toggle between us and ro
     if [ "$CURRENT" = "us" ]; then
-      setxkbmap ro
+      ${lib.getExe pkgs.xkb-switch} -s ro
     else
-      setxkbmap us
+      ${lib.getExe pkgs.xkb-switch} -s us
     fi
   '';
-  
+
   layoutIndicatorScript = pkgs.writeShellScriptBin "layout-indicator" ''
-    LAYOUT=$(setxkbmap -query | grep layout | awk '{print $2}')
-    
+    LAYOUT=$(${lib.getExe pkgs.xkb-switch} -p)
+
     case "$LAYOUT" in
       us)
         echo "🇺🇸 US"
@@ -37,45 +37,17 @@ in
 {
   options.profiles.desktop.polybar = {
     enable = lib.mkEnableOption "Polybar status bar";
-    
+
     position = lib.mkOption {
       type = lib.types.enum [ "top" "bottom" ];
       default = "top";
       description = "Position of the polybar";
     };
-    
+
     height = lib.mkOption {
       type = lib.types.int;
       default = 28;
       description = "Height of the polybar in pixels";
-    };
-    
-    enableModules = lib.mkOption {
-      type = lib.types.submodule {
-        options = {
-          weather = lib.mkEnableOption "Weather module";
-          network = lib.mkEnableOption "Network module";
-          cpu = lib.mkEnableOption "CPU module";
-          memory = lib.mkEnableOption "Memory module";
-          battery = lib.mkEnableOption "Battery module";
-          audio = lib.mkEnableOption "Audio module";
-          clock = lib.mkEnableOption "Clock module";
-          layout = lib.mkEnableOption "Keyboard layout indicator";
-          tray = lib.mkEnableOption "System tray";
-        };
-      };
-      default = {
-        weather = true;
-        network = true;
-        cpu = true;
-        memory = true;
-        battery = true;
-        audio = true;
-        clock = true;
-        layout = true;
-        tray = true;
-      };
-      description = "Enable/disable individual polybar modules";
     };
   };
 
@@ -85,7 +57,8 @@ in
       xkb-switch
       xclip
       jq
-    ] ++ lib.optionals cfg.enableModules.weather [ curl ];
+      curl
+    ];
 
     home.file.".config/polybar/config.ini".text = ''
       [colors]
@@ -114,23 +87,9 @@ in
       separator = " | "
       font-0 = "JetBrains Mono:style=Regular:size=11;3"
       font-1 = "JetBrains Mono Nerd Font:style=Regular:size=11;3"
-      modules-left = ${lib.concatStringsSep " " (
-        (lib.optional true "i3") ++
-        (lib.optional true "xwindow")
-      )}
-      modules-center = ${lib.concatStringsSep " " (
-        (lib.optional cfg.enableModules.clock "clock")
-      )}
-      modules-right = ${lib.concatStringsSep " " (
-        (lib.optional cfg.enableModules.layout "layout") ++
-        (lib.optional cfg.enableModules.audio "volume") ++
-        (lib.optional cfg.enableModules.battery "battery") ++
-        (lib.optional cfg.enableModules.network "network") ++
-        (lib.optional cfg.enableModules.cpu "cpu") ++
-        (lib.optional cfg.enableModules.memory "memory") ++
-        (lib.optional cfg.enableModules.weather "weather") ++
-        (lib.optional cfg.enableModules.tray "tray")
-      )}
+      modules-left = i3 xwindow
+      modules-center = clock
+      modules-right = layout volume battery network cpu memory tray
       cursor-click = pointer
 
       [module/i3]
@@ -161,10 +120,10 @@ in
       [module/clock]
       type = internal/date
       interval = 1
-      date = %a %d %b
+      date = %a, %d %b. %y
       time = %H:%M:%S
       format = <label>
-      label = 📅 %{A3:}%date% %time%
+      label = 📅 %date% %time%
       label-foreground = ''${colors.primary}
 
       [module/layout]
@@ -237,13 +196,6 @@ in
       label-disconnected = ❌ No WiFi
       label-disconnected-foreground = ''${colors.disabled}
 
-      [module/weather]
-      type = custom/script
-      exec = weather_script.sh
-      interval = 300
-      format = <label>
-      label = %output%
-
       [module/tray]
       type = internal/tray
       tray-position = right
@@ -263,7 +215,7 @@ in
         Environment = [
           "PATH=${lib.makeBinPath (with pkgs; [ bash coreutils findutils ])}"
         ];
-        ExecStart = "${pkgs.polybar}/bin/polybar main";
+        ExecStart = "${lib.getExe pkgs.polybar} main";
         Restart = "on-failure";
         RestartSec = 3;
       };

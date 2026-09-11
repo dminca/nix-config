@@ -160,7 +160,7 @@
           EOF
         '')
       ];
-      ExecStart = lib.mkForce "${pkgs.coturn}/bin/turnserver -c /run/coturn/turnserver.conf";
+      ExecStart = lib.mkForce "${lib.getExe' pkgs.coturn "turnserver"} -c /run/coturn/turnserver.conf";
     };
   };
 }

@@ -109,6 +109,11 @@ in
     floating_modifier $mod
 
     exec --no-startup-id copyq
+    exec --no-startup-id telegram-desktop
+    exec --no-startup-id element-desktop
+    exec --no-startup-id signal-desktop
+    exec --no-startup-id discord
+    exec --no-startup-id nextcloud-client
 
     bindsym XF86AudioMute exec amixer -q set Master toggle
     bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-

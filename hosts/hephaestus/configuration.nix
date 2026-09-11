@@ -29,8 +29,8 @@ in
   services.xserver = {
     enable = true;
     xkb = {
-      layout = "us";
-      options = "caps:escape";
+      layout = "us,ro";
+      options = "caps:escape,grp:ctrl_space";
     };
     autoRepeatDelay = 233;
     autoRepeatInterval = 17;

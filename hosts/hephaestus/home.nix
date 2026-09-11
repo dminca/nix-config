@@ -51,6 +51,11 @@ in
     style = "word-jump-only";
     wordJumpMods = "CTRL";
   };
+  profiles.desktop.polybar = {
+    enable = true;
+    position = "top";
+    height = 28;
+  };
   programs.nvix.enable = true;
 
   home.username = "dminca";
@@ -177,10 +182,6 @@ in
     bindsym $mod+Shift+7 move container to workspace number 7
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
-
-    bar {
-      status_command i3status
-    }
   '';
 
   home.file.".inputrc".text = ''

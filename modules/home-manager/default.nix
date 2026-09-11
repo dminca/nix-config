@@ -11,6 +11,7 @@
     ./wezterm
     ./alacritty
     ./hermes-agent
+    ./polybar
     ../nvix
   ];
 }

@@ -189,8 +189,8 @@ in
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
 
-    # Set workspace 3 to tab mode
-    workspace 3 layout tabbed
+    # Set workspace 3 to tab mode on startup
+    exec_always i3-msg "workspace 3; layout tabbed; workspace 1"
 
     # Assign apps to workspace 3
     assign [class="TelegramDesktop"] 3

@@ -87,7 +87,7 @@ in
       module-margin = 1
       separator = " | "
       font-0 = "JetBrains Mono:style=Regular:size=11;3"
-      font-1 = "Noto Color Emoji:style=Regular:size=8;2"
+      font-1 = "Noto Color Emoji:style=Regular:size=10;3"
       modules-left = i3 xwindow
       modules-center = clock
       modules-right = layout volume battery network cpu memory tray
@@ -124,7 +124,7 @@ in
       date = %a, %d %b. %y
       time = %H:%M:%S
       format = <label>
-      label = 📅 %date% %time%
+      label = %{T1}📅%{T0} %date% %time%
       label-foreground = ''${colors.primary}
 
       [module/layout]
@@ -143,13 +143,13 @@ in
       master-mixer-index = 0
       interval = 5
       format-volume = <ramp-volume> <label-volume>
-      format-muted = 🔇 <label-muted>
+      format-muted = %{T1}🔇%{T0} <label-muted>
       label-volume = %percentage%%
       label-muted = muted
       label-muted-foreground = ''${colors.disabled}
-      ramp-volume-0 = 🔈
-      ramp-volume-1 = 🔉
-      ramp-volume-2 = 🔊
+      ramp-volume-0 = %{T1}🔈%{T0}
+      ramp-volume-1 = %{T1}🔉%{T0}
+      ramp-volume-2 = %{T1}🔊%{T0}
 
       [module/battery]
       type = internal/battery
@@ -163,13 +163,13 @@ in
       label-charging = %percentage%%
       label-discharging = %percentage%%
       label-full = %percentage%%
-      ramp-capacity-0 = 🪫
-      ramp-capacity-1 = 🔋
-      ramp-capacity-2 = 🔋
-      ramp-capacity-3 = 🔋
-      ramp-capacity-4 = ⚡
-      animation-charging-0 = ⚡
-      animation-charging-1 = 🔌
+      ramp-capacity-0 = %{T1}🪫%{T0}
+      ramp-capacity-1 = %{T1}🔋%{T0}
+      ramp-capacity-2 = %{T1}🔋%{T0}
+      ramp-capacity-3 = %{T1}🔋%{T0}
+      ramp-capacity-4 = %{T1}⚡%{T0}
+      animation-charging-0 = %{T1}⚡%{T0}
+      animation-charging-1 = %{T1}🔌%{T0}
       animation-charging-framerate = 750
 
       [module/cpu]
@@ -193,8 +193,8 @@ in
       ping-interval = 10
       format-connected = <label-connected>
       format-disconnected = <label-disconnected>
-      label-connected = 📡 %local_ip%
-      label-disconnected = ❌ No WiFi
+      label-connected = %{T1}📡%{T0} %local_ip%
+      label-disconnected = %{T1}❌%{T0} No WiFi
       label-disconnected-foreground = ''${colors.disabled}
 
       [module/tray]

@@ -105,7 +105,7 @@ in
   home.file.".i3/config".text = ''
     set $mod Mod4
 
-    font pango:JetBrains Mono 10
+    font pango:JetBrainsMono Nerd Font 10
     floating_modifier $mod
 
     exec --no-startup-id copyq
@@ -189,8 +189,7 @@ in
     bindsym $mod+Shift+8 move container to workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9
 
-    # Set workspace 3 to tab mode on startup
-    exec_always i3-msg "workspace 3; layout tabbed; workspace 1"
+    workspace 3; layout tabbed; workspace 1
 
     # Assign apps to workspace 3
     assign [class="TelegramDesktop"] 3

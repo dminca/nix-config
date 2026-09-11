@@ -30,7 +30,8 @@ in
     enable = true;
     xkb = {
       layout = "us,ro";
-      options = "caps:escape,grp:ctrl_space";
+      variant = ",std";
+      options = "caps:escape";
     };
     autoRepeatDelay = 233;
     autoRepeatInterval = 17;

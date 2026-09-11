@@ -124,6 +124,7 @@ in
     bindsym Print exec flameshot gui
     bindsym $mod+Shift+p exec ${screenshotCopyCommand}
     bindsym $mod+Ctrl+v exec ${clipboardCommand}
+    bindsym Ctrl+space exec "${pkgs.xkb-switch}/bin/xkb-switch -n"
     bindsym $mod+Ctrl+space exec ${emojiCommand}
     bindsym $mod+space floating toggle
     bindsym $mod+q kill
@@ -231,6 +232,7 @@ in
     xclip
     networkmanagerapplet
     lxqt.lxqt-policykit
+    xkb-switch
     libreoffice
     signal-desktop
     telegram-desktop

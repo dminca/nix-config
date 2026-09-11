@@ -38,6 +38,64 @@ let
     url = "https://github.com/adi1090x/polybar-themes/archive/${polybarThemesRev}.tar.gz";
     hash = "sha256-f/54m7RJnqNW6eC/75IrnFxmSWTY+zd5epm6TQsYeYA=";
   };
+  networkInterfaceConfig =
+    if cfg.networkInterface == "auto" then
+      "interface-type = wireless"
+    else
+      "interface = ${cfg.networkInterface}";
+  diskIoScript = pkgs.writeShellScriptBin "polybar-disk-io" ''
+    set -eu
+
+    cache_dir="''${XDG_CACHE_HOME:-$HOME/.cache}/polybar"
+    state_file="$cache_dir/disk-io.state"
+    mkdir -p "$cache_dir"
+
+    source_path="$(${lib.getExe' pkgs.util-linux "findmnt"} -no SOURCE /)"
+    device="$(${lib.getExe' pkgs.coreutils "readlink"} -f "$source_path")"
+    device_name="$(${lib.getExe' pkgs.coreutils "basename"} "$device")"
+    now_ns="$(${lib.getExe' pkgs.coreutils "date"} +%s%N)"
+    busy_ms="$(${lib.getExe' pkgs.gawk "awk"} -v dev="$device_name" '$3 == dev { print $13; exit }' /proc/diskstats)"
+
+    if [ -z "$busy_ms" ]; then
+      echo " N/A"
+      exit 0
+    fi
+
+    if [ -r "$state_file" ]; then
+      read -r old_now_ns old_busy_ms < "$state_file"
+      percent="$(${lib.getExe' pkgs.gawk "awk"} -v old_now="$old_now_ns" -v old_busy="$old_busy_ms" -v now="$now_ns" -v busy="$busy_ms" 'BEGIN {
+        elapsed_ms = (now - old_now) / 1000000;
+        delta_busy = busy - old_busy;
+        if (elapsed_ms <= 0 || delta_busy < 0) {
+          print "0%"
+          exit
+        }
+        printf "%.0f%%", (delta_busy / elapsed_ms) * 100
+      }')"
+    else
+      percent="0%"
+    fi
+
+    printf '%s %s\n' "$now_ns" "$busy_ms" > "$state_file"
+    echo " $percent"
+  '';
+
+  diskCapacityScript = pkgs.writeShellScriptBin "polybar-disk-capacity" ''
+    set -eu
+
+    root_usage="$(${lib.getExe' pkgs.coreutils "df"} -BG --output=avail,size / | ${lib.getExe' pkgs.gawk "awk"} 'NR == 2 {
+      avail = $1
+      size = $2
+      sub(/[^0-9].*/, "", avail)
+      sub(/[^0-9].*/, "", size)
+      if (size > 0) {
+        printf "%.0f%% free / %sG", (avail / size) * 100, size
+      } else {
+        printf "N/A"
+      }
+    }')"
+    echo "󰆼 $root_usage"
+  '';
   forestWallpapers = pkgs.runCommand "polybar-forest-wallpapers" { } ''
     mkdir -p "$out"
     cp -R "${polybarThemesSrc}/wallpapers/." "$out/"
@@ -47,28 +105,28 @@ let
     set -eu
 
     current_path="${cfg.wallpaper.currentPath}"
-    mkdir -p "$(${pkgs.coreutils}/bin/dirname "$current_path")"
+    mkdir -p "$(${lib.getExe' pkgs.coreutils "dirname"} "$current_path")"
 
-    first_wallpaper="$(${lib.getExe pkgs.fd} --absolute-path --type f --extension jpg --extension png . ${forestWallpapers} | ${pkgs.coreutils}/bin/sort | ${pkgs.coreutils}/bin/head -n 1)"
+    first_wallpaper="$(${lib.getExe pkgs.fd} --absolute-path --type f --extension jpg --extension png . ${forestWallpapers} | ${lib.getExe' pkgs.coreutils "sort"} | ${lib.getExe' pkgs.coreutils "head"} -n 1)"
     if [ -z "$first_wallpaper" ]; then
       echo "No wallpapers available in ${forestWallpapers}" >&2
       exit 1
     fi
 
     if [ ! -L "$current_path" ] && [ ! -e "$current_path" ]; then
-      ${pkgs.coreutils}/bin/ln -sfn "$first_wallpaper" "$current_path"
+      ${lib.getExe' pkgs.coreutils "ln"} -sfn "$first_wallpaper" "$current_path"
     fi
 
     target=""
     if [ -L "$current_path" ]; then
-      target="$(${pkgs.coreutils}/bin/readlink "$current_path")"
+      target="$(${lib.getExe' pkgs.coreutils "readlink"} "$current_path")"
     elif [ -f "$current_path" ]; then
       target="$current_path"
     fi
 
     if [ -z "$target" ] || [ ! -f "$target" ]; then
       target="$first_wallpaper"
-      ${pkgs.coreutils}/bin/ln -sfn "$target" "$current_path"
+      ${lib.getExe' pkgs.coreutils "ln"} -sfn "$target" "$current_path"
     fi
 
     exec ${lib.getExe pkgs.feh} --bg-fill "$target"
@@ -78,9 +136,9 @@ let
     set -eu
 
     current_path="${cfg.wallpaper.currentPath}"
-    mkdir -p "$(${pkgs.coreutils}/bin/dirname "$current_path")"
+    mkdir -p "$(${lib.getExe' pkgs.coreutils "dirname"} "$current_path")"
 
-    mapfile -t wallpapers < <(${lib.getExe pkgs.fd} --absolute-path --type f --extension jpg --extension png . ${forestWallpapers} | ${pkgs.coreutils}/bin/sort)
+    mapfile -t wallpapers < <(${lib.getExe pkgs.fd} --absolute-path --type f --extension jpg --extension png . ${forestWallpapers} | ${lib.getExe' pkgs.coreutils "sort"})
     if [ "''${#wallpapers[@]}" -eq 0 ]; then
       echo "No wallpapers available in ${forestWallpapers}" >&2
       exit 1
@@ -104,7 +162,7 @@ let
       exit 1
     fi
 
-    ${pkgs.coreutils}/bin/ln -sfn "$selected_path" "$current_path"
+    ${lib.getExe' pkgs.coreutils "ln"} -sfn "$selected_path" "$current_path"
     exec ${lib.getExe pkgs.feh} --bg-fill "$selected_path"
   '';
 
@@ -118,7 +176,7 @@ let
 
       sensor_name=""
       if [ -r "$hwmon/name" ]; then
-        sensor_name="$(${pkgs.coreutils}/bin/cat "$hwmon/name" 2>/dev/null || true)"
+        sensor_name="$(${lib.getExe' pkgs.coreutils "cat"} "$hwmon/name" 2>/dev/null || true)"
       fi
 
       sensor_match=0
@@ -134,7 +192,7 @@ let
         base="''${input%_input}"
         label=""
         if [ -r "$base"_label ]; then
-          label="$(${pkgs.coreutils}/bin/cat "$base"_label 2>/dev/null || true)"
+          label="$(${lib.getExe' pkgs.coreutils "cat"} "$base"_label 2>/dev/null || true)"
         fi
 
         include=0
@@ -150,7 +208,7 @@ let
 
         [ "$include" -eq 1 ] || continue
 
-        value="$(${pkgs.coreutils}/bin/cat "$input" 2>/dev/null || true)"
+        value="$(${lib.getExe' pkgs.coreutils "cat"} "$input" 2>/dev/null || true)"
         if [ -z "$value" ]; then
           continue
         fi
@@ -173,7 +231,7 @@ let
 
         zone_type=""
         if [ -r "$zone/type" ]; then
-          zone_type="$(${pkgs.coreutils}/bin/cat "$zone/type" 2>/dev/null || true)"
+          zone_type="$(${lib.getExe' pkgs.coreutils "cat"} "$zone/type" 2>/dev/null || true)"
         fi
 
         include=0
@@ -184,7 +242,7 @@ let
         esac
         [ "$include" -eq 1 ] || continue
 
-        value="$(${pkgs.coreutils}/bin/cat "$zone/temp" 2>/dev/null || true)"
+        value="$(${lib.getExe' pkgs.coreutils "cat"} "$zone/temp" 2>/dev/null || true)"
         if [ -z "$value" ]; then
           continue
         fi
@@ -240,7 +298,7 @@ let
     font-0 = "JetBrainsMono Nerd Font:style=Regular:size=11;3"
     modules-left = i3 xwindow
     modules-center = clock
-    modules-right = layout volume battery network cpu memory tray
+    modules-right = layout network disk-io disk-space volume battery cpu memory tray
     cursor-click = pointer
 
     [module/i3]
@@ -338,14 +396,30 @@ let
 
     [module/network]
     type = internal/network
-    interface = ${cfg.networkInterface}
+    ${networkInterfaceConfig}
     interval = 1.0
     ping-interval = 10
     format-connected = <label-connected>
     format-disconnected = <label-disconnected>
-    label-connected =  %local_ip%
+    label-connected =  %downspeed%
     label-disconnected = WiFi down
     label-disconnected-foreground = ''${colors.disabled}
+
+    [module/disk-io]
+    type = custom/script
+    exec = ${diskIoScript}/bin/polybar-disk-io
+    interval = 2
+    format = <label>
+    label = %output%
+    label-foreground = ''${colors.primary}
+
+    [module/disk-space]
+    type = custom/script
+    exec = ${diskCapacityScript}/bin/polybar-disk-capacity
+    interval = 30
+    format = <label>
+    label = %output%
+    label-foreground = ''${colors.primary}
 
     [module/tray]
     type = internal/tray
@@ -391,7 +465,7 @@ let
     separator =
     modules-left = i3 xwindow
     modules-center = clock
-    modules-right = layout network temperature volume battery cpu memory tray
+    modules-right = layout network disk-io disk-space temperature volume battery cpu memory tray
     tray-position = right
     tray-padding = 2
     tray-background = ''${color.background}
@@ -446,14 +520,30 @@ let
 
     [module/network]
     type = internal/network
-    interface = ${cfg.networkInterface}
+    ${networkInterfaceConfig}
     interval = 2
     format-connected = <label-connected>
     format-disconnected = <label-disconnected>
-    label-connected =  %local_ip%
+    label-connected =  %downspeed%
     label-connected-foreground = ''${color.cyan}
     label-disconnected =  down
     label-disconnected-foreground = ''${color.sep}
+
+    [module/disk-io]
+    type = custom/script
+    exec = ${diskIoScript}/bin/polybar-disk-io
+    interval = 2
+    format = <label>
+    label = %output%
+    label-foreground = ''${color.blue}
+
+    [module/disk-space]
+    type = custom/script
+    exec = ${diskCapacityScript}/bin/polybar-disk-capacity
+    interval = 30
+    format = <label>
+    label = %output%
+    label-foreground = ''${color.teal}
 
     [module/temperature]
     type = custom/script
@@ -472,14 +562,12 @@ let
     interval = 5
     format-volume = <ramp-volume> <label-volume>
     format-muted = <label-muted>
-    format-muted-prefix = 
-    format-muted-prefix-foreground = ''${color.red}
     label-volume = %percentage%%
-    label-muted = " Muted"
+    label-muted =  Muted
     label-muted-foreground = ''${color.sep}
-    ramp-volume-0 = 
-    ramp-volume-1 = 
-    ramp-volume-2 = 
+    ramp-volume-0 = 
+    ramp-volume-1 = 
+    ramp-volume-2 = 
     ramp-volume-foreground = ''${color.blue}
 
     [module/battery]
@@ -560,7 +648,7 @@ in
     networkInterface = lib.mkOption {
       type = lib.types.str;
       default = "wlan0";
-      description = "Network interface used by the network module.";
+      description = "Network interface used by the network module, or 'auto' for wireless auto-detection.";
     };
 
     battery = lib.mkOption {

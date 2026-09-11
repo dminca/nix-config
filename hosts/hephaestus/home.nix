@@ -57,7 +57,7 @@ in
     theme = "forest";
     position = "top";
     height = 34;
-    networkInterface = "wlan0";
+    networkInterface = "auto";
     battery = "BAT0";
     adapter = "AC0";
     temperatureZone = 0;
@@ -140,7 +140,7 @@ in
     bindsym Print exec flameshot gui
     bindsym $mod+Shift+p exec ${screenshotCopyCommand}
     bindsym $mod+Ctrl+v exec ${clipboardCommand}
-    bindsym Ctrl+space exec "${pkgs.xkb-switch}/bin/xkb-switch -n"
+    bindsym Ctrl+space exec "${lib.getExe pkgs.xkb-switch} -n"
     bindsym $mod+Ctrl+space exec ${emojiCommand}
     bindsym $mod+Shift+w exec forest-wallpaper-picker
     bindsym $mod+space floating toggle
@@ -223,7 +223,7 @@ in
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.dunst}/bin/dunst";
+      ExecStart = "${lib.getExe pkgs.dunst}";
       Restart = "on-failure";
       RestartSec = 2;
     };
@@ -237,7 +237,7 @@ in
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
+      ExecStart = "${lib.getExe' pkgs.lxqt.lxqt-policykit "lxqt-policykit-agent"}";
       Restart = "on-failure";
       RestartSec = 2;
     };

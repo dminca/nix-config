@@ -128,7 +128,6 @@ in
     trusted-users = [ username ];
   };
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [ inputs.self.overlays.default ];
 
   nix.gc = {
     automatic = true;

@@ -43,7 +43,7 @@ in
   profiles.common.wezterm = {
     enable = true;
     style = "word-jump-only";
-    enableWordJumpBindings = true;
+    enableWordJumpBindings = false;
   };
   programs.nvix.enable = true;
 

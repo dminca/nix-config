@@ -55,7 +55,11 @@ in
   options.profiles.common.wezterm = {
     enable = lib.mkEnableOption "shared Home Manager WezTerm profile";
 
-    enableWordJumpBindings = lib.mkEnableOption "WezTerm word-jump bindings";
+    enableWordJumpBindings = lib.mkOption {
+      type = lib.types.bool;
+      default = pkgs.stdenv.isDarwin;
+      description = "Whether to enable word-jump keybindings in WezTerm.";
+    };
 
     style = lib.mkOption {
       type = lib.types.enum [

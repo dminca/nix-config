@@ -18,6 +18,65 @@ in
   options.profiles.desktop.i3.enable = lib.mkEnableOption "i3 user session configuration";
 
   config = lib.mkIf cfg.enable {
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
+      };
+      iconTheme = {
+        name = "Adwaita";
+        package = pkgs.adwaita-icon-theme;
+      };
+      colorScheme = "dark";
+    };
+
+    qt = {
+      enable = true;
+      platformTheme.name = "gtk3";
+      style.name = "adwaita-dark";
+    };
+
+    systemd.user.services.dunst = {
+      Unit = {
+        Description = "Dunst notification daemon";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${lib.getExe pkgs.dunst}";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    systemd.user.services.polkit-agent = {
+      Unit = {
+        Description = "LXQt policykit agent";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${lib.getExe' pkgs.lxqt.lxqt-policykit "lxqt-policykit-agent"}";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    home.packages = with pkgs; [
+      dunst
+      flameshot
+      copyq
+      rofi
+      rofimoji
+      xclip
+      networkmanagerapplet
+      lxqt.lxqt-policykit
+      xkb-switch
+    ];
+
     home.sessionVariables = {
       XDG_SESSION_TYPE = "x11";
       XDG_CURRENT_DESKTOP = "i3";

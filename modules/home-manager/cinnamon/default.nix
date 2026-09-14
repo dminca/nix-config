@@ -18,7 +18,6 @@ in
       XDG_SESSION_TYPE = "x11";
       XDG_CURRENT_DESKTOP = "X-Cinnamon";
       XDG_SESSION_DESKTOP = "cinnamon";
-      GTK_THEME = "Adwaita-dark";
     };
 
     dconf.settings = {

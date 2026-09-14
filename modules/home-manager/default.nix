@@ -13,6 +13,7 @@
     ./hermes-agent
     ./polybar
     ./i3
+    ./cinnamon
     ../nvix
   ];
 }

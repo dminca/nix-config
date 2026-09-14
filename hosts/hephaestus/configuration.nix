@@ -6,8 +6,6 @@
 }:
 let
   username = "dminca";
-  wallpaperStateDir = "/var/lib/hephaestus-wallpaper";
-  wallpaperCurrentPath = "${wallpaperStateDir}/current";
 in
 {
   imports = [
@@ -28,17 +26,7 @@ in
     "de_DE.UTF-8/UTF-8"
   ];
 
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us,ro";
-      variant = ",std";
-      options = "caps:escape";
-    };
-    autoRepeatDelay = 233;
-    autoRepeatInterval = 17;
-  };
-  console.useXkbConfig = true;
+  services.xserver.enable = true;
 
   services.libinput = {
     enable = true;
@@ -48,10 +36,6 @@ in
   services.fprintd.enable = true;
 
   security.pam.services.sudo = {
-    fprintAuth = true;
-    unixAuth = true;
-  };
-  security.pam.services.i3lock = {
     fprintAuth = true;
     unixAuth = true;
   };
@@ -75,9 +59,6 @@ in
   programs.zsh.enable = true;
 
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.greeters.gtk.extraConfig = ''
-    background = ${wallpaperCurrentPath}
-  '';
   profiles.desktop.cinnamon = {
     enable = true;
     user = username;
@@ -108,9 +89,6 @@ in
   zramSwap.enable = true;
   services.thermald.enable = true;
   powerManagement.powertop.enable = true;
-  systemd.tmpfiles.rules = [
-    "d ${wallpaperStateDir} 0755 ${username} users -"
-  ];
 
   services.openssh = {
     enable = true;

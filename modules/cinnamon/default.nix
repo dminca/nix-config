@@ -61,6 +61,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    services.xserver = {
+      xkb = {
+        layout = "us,ro";
+        variant = ",std";
+        options = "caps:escape";
+      };
+      autoRepeatDelay = 233;
+      autoRepeatInterval = 17;
+    };
+    console.useXkbConfig = true;
     services.xserver.desktopManager.cinnamon = {
       enable = true;
       inherit (cfg) sessionPath extraGSettingsOverrides extraGSettingsOverridePackages;
@@ -69,7 +79,11 @@ in
     services.cinnamon.apps.enable = cfg.apps.enable;
     services.displayManager.defaultSession = cfg.defaultSession;
     services.xserver.displayManager.lightdm.enable = cfg.lightdm.enable;
-    services.xserver.displayManager.lightdm.greeters.slick.enable = lib.mkForce false;
+    security.pam.services.cinnamon-screensaver = {
+      fprintAuth = true;
+      unixAuth = true;
+    };
+    home-manager.users.${cfg.user}.profiles.desktop.cinnamon.enable = true;
 
     environment.cinnamon.excludePackages = cfg.excludePackages;
 

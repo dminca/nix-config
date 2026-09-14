@@ -8,5 +8,6 @@
     ./postgresql
     ./hermes-agent
     ./i3
+    ./cinnamon
   ];
 }

@@ -46,7 +46,6 @@ in
     touchpad.naturalScrolling = true;
   };
   services.fprintd.enable = true;
-  services.gnome.gnome-keyring.enable = true;
 
   security.pam.services.sudo = {
     fprintAuth = true;
@@ -74,13 +73,12 @@ in
   };
 
   programs.zsh.enable = true;
-  programs.dconf.enable = true;
 
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.lightdm.greeters.gtk.extraConfig = ''
     background = ${wallpaperCurrentPath}
   '';
-  profiles.desktop.i3 = {
+  profiles.desktop.cinnamon = {
     enable = true;
     user = username;
   };
@@ -152,7 +150,32 @@ in
     nh
     wezterm
     fprintd
+    wireguard-tools
   ];
+
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [
+      hplipWithPlugin
+    ];
+  };
+
+  hardware.sane = {
+    enable = true;
+    extraBackends = with pkgs; [
+      hplipWithPlugin
+      sane-airscan
+    ];
+  };
+
+  services.ipp-usb.enable = true;
+  services.avahi = {
+    enable = true;
+    publish = {
+      enable = true;
+      userServices = true;
+    };
+  };
 
   homelab.ai.hermes = {
     enable = true;

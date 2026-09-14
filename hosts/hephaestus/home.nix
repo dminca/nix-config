@@ -5,7 +5,6 @@
   ...
 }:
 let
-  wallpaperCurrentPath = "/var/lib/hephaestus-wallpaper/current";
   buildFirefoxXpiAddon =
     {
       pname,
@@ -45,21 +44,6 @@ in
     enable = true;
     style = "word-jump-only";
     wordJumpMods = "CTRL";
-  };
-  profiles.desktop.polybar = {
-    enable = true;
-    theme = "forest";
-    position = "top";
-    height = 34;
-    networkInterface = "auto";
-    battery = "BAT0";
-    adapter = "AC0";
-    temperatureZone = 0;
-    temperatureBase = 0;
-    wallpaper = {
-      enable = true;
-      currentPath = wallpaperCurrentPath;
-    };
   };
   programs.nvix.enable = true;
 

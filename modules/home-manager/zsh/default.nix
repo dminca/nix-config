@@ -38,6 +38,21 @@ in
         setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
         setopt HIST_BEEP                 # Beep when accessing nonexistent history.
       '';
+      initContent = ''
+        # Alt/Option+Arrow word-jump bindings by platform.
+        case "$OSTYPE" in
+          darwin*)
+            bindkey "\e[1;3D" backward-word
+            bindkey "\e[1;3C" forward-word
+            ;;
+          linux*)
+            bindkey "\e[1;3D" backward-word
+            bindkey "\e[1;3C" forward-word
+            bindkey "\e[1;9D" backward-word
+            bindkey "\e[1;9C" forward-word
+            ;;
+        esac
+      '';
       shellAliases = {
         g = "git";
         gaa = "git add --all";

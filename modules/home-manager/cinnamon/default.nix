@@ -45,11 +45,24 @@ in
     };
 
     dconf.settings = {
+      "org/cinnamon" = {
+        hotcorner-layout = [
+          "cinnamon-lock:true:0"
+          "scale:false:0"
+          "scale:false:0"
+          "desktop:false:0"
+        ];
+      };
+
       "org/cinnamon/desktop/interface" = {
         clock-use-24h = true;
         clock-show-date = true;
         clock-show-seconds = true;
         first-day-of-week = 1;
+      };
+
+      "org/cinnamon/gestures" = {
+        enabled = true;
       };
 
       "org/cinnamon/desktop/peripherals/keyboard" = {
@@ -82,6 +95,23 @@ in
       Install.WantedBy = [ "graphical-session.target" ];
     };
 
-    home.packages = [ lockCommand ];
+    systemd.user.services.touchegg = {
+      Unit = {
+        Description = "Touchegg gesture daemon";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${lib.getExe pkgs.touchegg}";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+
+    home.packages = [
+      lockCommand
+      pkgs.touchegg
+    ];
   };
 }

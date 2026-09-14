@@ -54,6 +54,8 @@ in
   options.profiles.common.wezterm = {
     enable = lib.mkEnableOption "shared Home Manager WezTerm profile";
 
+    enableWordJumpBindings = lib.mkEnableOption "WezTerm word-jump bindings";
+
     style = lib.mkOption {
       type = lib.types.enum [
         "full"
@@ -166,7 +168,7 @@ in
                 mods = 'CTRL|SHIFT',
                 action = wezterm.action.Nop,
               },
-              ${wordJumpBindings}
+              ${lib.optionalString cfg.enableWordJumpBindings wordJumpBindings}
             }
 
             return config
@@ -177,7 +179,7 @@ in
             local config = wezterm.config_builder()
 
             config.keys = {
-              ${wordJumpBindings}
+              ${lib.optionalString cfg.enableWordJumpBindings wordJumpBindings}
               ${hephaestusPaneBindings}
             }
             config.font_size = 10

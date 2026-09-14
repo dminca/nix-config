@@ -43,7 +43,7 @@ in
   profiles.common.wezterm = {
     enable = true;
     style = "word-jump-only";
-    wordJumpMods = "CTRL";
+    enableWordJumpBindings = false;
   };
   programs.nvix.enable = true;
 
@@ -67,11 +67,6 @@ in
   home.sessionVariables = {
     TERMINAL = "wezterm";
   };
-
-  home.file.".inputrc".text = ''
-    "\e[1;5C": forward-word
-    "\e[1;5D": backward-word
-  '';
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

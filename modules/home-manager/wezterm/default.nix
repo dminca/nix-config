@@ -41,12 +41,12 @@ let
     },
     {
       key = 'a',
-      mods = 'SUPER|SHIFT',
+      mods = 'CTRL|ALT',
       action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
     },
     {
       key = 's',
-      mods = 'SUPER|SHIFT',
+      mods = 'CTRL|ALT',
       action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
   '';

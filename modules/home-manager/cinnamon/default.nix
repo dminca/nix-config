@@ -71,6 +71,10 @@ in
         repeat-interval = lib.hm.gvariant.mkUint32 17;
       };
 
+      "org/cinnamon/desktop/input-sources" = {
+        xkb-options = [ "caps:escape" ];
+      };
+
       "org/cinnamon/desktop/screensaver" = {
         use-custom-format = true;
         date-format = "%a, %d %b. %y";

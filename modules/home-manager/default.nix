@@ -12,6 +12,7 @@
     ./alacritty
     ./hermes-agent
     ./polybar
+    ./i3
     ../nvix
   ];
 }

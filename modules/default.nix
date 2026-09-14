@@ -7,5 +7,6 @@
     ./maintenance
     ./postgresql
     ./hermes-agent
+    ./i3
   ];
 }

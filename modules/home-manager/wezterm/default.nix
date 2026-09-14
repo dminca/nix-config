@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -9,12 +10,12 @@ let
     {
       key = 'LeftArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey { key = 'b', mods = 'ALT' },
+      action = wezterm.action.SendString '\x1bb',
     },
     {
       key = 'RightArrow',
       mods = '${cfg.wordJumpMods}',
-      action = wezterm.action.SendKey { key = 'f', mods = 'ALT' },
+      action = wezterm.action.SendString '\x1bf',
     },
   '';
   hephaestusPaneBindings = ''
@@ -67,10 +68,11 @@ in
 
     wordJumpMods = lib.mkOption {
       type = lib.types.enum [
+        "ALT"
         "OPT"
         "CTRL"
       ];
-      default = "OPT";
+      default = if pkgs.stdenv.isDarwin then "OPT" else "ALT";
       description = "Modifier for word-jump bindings in WezTerm.";
     };
   };

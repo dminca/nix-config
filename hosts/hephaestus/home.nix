@@ -85,6 +85,7 @@ in
     doggo
     drawio
     witr
+    bind
 # photography
     krita
     gimp

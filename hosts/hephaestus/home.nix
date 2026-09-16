@@ -86,7 +86,8 @@ in
     witr
     bind
     xclip
-# photography
+    copyq
+    # photography
     krita
     gimp
     inkscape

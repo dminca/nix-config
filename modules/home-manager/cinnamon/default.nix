@@ -116,7 +116,6 @@ in
     home.packages = [
       lockCommand
       pkgs.touchegg
-      pkgs.copyq
     ];
   };
 }

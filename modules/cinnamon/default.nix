@@ -83,7 +83,6 @@ in
       fprintAuth = true;
       unixAuth = true;
     };
-    home-manager.users.${cfg.user}.profiles.desktop.cinnamon.enable = true;
 
     environment.cinnamon.excludePackages = cfg.excludePackages;
 

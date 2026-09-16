@@ -34,7 +34,5 @@ in
       fprintAuth = true;
       unixAuth = true;
     };
-
-    home-manager.users.${cfg.user}.profiles.desktop.i3.enable = true;
   };
 }

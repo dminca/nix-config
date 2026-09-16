@@ -15,6 +15,7 @@
       "flakes"
     ];
     trusted-users = [ "admin" ];
+    require-sigs = false;
   };
   # ── Boot ──────────────────────────────────────────────────────────────────
   boot = {

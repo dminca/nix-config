@@ -17,6 +17,7 @@
     "flakes"
   ];
   nix.settings.trusted-users = [ "admin" ];
+  nix.settings.require-sigs = false;
 
   networking.hostName = "rss-nixos-01";
   homelab.monitoring.agent.enable = true;

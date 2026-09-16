@@ -52,7 +52,7 @@
             format json
           }
 
-          reverse_proxy 192.168.178.2
+          reverse_proxy 192.168.178.2:5380
         '';
       };
       "nc.mrbl.dedyn.io" = {

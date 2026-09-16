@@ -29,17 +29,17 @@ _deploy-nixos-local host:
     .#{{host}} \
     --hostname {{host}}
 
-nc: (_deploy-nixos "nc-nixos-01" "10.10.10.156")
-kc: (_deploy-nixos "kc-nixos-01" "10.10.10.118")
-lw: (_deploy-nixos "lw-nixos-01" "10.10.10.153")
-ic: (_deploy-nixos "ic-nixos-01" "10.10.10.162")
-rp: (_deploy-nixos "rp-nixos-01" "10.10.10.135")
-mon: (_deploy-nixos "mon-nixos-01" "10.10.10.187")
-hs: (_deploy-nixos "hs-nixos-01" "10.10.10.157")
+nc: (_deploy-nixos "nc-nixos-01" "nc-nixos-01.home.arpa")
+kc: (_deploy-nixos "kc-nixos-01" "kc-nixos-01.home.arpa")
+lw: (_deploy-nixos "lw-nixos-01" "lw-nixos-01.home.arpa")
+ic: (_deploy-nixos "ic-nixos-01" "ic-nixos-01.home.arpa")
+rp: (_deploy-nixos "rp-nixos-01" "rp-nixos-01.home.arpa")
+mon: (_deploy-nixos "mon-nixos-01" "mon-nixos-01.home.arpa")
+hs: (_deploy-nixos "hs-nixos-01" "hs-nixos-01.home.arpa")
 hephaestus: (_deploy-nixos "hephaestus" "192.168.178.87")
 hephaestus-local: (_deploy-nixos-local "hephaestus")
-notes: (_deploy-nixos "notes-nixos-01" "10.10.10.173")
-rss: (_deploy-nixos "rss-nixos-01" "10.10.10.136")
+notes: (_deploy-nixos "notes-nixos-01" "notes-nixos-01.home.arpa")
+rss: (_deploy-nixos "rss-nixos-01" "rss-nixos-01.home.arpa")
 
 _deploy-macos target:
     {{nh}} darwin switch .#{{target}}

@@ -51,7 +51,7 @@
   };
 
   # FreshRSS accepts Remote-User/X-WebAuth-User only from trusted proxies.
-  services.phpfpm.pools.freshrss.phpEnv.TRUSTED_PROXY = "10.10.10.135/32";
+  services.phpfpm.pools.freshrss.phpEnv.TRUSTED_PROXY = "10.10.10.100";
 
   systemd.services.freshrss-config = {
     requires = [ "postgresql.target" ];
@@ -60,7 +60,7 @@
       cat > "${config.services.freshrss.dataDir}/config.custom.php" <<'EOF'
       <?php
       return [
-        'trusted_sources' => [ '10.10.10.135/32' ],
+        'trusted_sources' => [ '10.10.10.100/32' ],
         'http_auth_auto_register' => true,
       ];
       EOF

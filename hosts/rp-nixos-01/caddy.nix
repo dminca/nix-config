@@ -62,7 +62,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.156 {
+          reverse_proxy nc-nixos-01.home.arpa {
             header_up X-Real-IP {remote_host}
           }
         '';
@@ -74,7 +74,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.118 {
+          reverse_proxy kc-nixos-01.home.arpa {
               header_up Host {host}
               header_up X-Real-IP {remote}
               header_up X-Forwarded-Port {http.request.port}
@@ -88,7 +88,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.153:3000 {
+          reverse_proxy lw-nixos-01.home.arpa:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
@@ -104,7 +104,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.162:2283 {
+          reverse_proxy ic-nixos-01.home.arpa:2283 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
@@ -120,7 +120,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.187:3000 {
+          reverse_proxy mon-nixos-01.home.arpa:3000 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
@@ -150,7 +150,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.157:4433 {
+          reverse_proxy hs-nixos-01.home.arpa:4433 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
@@ -166,7 +166,7 @@
             format json
           }
 
-          reverse_proxy 10.10.10.173:5230 {
+          reverse_proxy notes-nixos-01.home.arpa:5230 {
             header_up Host {host}
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-For {remote_host}
@@ -189,7 +189,7 @@
 
           @freshrss_api path /api/*
           handle @freshrss_api {
-            reverse_proxy 10.10.10.136:80 {
+            reverse_proxy rss-nixos-01.home.arpa:80 {
               header_up Host {host}
               header_up X-Real-IP {remote_host}
               header_up X-Forwarded-For {remote_host}
@@ -201,7 +201,7 @@
           # Let browsers fetch PWA install assets without auth redirects.
           @freshrss_pwa path /themes/manifest.json /themes/icons/*
           handle @freshrss_pwa {
-            reverse_proxy 10.10.10.136:80 {
+            reverse_proxy rss-nixos-01.home.arpa:80 {
               header_up Host {host}
               header_up X-Real-IP {remote_host}
               header_up X-Forwarded-For {remote_host}
@@ -220,7 +220,7 @@
               }
             }
 
-            reverse_proxy 10.10.10.136:80 {
+            reverse_proxy rss-nixos-01.home.arpa:80 {
               header_up Host {host}
               header_up X-Real-IP {remote_host}
               header_up X-Forwarded-For {remote_host}

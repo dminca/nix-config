@@ -46,7 +46,7 @@
         "localhost"
       ];
       trusted_proxies = [
-        "10.10.10.135" # IP address of rp-nixos-01 (Caddy host)
+        "10.10.10.100" # IP address of rp-nixos-01 (Caddy host)
       ];
       overwriteprotocol = "https";
       default_phone_region = "DE";

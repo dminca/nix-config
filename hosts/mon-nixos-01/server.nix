@@ -13,15 +13,15 @@
   homelab.monitoring.server = {
     enable = true;
     scrapeTargets = [
-      "10.10.10.187:9100" # mon-nixos-01
-      "10.10.10.156:9100" # nc-nixos-01
-      "10.10.10.162:9100" # ic-nixos-01
-      "10.10.10.153:9100" # lw-nixos-01
-      "10.10.10.135:9100" # rp-nixos-01
-      "10.10.10.118:9100" # kc-nixos-01
-      "10.10.10.157:9100" # hs-nixos-01
-      "10.10.10.173:9100" # notes-nixos-01
-      "10.10.10.136:9100" # rss-nixos-01
+      "mon-nixos-01.home.arpa:9100" # mon-nixos-01
+      "nc-nixos-01.home.arpa:9100" # nc-nixos-01
+      "ic-nixos-01.home.arpa:9100" # ic-nixos-01
+      "lw-nixos-01.home.arpa:9100" # lw-nixos-01
+      "rp-nixos-01.home.arpa:9100" # rp-nixos-01
+      "kc-nixos-01.home.arpa:9100" # kc-nixos-01
+      "hs-nixos-01.home.arpa:9100" # hs-nixos-01
+      "notes-nixos-01.home.arpa:9100" # notes-nixos-01
+      "rss-nixos-01.home.arpa:9100" # rss-nixos-01
     ];
     dashboardFiles = [
       ../../modules/monitoring/grafana-dashboards/node-overview.json

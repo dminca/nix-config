@@ -86,6 +86,7 @@ in
     drawio
     witr
     bind
+    xclip
 # photography
     krita
     gimp

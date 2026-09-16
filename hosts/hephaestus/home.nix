@@ -80,7 +80,6 @@ in
     element-desktop
     discord
     nextcloud-client
-    gnucash
     f2
     doggo
     drawio

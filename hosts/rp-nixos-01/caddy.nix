@@ -52,7 +52,13 @@
             format json
           }
 
-          reverse_proxy 192.168.178.2:5380
+          reverse_proxy 192.168.178.2:5380 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-Host {host}
+          }
         '';
       };
       "nc.mrbl.dedyn.io" = {

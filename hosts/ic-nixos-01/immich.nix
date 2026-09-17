@@ -1,8 +1,12 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }:
+let
+  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+in
 {
   networking.firewall.allowedTCPPorts = [ 2283 ];
 
@@ -34,6 +38,7 @@
 
   services.immich = {
     enable = true;
+    package = unstablePkgs.immich;
     host = "0.0.0.0";
     port = 2283;
     openFirewall = false;

@@ -80,6 +80,50 @@ in
         date-format = "%a, %d %b. %y";
         time-format = "%H:%M:%S";
       };
+
+      # Disable the built-in screenshot media-key actions so they don't
+      # race with our custom Flameshot keybindings below.
+      "org/cinnamon/desktop/keybindings/media-keys" = {
+        screenshot = [ ];
+        screenshot-clip = [ ];
+        window-screenshot = [ ];
+        window-screenshot-clip = [ ];
+        area-screenshot = [ ];
+        area-screenshot-clip = [ ];
+      };
+
+      "org/cinnamon/desktop/keybindings" = {
+        custom-list = [
+          "custom0"
+          "custom1"
+          "custom2"
+          "custom3"
+        ];
+      };
+
+      "org/cinnamon/desktop/keybindings/custom-keybindings/custom0" = {
+        name = "Screenshot with Flameshot";
+        command = "${lib.getExe pkgs.flameshot} gui";
+        binding = [ "Print" ];
+      };
+
+      "org/cinnamon/desktop/keybindings/custom-keybindings/custom1" = {
+        name = "Screenshot to clipboard with Flameshot";
+        command = "${lib.getExe pkgs.flameshot} gui --clipboard";
+        binding = [ "<Shift>Print" ];
+      };
+
+      "org/cinnamon/desktop/keybindings/custom-keybindings/custom2" = {
+        name = "Region screenshot with Flameshot";
+        command = "${lib.getExe pkgs.flameshot} gui --region";
+        binding = [ "<Alt>Print" ];
+      };
+
+      "org/cinnamon/desktop/keybindings/custom-keybindings/custom3" = {
+        name = "Screen to clipboard with Flameshot";
+        command = "${lib.getExe pkgs.flameshot} screen --clipboard";
+        binding = [ "<Alt><Shift>Print" ];
+      };
     };
 
     home.activation.cinnamonCalendarFormat = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -116,6 +160,7 @@ in
     home.packages = [
       lockCommand
       pkgs.touchegg
+      pkgs.flameshot
     ];
   };
 }

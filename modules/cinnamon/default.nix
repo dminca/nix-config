@@ -111,5 +111,10 @@ in
       nemo-with-extensions
       xapp
     ];
+
+    home-manager.users.${cfg.user} = {
+      imports = [ ../home-manager/cinnamon ];
+      profiles.desktop.cinnamon.enable = true;
+    };
   };
 }

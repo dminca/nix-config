@@ -96,7 +96,6 @@ in
         custom-list = [
           "custom0"
           "custom1"
-          "custom2"
           "custom3"
         ];
       };
@@ -111,12 +110,6 @@ in
         name = "Screenshot to clipboard with Flameshot";
         command = "${lib.getExe pkgs.flameshot} gui --clipboard";
         binding = [ "<Shift>Print" ];
-      };
-
-      "org/cinnamon/desktop/keybindings/custom-keybindings/custom2" = {
-        name = "Region screenshot with Flameshot";
-        command = "${lib.getExe pkgs.flameshot} gui --region";
-        binding = [ "<Alt>Print" ];
       };
 
       "org/cinnamon/desktop/keybindings/custom-keybindings/custom3" = {

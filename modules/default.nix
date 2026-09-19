@@ -9,6 +9,5 @@
     ./hermes-agent
     ./i3
     ./cinnamon
-    ./wireguard
   ];
 }

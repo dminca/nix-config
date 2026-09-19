@@ -97,15 +97,6 @@ in
   services.getty.autologinUser = "dminca";
   programs.kdeconnect.enable = true;
 
-  profiles.vpn.wireguard = {
-    enable = false;
-    connectionUuid = "d423ed8a-6f37-4b5d-89c0-dcbdba7e8886";
-    address = [ "10.10.11.5/24" ];
-    peerPublicKey = "Vq6mgV+LVqo8hfhEn53FG5meaJPOuEOkhBwyhuWKxjg=";
-    endpoint = "mrbl.dedyn.io:51820";
-    sopsFile = ./secrets/wireguard.yaml;
-  };
-
   nix.settings = {
     experimental-features = [
       "nix-command"

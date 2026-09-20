@@ -60,6 +60,18 @@ in
     };
   };
 
+  # NOTE: This module intentionally does NOT reference `home-manager.*`.
+  # It's imported globally (modules/default.nix) on every host, including
+  # ones that never wire in the Home Manager NixOS module (e.g.
+  # hs-nixos-01, mon-nixos-01). Referencing `home-manager.users.*` here —
+  # even behind `lib.mkIf`/`lib.optionalAttrs`/`options ? home-manager`
+  # guards — either trips the "option does not exist" check (mkIf only
+  # defers the *value*, not the attribute key) or causes infinite
+  # recursion (checking `options ? home-manager` forces the full options
+  # fixed-point, which cycles back through this same module). The actual
+  # Home Manager wiring for Cinnamon lives per-host in flake.nix's
+  # `extraModules`, right next to where Home Manager itself is enabled —
+  # see the `hephaestus` host entry.
   config = lib.mkIf cfg.enable {
     services.xserver = {
       xkb = {
@@ -111,10 +123,6 @@ in
       nemo-with-extensions
       xapp
     ];
-
-    home-manager.users.${cfg.user} = {
-      imports = [ ../home-manager/cinnamon ];
-      profiles.desktop.cinnamon.enable = true;
-    };
   };
 }
+

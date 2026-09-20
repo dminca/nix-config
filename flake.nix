@@ -142,6 +142,17 @@
                 sops-nix.homeManagerModules.sops
                 ./modules/home-manager
               ];
+              # Wires the Cinnamon Home Manager profile (dconf, Flameshot
+              # keybindings, touchegg, etc.) for the desktop user. Lives here
+              # (rather than in modules/cinnamon) because `home-manager.*` is
+              # only a valid option on hosts that import the Home Manager
+              # NixOS module in the first place — see modules/cinnamon for
+              # why baking this into the shared system module breaks other
+              # hosts.
+              home-manager.users.dminca = {
+                imports = [ ./modules/home-manager/cinnamon ];
+                profiles.desktop.cinnamon.enable = true;
+              };
             }
           ];
         };

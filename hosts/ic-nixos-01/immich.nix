@@ -5,7 +5,7 @@
   ...
 }:
 let
-  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+  unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   networking.firewall.allowedTCPPorts = [ 2283 ];

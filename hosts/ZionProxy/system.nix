@@ -12,10 +12,6 @@
     };
     casks = [
       {
-        name = "filen";
-        greedy = true;
-      }
-      {
         name = "signal";
         greedy = true;
       }
@@ -25,10 +21,6 @@
       }
       {
         name = "krita";
-        greedy = true;
-      }
-      {
-        name = "nextcloud-talk";
         greedy = true;
       }
       {

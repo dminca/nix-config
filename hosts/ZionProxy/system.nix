@@ -31,10 +31,6 @@
         name = "kde-connect";
         greedy = true;
       }
-      {
-        name = "balenaetcher";
-        greedy = true;
-      }
     ];
   };
 }

@@ -17,6 +17,7 @@ _deploy-nixos host ip:
     {{nh}} os switch \
     .#{{host}} \
     --hostname {{host}} \
+    --elevation-strategy passwordless \
     --target-host admin@{{ip}} \
     --build-host admin@{{ip}}; \
     else \

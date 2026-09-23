@@ -35,6 +35,7 @@ in
   profiles.shell.zsh.enable = true;
   profiles.common.shell.enable = true;
   profiles.common.git.enable = true;
+  profiles.common.tmux.enable = true;
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;

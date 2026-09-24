@@ -158,5 +158,8 @@ in
         ];
       };
     };
+  radicle = {
+    enable = true;
+  };
   };
 }

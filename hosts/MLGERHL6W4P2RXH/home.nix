@@ -178,6 +178,10 @@
     enable = true;
   };
 
+
+  programs.btop = {
+    enable = true;
+  };
   # Ensure vault directory exists for Obsidian app
   home.activation.createObsidianVault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p ${config.home.homeDirectory}/Notes/my-vault

@@ -81,6 +81,14 @@ in
         time-format = "%H:%M:%S";
       };
 
+      # Lid close triggers a suspend (see lid-close-*-action below); this
+      # is Cinnamon's own toggle for locking on top of that suspend.
+      # Disabling it stops the lock screen from appearing when the lid
+      # is closed/reopened, without touching idle-timeout locking.
+      "org/cinnamon/settings-daemon/plugins/power" = {
+        lock-on-suspend = false;
+      };
+
       # Disable the built-in screenshot media-key actions so they don't
       # race with our custom Flameshot keybindings below.
       "org/cinnamon/desktop/keybindings/media-keys" = {

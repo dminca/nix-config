@@ -88,6 +88,7 @@ in
     bind
     xclip
     copyq
+    radicle-node
     # photography
     krita
     gimp

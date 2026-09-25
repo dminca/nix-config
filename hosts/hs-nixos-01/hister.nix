@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -43,15 +44,38 @@ in
     mode = "0400";
   };
 
+  # ── Technitium DNS "Query Logs (PostgreSQL)" app ─────────────────────────
+  # Technitium (192.168.178.2) connects over TCP with a password; see
+  # Obsidian/Memos docs for the SCRAM hash generation script and rationale.
+  networking.firewall.allowedTCPPorts = [ 5432 ];
+
+  services.postgresql.authentication = lib.mkAfter ''
+    # Technitium DNS server (192.168.178.2) → technitium db, password auth only
+    host  technitium  technitium  192.168.178.2/32  scram-sha-256
+  '';
+
   homelab.postgresql = {
     enable = true;
     profile = "small";
-    settings.unix_socket_directories = "/run/postgresql";
-    ensureDatabases = [ "hister" ];
+    settings = {
+      unix_socket_directories = "/run/postgresql";
+      # Required for the Technitium host to reach this instance over TCP;
+      # pg_hba above still restricts who's actually allowed to connect.
+      listen_addresses = lib.mkForce "*";
+    };
+    ensureDatabases = [
+      "hister"
+      "technitium"
+    ];
     ensureUsers = [
       {
         name = "hister";
         ensureDBOwnership = true;
+      }
+      {
+        name = "technitium";
+        ensureDBOwnership = true;
+        ensureClauses.password = "SCRAM-SHA-256$4096:7E95iCGDg38nJK7d1yMv2w==$ifr8b2aZmXH9IqeNquHFg03C/av6AXKKLo5tp+9eQC4=:yTKbCivBCYpDHRgYUaTOyoCJcTWP/+SUZFSZWvea764=";
       }
     ];
   };

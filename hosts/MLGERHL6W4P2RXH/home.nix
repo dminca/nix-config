@@ -37,7 +37,6 @@
     witr
     popeye
     inputs.sofka.packages.${pkgs.stdenv.hostPlatform.system}.default
-    radicle-node
     ########################
     # cloud-native tooling #
     ########################

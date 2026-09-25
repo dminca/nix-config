@@ -80,6 +80,31 @@ in
     ];
   };
 
+  # dns_logs is created lazily by Technitium's app on first log write, so this
+  # runs on a timer (not just at boot) and uses IF EXISTS to no-op until then.
+  systemd.services.technitium-postgres-tuning = {
+    description = "Tune autovacuum on Technitium's dns_logs table";
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "postgres";
+      ExecStart = pkgs.writeShellScript "technitium-postgres-tuning" ''
+        ${config.services.postgresql.package}/bin/psql -d technitium -c \
+          "ALTER TABLE IF EXISTS dns_logs SET (autovacuum_vacuum_scale_factor = 0.02, autovacuum_vacuum_cost_delay = 10);"
+      '';
+    };
+  };
+
+  systemd.timers.technitium-postgres-tuning = {
+    description = "Periodically (re-)apply Technitium dns_logs autovacuum tuning";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5m";
+      OnUnitActiveSec = "1h";
+    };
+  };
+
   services.hister = {
     enable = true;
     package = unstablePkgs.hister;

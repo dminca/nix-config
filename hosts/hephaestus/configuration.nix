@@ -160,6 +160,8 @@ in
     openrouter.enable = true;
   };
 
+  homelab.ziggity.enable = true;
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

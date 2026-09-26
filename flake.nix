@@ -170,6 +170,7 @@
           value = nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
+              ./modules/ziggity
               ./hosts/common/system.nix
               ./hosts/${hostname}/system.nix
             ];

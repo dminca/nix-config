@@ -15,6 +15,7 @@ in
   config = lib.mkIf cfg.enable {
     home.sessionVariables = {
       SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";
+      ZIGGITY_CONFIG = "${config.xdg.configHome}/ziggity/config.ini";
     };
 
     home.sessionPath = [
@@ -117,24 +118,11 @@ in
       };
     };
 
-    programs.lazygit = {
-      enable = true;
-      settings = {
-        gui.theme = {
-          lightTheme = true;
-          activeBorderColor = [
-            "blue"
-            "bold"
-          ];
-          inactiveBorderColor = [ "black" ];
-          selectedLineBgColor = [ "default" ];
-        };
-        git.pagers = [
-          {
-            pager = "delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format=\"lazygit-edit://{path}:{line}\"";
-          }
-        ];
-      };
-    };
+    # ziggity replaces lazygit; see modules/nvix/plugins/snacks/ziggity.nix for
+    # the Neovim keymap. This global config reuses the running Neovim instance
+    # for `e` (the same $NVIM-remote-send trick lazygit used).
+    xdg.configFile."ziggity/config.ini".text = ''
+      editor_command = [ -z "$NVIM" ] && (nvim -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}})
+    '';
   };
 }

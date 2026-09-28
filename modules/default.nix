@@ -10,5 +10,6 @@
     ./i3
     ./cinnamon
     ./ziggity
+    ./radicle-backup
   ];
 }

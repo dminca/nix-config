@@ -92,7 +92,7 @@ in
         "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
       };
 
-    environment.sessionVariables =
+    environment.variables =
       lib.optionalAttrs cfg.openrouter.enable {
         OPENROUTER_BASE_URL = cfg.openrouter.baseUrl;
         HERMES_OPENROUTER_DEFAULT_MODEL = cfg.openrouter.defaultModel;

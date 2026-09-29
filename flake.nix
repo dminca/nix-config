@@ -169,9 +169,11 @@
           name = hostname;
           value = nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
+            specialArgs = { inherit inputs; };
             modules = [
               ./modules/ziggity
               ./modules/radicle-backup
+              ./modules/hermes-agent
               ./hosts/common/system.nix
               ./hosts/${hostname}/system.nix
             ];

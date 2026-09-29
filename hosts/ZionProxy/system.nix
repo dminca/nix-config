@@ -7,6 +7,10 @@
 
   homelab.ziggity.enable = true;
   homelab.radicle-backup.enable = true;
+  homelab.ai.hermes = {
+    enable = true;
+    openrouter.enable = true;
+  };
   homebrew = {
     enable = true;
     onActivation = {

@@ -79,4 +79,8 @@ in
     };
   };
   programs.direnv.enable = true;
+  profiles.ai.hermes = {
+    enable = true;
+    openrouter.enable = true;
+  };
 }

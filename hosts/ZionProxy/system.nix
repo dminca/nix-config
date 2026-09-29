@@ -4,6 +4,9 @@
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.primaryUser = "dminca";
+
+  homelab.ziggity.enable = true;
+  homelab.radicle-backup.enable = true;
   homebrew = {
     enable = true;
     onActivation = {

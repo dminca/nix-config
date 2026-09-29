@@ -171,6 +171,7 @@
             system = "aarch64-darwin";
             modules = [
               ./modules/ziggity
+              ./modules/radicle-backup
               ./hosts/common/system.nix
               ./hosts/${hostname}/system.nix
             ];

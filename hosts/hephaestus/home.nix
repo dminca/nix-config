@@ -163,4 +163,8 @@ in
     enable = true;
   };
   };
+  sops.secrets.openrouter_api_key = {
+    sopsFile = ./secrets/openrouter.yaml;
+  };
+  profiles.ai.hermes.openrouter.apiKeyFile = config.sops.secrets.openrouter_api_key.path;
 }

@@ -217,12 +217,21 @@ in
         HERMES_OPENROUTER_FREE_MODELS_PATH = "${config.xdg.configHome}/hermes/openrouter-free-models";
       };
 
-    xdg.configFile = {
-      "hermes/openrouter-free-models".source = freeModelsFile;
-    }
-    // lib.optionalAttrs (cfg.openrouter.enable && cfg.openrouter.apiKeyFile != null) {
-      "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
-    };
+    xdg.configFile."hermes/openrouter-free-models".source = freeModelsFile;
+
+    # `.source =` forces the given path to exist at eval time (it's a
+    # Nix-store import), which breaks for any secret manager (sops-nix,
+    # agenix, ...) whose file only materializes during activation. A
+    # symlink instead only needs the target to resolve when something
+    # later *reads* through it, not when this module evaluates.
+    home.activation.hermesOpenrouterApiKey = lib.mkIf (
+      cfg.openrouter.enable && cfg.openrouter.apiKeyFile != null
+    ) (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        mkdir -p "${config.xdg.configHome}/hermes"
+        $DRY_RUN_CMD ln -sf ${lib.escapeShellArg cfg.openrouter.apiKeyFile} "${config.xdg.configHome}/hermes/openrouter-api-key"
+      ''
+    );
 
     home.activation.hermesConfigSeed = lib.mkIf cfg.enable (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       hermes_dir="${config.home.homeDirectory}/.hermes"

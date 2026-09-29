@@ -171,6 +171,7 @@
             system = "aarch64-darwin";
             specialArgs = { inherit inputs; };
             modules = [
+              sops-nix.darwinModules.sops
               ./modules/ziggity
               ./modules/radicle-backup
               ./modules/hermes-agent

@@ -120,13 +120,18 @@ in
       [ cfg.package openrouterModelsBin ]
       ++ lib.optional cfg.desktop.enable cfg.desktop.package;
 
-    environment.etc =
-      {
-        "hermes/openrouter-free-models".source = freeModelsFile;
-      }
-      // lib.optionalAttrs (cfg.openrouter.enable && cfg.openrouter.apiKeyFile != null) {
-        "hermes/openrouter-api-key".source = cfg.openrouter.apiKeyFile;
-      };
+    environment.etc."hermes/openrouter-free-models".source = freeModelsFile;
+
+    # `.source =` forces the given path to exist at eval time (it's a
+    # Nix-store import), which breaks for any secret manager (sops-nix,
+    # agenix, ...) whose file only materializes during activation. A
+    # symlink instead only needs the target to resolve when something
+    # later *reads* through it, not when this module evaluates.
+    system.activationScripts.hermesOpenrouterApiKey.text =
+      lib.optionalString (cfg.openrouter.enable && cfg.openrouter.apiKeyFile != null) ''
+        mkdir -p /etc/hermes
+        ln -sf ${lib.escapeShellArg cfg.openrouter.apiKeyFile} /etc/hermes/openrouter-api-key
+      '';
 
     environment.variables =
       lib.optionalAttrs cfg.openrouter.enable {

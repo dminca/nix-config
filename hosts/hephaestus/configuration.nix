@@ -1,4 +1,5 @@
 {
+  config,
   modulesPath,
   pkgs,
   inputs,
@@ -158,6 +159,12 @@ in
   homelab.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    openrouter.apiKeyFile = config.sops.secrets.openrouter_api_key.path;
+  };
+
+  sops.age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
+  sops.secrets.openrouter_api_key = {
+    sopsFile = ./secrets/openrouter.yaml;
   };
 
   homelab.ziggity.enable = true;

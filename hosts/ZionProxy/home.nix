@@ -51,6 +51,9 @@ in
     sopsFile = ./secrets/hloy.yaml;
     key = "pwd";
   };
+  sops.secrets.openrouter_api_key = {
+    sopsFile = ./secrets/openrouter.yaml;
+  };
 
   programs.go = {
     env = {
@@ -82,5 +85,6 @@ in
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
+    openrouter.apiKeyFile = config.sops.secrets.openrouter_api_key.path;
   };
 }

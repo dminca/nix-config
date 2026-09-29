@@ -8,15 +8,40 @@
 let
   cfg = config.profiles.ai.hermes;
   system = pkgs.stdenv.hostPlatform.system;
-  defaultHermesPackage =
+
+  hermesPackagesForSystem =
     if
       inputs ? "hermes-agent"
       && builtins.hasAttr "packages" inputs."hermes-agent"
       && builtins.hasAttr system inputs."hermes-agent".packages
     then
-      inputs."hermes-agent".packages.${system}.default
+      inputs."hermes-agent".packages.${system}
+    else
+      null;
+
+  defaultHermesPackage =
+    if hermesPackagesForSystem != null then
+      hermesPackagesForSystem.default
     else
       throw "profiles.ai.hermes: flake input `hermes-agent` is required and must provide packages for ${system}.";
+
+  # Upstream only builds the Electron desktop shell for these flake systems
+  # (see hermes-agent's flake.nix `systems` list minus aarch64-linux, which
+  # this repo doesn't target).
+  desktopSupportedSystems = [
+    "x86_64-linux"
+    "aarch64-darwin"
+  ];
+
+  defaultHermesDesktopPackage =
+    if
+      builtins.elem system desktopSupportedSystems
+      && hermesPackagesForSystem != null
+      && builtins.hasAttr "desktop" hermesPackagesForSystem
+    then
+      hermesPackagesForSystem.desktop
+    else
+      throw "profiles.ai.hermes.desktop: Hermes Desktop is only available on ${lib.concatStringsSep ", " desktopSupportedSystems} (current system: ${system}), or the hermes-agent flake input is missing its `desktop` package output.";
 
   freeModelsFile = pkgs.writeText "hermes-openrouter-free-models.txt" (
     lib.concatStringsSep "\n" cfg.openrouter.freeModels + "\n"
@@ -161,13 +186,24 @@ in
         description = "Optional pinned llama.cpp runtime tag for Hermes local runtime.";
       };
     };
+
+    desktop = {
+      enable = lib.mkEnableOption "Hermes Desktop (Electron GUI); supported on x86_64-linux and aarch64-darwin";
+
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = defaultHermesDesktopPackage;
+        description = "Hermes Desktop package to install.";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [
       cfg.package
       openrouterModelsBin
-    ];
+    ]
+    ++ lib.optional cfg.desktop.enable cfg.desktop.package;
 
     home.sessionVariables =
       lib.optionalAttrs cfg.openrouter.enable {

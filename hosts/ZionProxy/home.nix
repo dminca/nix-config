@@ -23,7 +23,6 @@ in
     yt-dlp
     just
     unstablePkgs.hister
-    radicle-node
     ########
     # Apps #
     ########

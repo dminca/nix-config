@@ -88,7 +88,6 @@ in
     bind
     xclip
     copyq
-    radicle-node
     # photography
     krita
     gimp
@@ -159,8 +158,5 @@ in
         ];
       };
     };
-  radicle = {
-    enable = true;
-  };
   };
 }

@@ -161,7 +161,6 @@ in
   };
 
   homelab.ziggity.enable = true;
-  homelab.radicle-backup.enable = true;
 
   home-manager = {
     useGlobalPkgs = true;

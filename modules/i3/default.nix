@@ -34,5 +34,23 @@ in
       fprintAuth = true;
       unixAuth = true;
     };
+
+    programs.dconf.enable = true;
+    services.gnome.gnome-keyring.enable = true;
+    services.gnome.gcr-ssh-agent.enable = true;
+    security.polkit.enable = true;
+
+    services.xserver.updateDbusEnvironment = true;
+    services.gvfs.enable = true;
+    services.udisks2.enable = true;
+    services.power-profiles-daemon.enable = true;
+    services.switcherooControl.enable = true;
+    services.libinput.enable = true;
+    services.accounts-daemon.enable = true;
+
+    services.dbus.packages = with pkgs; [
+      i3
+      i3lock
+    ];
   };
 }

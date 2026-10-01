@@ -116,6 +116,13 @@ in
       font pango:JetBrainsMono Nerd Font 10
       floating_modifier $mod
 
+      # systemd --user services (e.g. Polybar) don't inherit $I3SOCK since
+      # they aren't direct children of i3. Import it and (re)start Polybar
+      # here, once i3's IPC socket actually exists, to avoid a startup race
+      # where Polybar's internal/i3 workspace module fails to connect.
+      exec --no-startup-id systemctl --user import-environment I3SOCK
+      exec_always --no-startup-id systemctl --user restart polybar.service
+
       exec --no-startup-id copyq
       exec --no-startup-id telegram-desktop
       exec --no-startup-id element-desktop

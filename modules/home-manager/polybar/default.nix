@@ -7,6 +7,10 @@
 let
   cfg = config.profiles.desktop.polybar;
 
+  # nixpkgs' polybar defaults to i3Support = false, which silently disables
+  # the workspace indicator (type = internal/i3) in the bar config below.
+  polybarPackage = pkgs.polybar.override { i3Support = true; };
+
   layoutToggleScript = pkgs.writeShellScriptBin "toggle-layout" ''
     CURRENT=$(${lib.getExe pkgs.xkb-switch} -p)
 
@@ -696,7 +700,7 @@ in
     home.packages =
       with pkgs;
       [
-        polybar
+        polybarPackage
         xkb-switch
       ]
       ++ lib.optionals (cfg.theme == "forest" && cfg.wallpaper.enable) [
@@ -719,7 +723,7 @@ in
 
         Service = {
           Type = "simple";
-          ExecStart = "${lib.getExe pkgs.polybar} main";
+          ExecStart = "${lib.getExe polybarPackage} main";
           Restart = "on-failure";
           RestartSec = 3;
         };

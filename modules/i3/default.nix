@@ -16,6 +16,16 @@ in
       default = "dminca";
       description = "Home Manager user that receives i3 session configuration.";
     };
+
+    wallpaperStateDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/${config.networking.hostName}-wallpaper";
+      description = ''
+        Directory holding the stable "current" wallpaper symlink.
+        Owned by `user`, read by the LightDM greeter background and by
+        i3lock via the Home Manager i3 module's `wallpaperCurrentPath`.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -52,6 +62,14 @@ in
     services.dbus.packages = with pkgs; [
       i3
       i3lock
+    ];
+
+    services.xserver.displayManager.lightdm.greeters.gtk.extraConfig = ''
+      background = ${cfg.wallpaperStateDir}/current
+    '';
+
+    systemd.tmpfiles.rules = [
+      "d ${cfg.wallpaperStateDir} 0755 ${cfg.user} users -"
     ];
   };
 }

@@ -10,14 +10,40 @@ let
   launcherCommand = "${lib.getExe pkgs.rofi} -show drun";
   clipboardCommand = "${lib.getExe pkgs.copyq} toggle";
   emojiCommand = "${lib.getExe pkgs.rofimoji} --selector rofi";
-  wallpaperCurrentPath = "/var/lib/hephaestus-wallpaper/current";
-  lockCommand = "${lib.getExe pkgs.i3lock} -i ${wallpaperCurrentPath}";
+  lockCommand = "${lib.getExe pkgs.i3lock} -i ${cfg.wallpaperCurrentPath}";
   screenshotCopyCommand = "${lib.getExe pkgs.flameshot} gui --raw | ${lib.getExe pkgs.xclip} -selection clipboard -t image/png -i";
 in
 {
-  options.profiles.desktop.i3.enable = lib.mkEnableOption "i3 user session configuration";
+  options.profiles.desktop.i3 = {
+    enable = lib.mkEnableOption "i3 user session configuration";
+
+    wallpaperCurrentPath = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/hephaestus-wallpaper/current";
+      description = "Stable path to the wallpaper currently used for the i3 lock screen (and kept in sync with the Polybar wallpaper picker, if enabled).";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
+    # i3 pairs with Polybar for the tray/status bar. Enabled here (with
+    # mkDefault) so hosts just need `profiles.desktop.i3.enable = true` and
+    # can still override individual settings if needed.
+    profiles.desktop.polybar = {
+      enable = lib.mkDefault true;
+      theme = lib.mkDefault "forest";
+      position = lib.mkDefault "top";
+      height = lib.mkDefault 34;
+      networkInterface = lib.mkDefault "auto";
+      battery = lib.mkDefault "BAT0";
+      adapter = lib.mkDefault "AC0";
+      temperatureZone = lib.mkDefault 0;
+      temperatureBase = lib.mkDefault 0;
+      # Keep the wallpaper picker (if enabled) writing to the same path
+      # i3lock reads, so the lock screen always shows the current wallpaper.
+      wallpaper.enable = lib.mkDefault true;
+      wallpaper.currentPath = lib.mkDefault cfg.wallpaperCurrentPath;
+    };
+
     gtk = {
       enable = true;
       theme = {

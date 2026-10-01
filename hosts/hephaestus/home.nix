@@ -46,6 +46,7 @@ in
     style = "word-jump-only";
     enableWordJumpBindings = false;
   };
+  profiles.desktop.i3.enable = true;
   programs.nvix.enable = true;
 
   home.username = "dminca";

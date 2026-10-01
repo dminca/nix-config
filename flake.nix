@@ -150,8 +150,8 @@
               # why baking this into the shared system module breaks other
               # hosts.
               home-manager.users.dminca = {
-                imports = [ ./modules/home-manager/cinnamon ];
-                profiles.desktop.cinnamon.enable = true;
+                imports = [ ./modules/home-manager/i3 ];
+                profiles.desktop.i3.enable = true;
               };
             }
           ];

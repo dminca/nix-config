@@ -59,6 +59,8 @@ in
     services.libinput.enable = true;
     services.accounts-daemon.enable = true;
 
+    environment.systemPackages = with pkgs; [ feh thunar ];
+
     services.dbus.packages = with pkgs; [
       i3
       i3lock

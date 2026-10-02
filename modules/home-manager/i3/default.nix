@@ -123,6 +123,7 @@ in
       exec --no-startup-id systemctl --user import-environment I3SOCK
       exec_always --no-startup-id systemctl --user restart polybar.service
 
+      exec --no-startup-id nm-applet
       exec --no-startup-id copyq
 
       bindsym XF86AudioMute exec amixer -q set Master toggle

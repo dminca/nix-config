@@ -59,7 +59,7 @@ in
   programs.zsh.enable = true;
 
   services.xserver.displayManager.lightdm.enable = true;
-  profiles.desktop.i3 = {
+  profiles.desktop.cinnamon = {
     enable = true;
     user = username;
   };

@@ -52,5 +52,8 @@ macos:
     @if [ -z "{{_target_macos}}" ]; then echo "macos target is only supported on ZionProxy or MLGERHL6W4P2RXH"; exit 1; fi
     @just _deploy-macos "{{_target_macos}}"
 
+upgrade-vms:
+    for h in mon rp hs notes rss ic kc nc lw; do just $h; just $h; done
+
 update:
     {{nix}} flake update

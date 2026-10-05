@@ -17,6 +17,10 @@ in
   networking.hostName = "hephaestus";
   networking.networkmanager.enable = true;
 
+  environment.etc."gai.conf".text = ''
+    precedence ::ffff:0:0/96  100
+  '';
+
   time.timeZone = "Europe/Berlin";
 
   i18n.defaultLocale = "en_US.UTF-8";

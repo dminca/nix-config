@@ -36,6 +36,8 @@ in
   profiles.common.shell.enable = true;
   profiles.common.git.enable = true;
   profiles.common.tmux.enable = true;
+  profiles.common.tmux.launchOnTerminalOpen = true;
+  profiles.common.st.enable = true;
   profiles.ai.hermes = {
     enable = true;
     openrouter.enable = true;
@@ -64,10 +66,6 @@ in
 
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
-
-  home.sessionVariables = {
-    TERMINAL = "wezterm";
-  };
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

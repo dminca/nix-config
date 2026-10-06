@@ -140,12 +140,22 @@
     sopsFile = ./secrets/copilot-mcp-secrets.yaml;
     key = "JIRA_PERSONAL_TOKEN";
   };
+  sops.secrets.copilot_uv_index_pypi_remote_username = {
+    sopsFile = ./secrets/copilot-mcp-secrets.yaml;
+    key = "UV_INDEX_PYPI_REMOTE_USERNAME";
+  };
+  sops.secrets.copilot_uv_index_pypi_remote_password = {
+    sopsFile = ./secrets/copilot-mcp-secrets.yaml;
+    key = "UV_INDEX_PYPI_REMOTE_PASSWORD";
+  };
 
   home.sessionVariables = {
     GOPATH = "${config.home.homeDirectory}/Repos/open-source/others/gopath";
     COCOJAMBO = "$(cat ${config.sops.secrets.cocojambo.path})";
     CONFLUENCE_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_confluence_personal_token.path})";
     JIRA_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_jira_personal_token.path})";
+    UV_INDEX_PYPI_REMOTE_USERNAME = "$(cat ${config.sops.secrets.copilot_uv_index_pypi_remote_username.path})";
+    UV_INDEX_PYPI_REMOTE_PASSWORD = "$(cat ${config.sops.secrets.copilot_uv_index_pypi_remote_password.path})";
   };
 
   xdg.configFile."sofka/config.toml".text = ''

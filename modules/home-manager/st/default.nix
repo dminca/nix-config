@@ -8,7 +8,10 @@ let
   cfg = config.profiles.common.st;
   tmuxCfg = config.profiles.common.tmux;
   stPatched = pkgs.st.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [ ./patches/st-fullscreen.diff ];
+    patches = (old.patches or [ ]) ++ [
+      ./patches/st-fullscreen.diff
+      ./patches/st-desktopentry-0.8.5.diff
+    ];
   });
   baseCommand = "${lib.getExe stPatched} -f '${cfg.font}:size=${toString cfg.fontSize}'";
   tmuxCommand = "${lib.getExe pkgs.tmux} new-session -A -s main";

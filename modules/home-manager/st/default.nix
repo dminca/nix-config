@@ -7,7 +7,10 @@
 let
   cfg = config.profiles.common.st;
   tmuxCfg = config.profiles.common.tmux;
-  baseCommand = "${lib.getExe pkgs.st} -f '${cfg.font}:size=${toString cfg.fontSize}'";
+  stPatched = pkgs.st.overrideAttrs (old: {
+    patches = (old.patches or []) ++ [ ./patches/st-fullscreen.diff ];
+  });
+  baseCommand = "${lib.getExe stPatched} -f '${cfg.font}:size=${toString cfg.fontSize}'";
   tmuxCommand = "${lib.getExe pkgs.tmux} new-session -A -s main";
 in
 {
@@ -38,7 +41,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.st ];
+    home.packages = [ stPatched ];
 
     home.sessionVariables = {
       TERMINAL = "st";

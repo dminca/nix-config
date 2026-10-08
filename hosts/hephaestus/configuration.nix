@@ -1,4 +1,5 @@
 {
+  config,
   modulesPath,
   pkgs,
   inputs,
@@ -130,7 +131,6 @@ in
     nh
     wezterm
     fprintd
-    wireguard
     wireguard-tools
   ];
 

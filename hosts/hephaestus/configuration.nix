@@ -1,5 +1,4 @@
 {
-  config,
   modulesPath,
   pkgs,
   inputs,
@@ -18,7 +17,7 @@ in
   networking.hostName = "hephaestus";
   networking.networkmanager.enable = true;
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
+  networking.wireguard.enable = true;
 
   time.timeZone = "Europe/Berlin";
 

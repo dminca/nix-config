@@ -149,7 +149,14 @@
     key = "UV_INDEX_PYPI_REMOTE_PASSWORD";
   };
 
+  sops.secrets.memos_access_token = {
+    sopsFile = ./secrets/memos.yaml;
+    key = "MEMOS_ACCESS_TOKEN";
+  };
+
   home.sessionVariables = {
+    MEMOS_BASE_URL = "https://notes.mrbl.dedyn.io";
+    MEMOS_ACCESS_TOKEN = "$(cat ${config.sops.secrets.memos_access_token.path})";
     GOPATH = "${config.home.homeDirectory}/Repos/open-source/others/gopath";
     COCOJAMBO = "$(cat ${config.sops.secrets.cocojambo.path})";
     CONFLUENCE_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_confluence_personal_token.path})";

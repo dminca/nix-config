@@ -64,6 +64,16 @@ in
     key = "pwd";
   };
 
+  sops.secrets.memos_access_token = {
+    sopsFile = ./secrets/memos.yaml;
+    key = "MEMOS_ACCESS_TOKEN";
+  };
+
+  home.sessionVariables = {
+    MEMOS_BASE_URL = "https://notes.mrbl.dedyn.io";
+    MEMOS_ACCESS_TOKEN = "$(cat ${config.sops.secrets.memos_access_token.path})";
+  };
+
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
 

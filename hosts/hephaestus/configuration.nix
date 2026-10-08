@@ -17,6 +17,8 @@ in
   networking.hostName = "hephaestus";
   networking.networkmanager.enable = true;
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
+
   time.timeZone = "Europe/Berlin";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -128,6 +130,7 @@ in
     nh
     wezterm
     fprintd
+    wireguard
     wireguard-tools
   ];
 

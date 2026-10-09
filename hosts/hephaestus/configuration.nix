@@ -88,7 +88,13 @@ in
   };
 
   services.fstrim.enable = true;
-  zramSwap.enable = true;
+  zramSwap.enable = false;
+
+  # Hibernation: disable zswap writeback so swap is reserved for hibernation
+  boot.kernelParams = [ "resume=/dev/mapper/cryptroot" "zswap.writeback=0" ];
+  boot.resumeDevice = "/dev/mapper/cryptroot";
+  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+
   services.thermald.enable = true;
   powerManagement.powertop.enable = true;
 

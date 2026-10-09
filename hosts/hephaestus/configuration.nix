@@ -1,4 +1,5 @@
 {
+  lib,
   modulesPath,
   pkgs,
   inputs,
@@ -6,6 +7,7 @@
 }:
 let
   username = "dminca";
+  resumeOffset = null;
 in
 {
   imports = [
@@ -91,9 +93,10 @@ in
   zramSwap.enable = false;
 
   # Hibernation: disable zswap writeback so swap is reserved for hibernation
-  boot.kernelParams = [ "resume=/swapfile" "zswap.writeback=0" ];
-  boot.resumeDevice = "/swapfile";
-  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+  boot.kernelParams = [ "zswap.writeback=0" ]
+    ++ lib.optional (resumeOffset != null) "resume_offset=${toString resumeOffset}";
+  boot.resumeDevice = lib.mkIf (resumeOffset != null) "/dev/mapper/cryptroot";
+  swapDevices = [{ device = "/swap/swapfile"; }];
 
   services.thermald.enable = true;
   powerManagement.powertop.enable = true;

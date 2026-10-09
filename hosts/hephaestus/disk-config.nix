@@ -59,6 +59,10 @@
                     "noatime"
                   ];
                 };
+                "/swap" = {
+                  mountpoint = "/swap";
+                  mountOptions = [ "noatime" ];
+                };
                 "/persist" = {
                   mountpoint = "/persist";
                   mountOptions = [

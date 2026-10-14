@@ -96,6 +96,8 @@ in
     bind
     xclip
     copyq
+    gnucash
+    pkgs.perlPackages.FinanceQuote
     # photography
     krita
     gimp

@@ -6,6 +6,12 @@
   ...
 }:
 
+let
+  unstablePkgs = import inputs.nixpkgs-unstable.outPath {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "github-copilot-app" ];
+  };
+in
 {
   home.username = "mida4001";
   home.homeDirectory = "/Users/mida4001";
@@ -27,6 +33,7 @@
     jsonnet-language-server
     yaml-language-server
     github-copilot-cli
+    unstablePkgs.github-copilot-app
     jira-cli-go
     rustup
     cue

@@ -11,6 +11,28 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "github-copilot-app" ];
   };
+  sofkaPopeyeArchive = pkgs.fetchurl {
+    url = "https://github.com/nklmilojevic/sofka-plugins/releases/download/popeye-v0.1.3/popeye-0.1.3-aarch64-apple-darwin.tar.zst";
+    hash = "sha256-GkpeSRHmkNbI6teVRWHNV31MVP94CVZHdtPaSCZFDx8=";
+  };
+  sofkaPopeyePlugin = pkgs.stdenvNoCC.mkDerivation {
+    pname = "sofka-popeye-plugin";
+    version = "0.1.3";
+
+    src = sofkaPopeyeArchive;
+
+    nativeBuildInputs = [
+      pkgs.gnutar
+      pkgs.zstd
+    ];
+
+    dontUnpack = true;
+
+    installPhase = ''
+      mkdir -p "$out"
+      zstd -dc ${sofkaPopeyeArchive} | tar -xf - -C "$out"
+    '';
+  };
 in
 {
   home.username = "mida4001";
@@ -175,6 +197,7 @@ in
   xdg.configFile."sofka/config.toml".text = ''
     favorite_namespaces = ["monitoring"]
   '';
+  xdg.configFile."sofka/plugins/popeye".source = sofkaPopeyePlugin;
 
   home.sessionPath = [
     "${config.home.homeDirectory}/.krew/bin"

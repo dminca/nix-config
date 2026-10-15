@@ -9,6 +9,10 @@ let
   unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
+  imports = [
+    ../../modules/home-manager/adnauseam-vivaldi.nix
+  ];
+
   home.username = "dminca";
   home.homeDirectory = "/Users/dminca";
   home.stateVersion = "23.11";

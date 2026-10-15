@@ -29,6 +29,7 @@ let
 in
 {
   imports = [
+    ../../modules/home-manager/adnauseam-vivaldi.nix
     ./git.nix
   ];
 

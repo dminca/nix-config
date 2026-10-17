@@ -12,6 +12,7 @@ in
   imports = [
     ../../modules/home-manager/adnauseam-vivaldi.nix
     ../../modules/home-manager/zed
+    ../../modules/home-manager/flow-tube
   ];
 
   home.username = "dminca";

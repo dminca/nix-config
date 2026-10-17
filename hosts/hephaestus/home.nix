@@ -29,7 +29,6 @@ let
 in
 {
   imports = [
-    ../../modules/home-manager/adnauseam-vivaldi.nix
     ./git.nix
     ../../modules/home-manager/zed
     ../../modules/home-manager/flow-tube

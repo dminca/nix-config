@@ -31,6 +31,7 @@ in
   imports = [
     ../../modules/home-manager/adnauseam-vivaldi.nix
     ./git.nix
+    ../../modules/home-manager/zed
   ];
 
   profiles.shell.zsh.enable = true;

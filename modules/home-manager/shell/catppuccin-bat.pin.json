@@ -1,8 +1,8 @@
 {
   "branch": "main",
-  "hash": "sha256-Q5B4NDrfCIK3UAMs94vdXnR42k4AXCqZz6sRn8bzmf4=",
+  "hash": "sha256-lJapSgRVENTrbmpVyn+UQabC9fpV1G1e+CdlJ090uvg=",
   "kind": "github-commit",
   "owner": "catppuccin",
   "repo": "bat",
-  "rev": "d714cc1d358ea51bfc02550dabab693f70cccea0"
+  "rev": "6810349b28055dce54076712fc05fc68da4b8ec0"
 }

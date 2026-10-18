@@ -1,7 +1,7 @@
 {
-  "hash": "sha256-Q8VzXzTdHo9h5+eCHHF1bPomPEbRsvouJcUfmFUDGMU=",
+  "hash": "sha256-oz+oRjea2/ZDZPHvOXRdmHMCingAWWzs3u1e1r0iUTw=",
   "kind": "vscode-marketplace",
   "name": "vscode-jsonnet",
   "publisher": "grafana",
-  "version": "0.7.2"
+  "version": "0.7.4"
 }

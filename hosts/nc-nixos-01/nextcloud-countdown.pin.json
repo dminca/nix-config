@@ -2,12 +2,12 @@
   "assets": {
     "src": {
       "file": "countdown.tar.gz",
-      "hash": "sha256-4RVP3Cz7g1uk6iyTyRVZ/jYOuyirY/gCiqAqFQstKyI=",
-      "url": "https://github.com/infinit7even/countdown/releases/download/v1.2.10/countdown.tar.gz"
+      "hash": "sha256-6WPiKZIzZameBm+vozXwPhjvo275G0M+IeKtjx0tCZI=",
+      "url": "https://github.com/infinit7even/countdown/releases/download/v1.2.36/countdown.tar.gz"
     }
   },
   "kind": "github-release",
   "repo": "infinit7even/countdown",
   "tagPrefix": "v",
-  "version": "1.2.10"
+  "version": "1.2.36"
 }

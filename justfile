@@ -82,6 +82,9 @@ smoke:
     {{nix}} eval --json .#darwinConfigurations --apply 'builtins.mapAttrs (_: c: c.system.drvPath)'
     {{nix}} eval --json .#homeConfigurations --apply 'builtins.mapAttrs (_: c: c.activationPackage.drvPath)'
     {{nix}} build --no-link --print-out-paths --impure --file scripts/pins/smoke.nix --argstr root "{{justfile_directory()}}"
+    @skipped=$({{nix}} eval --raw --impure --file scripts/pins/smoke.nix --argstr root "{{justfile_directory()}}" unverified --apply 'builtins.concatStringsSep " "'); \
+    if [ -n "$skipped" ]; then echo "smoke passed, but NOT verified on this system: $skipped (run on its host system; full guarantee: just smoke-build HOST there)"; \
+    else echo "smoke passed: all pins verified; whole hosts not built (use just smoke-build HOST)"; fi
 
 # build HOST's whole configuration without activating it; HOST must match this machine's system
 smoke-build host:

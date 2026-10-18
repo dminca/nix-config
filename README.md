@@ -125,8 +125,13 @@ just smoke-build HOST          # build HOST's full config (no activation); HOST 
 
 - Releases follow the newest stable release, or the newest prerelease when the
   pin has `"prerelease": true`; commit pins follow their `branch` head.
-- `just smoke` only proves evaluation and that every pinned hash/./pkgs package
-  builds on this machine; only `just smoke-build HOST` proves a host builds.
+- `GITHUB_TOKEN` is optional for `pins-check` and `pins-update` (both call the
+  GitHub API; unauthenticated limit is 60 requests/hour). Set it inline as above;
+  never echo it.
+- `just smoke` needs flakes, network access to GitHub, AMO and the VS Code
+  Marketplace, and new `*.pin.json` files `git add`ed. It proves evaluation and
+  that pinned hashes/./pkgs build on this machine, and ends by naming any pin it
+  could not verify here; only `just smoke-build HOST` proves a host builds.
 - `caddy-plugin` hashes can only be computed/verified on the host's system
   (x86_64-linux), e.g. `just pins-update caddy-desec` on hephaestus.
 - To add a pin: create `<name>.pin.json` with an existing `kind` (see

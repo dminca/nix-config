@@ -1,5 +1,6 @@
-# Natively fetch every `*.pin.json` source (all platforms' assets, so every
-# recorded hash is verified) and build the ./pkgs packages for this system.
+# Natively fetch every `*.pin.json` source (all platforms' assets) and build the
+# ./pkgs packages for this system. caddy-plugin pins can only be verified on
+# their host's system; `unverified` lists the ones skipped here.
 # Run via `just smoke`; needs --impure for getFlake/currentSystem.
 { root }:
 let
@@ -60,10 +61,23 @@ let
       )
     )
   );
+  unverified = map (f: lib.removeSuffix ".pin.json" (baseNameOf f)) (
+    lib.filter (
+      f:
+      let
+        p = lib.importJSON f;
+      in
+      p.kind == "caddy-plugin"
+      && flake.nixosConfigurations.${p.host}.pkgs.stdenv.hostPlatform.system != system
+    ) pinFiles
+  );
 in
-pkgs.linkFarm "pin-smoke" (
+(pkgs.linkFarm "pin-smoke" (
   lib.imap0 (i: drv: {
     name = "${toString i}-${drv.name}";
     path = drv;
   }) (lib.concatMap (f: sources (lib.importJSON f)) pinFiles ++ packages)
-)
+))
+// {
+  inherit unverified;
+}

@@ -37,10 +37,13 @@ let
     esac
   '';
 
-  polybarThemesRev = "7735b96afd72f835c7c909599265fb431886d7c0";
-  polybarThemesSrc = pkgs.fetchzip {
-    url = "https://github.com/adi1090x/polybar-themes/archive/${polybarThemesRev}.tar.gz";
-    hash = "sha256-f/54m7RJnqNW6eC/75IrnFxmSWTY+zd5epm6TQsYeYA=";
+  polybarThemesSrc = pkgs.fetchFromGitHub {
+    inherit (lib.importJSON ./polybar-themes.pin.json)
+      owner
+      repo
+      rev
+      hash
+      ;
   };
   networkInterfaceConfig =
     if cfg.networkInterface == "auto" then
@@ -730,7 +733,8 @@ in
 
         Install.WantedBy = [ "graphical-session.target" ];
       };
-    } // lib.optionalAttrs (cfg.theme == "forest" && cfg.wallpaper.enable) {
+    }
+    // lib.optionalAttrs (cfg.theme == "forest" && cfg.wallpaper.enable) {
       forest-wallpaper = {
         Unit = {
           Description = "Apply selected Forest wallpaper";

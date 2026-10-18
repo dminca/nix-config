@@ -1,0 +1,19 @@
+{
+  "assets": {
+    "aarch64-darwin": {
+      "file": "Flow_{version}_darwin_aarch64.dmg",
+      "hash": "sha256-kiw16zyhNtBxU03d8n/ttY258qq50NgmXq/Ss5EcB0I=",
+      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta2/Flow_0.1.0-beta2_darwin_aarch64.dmg"
+    },
+    "x86_64-linux": {
+      "file": "Flow_{version}_linux_amd64.AppImage",
+      "hash": "sha256-pIoeRtsfFn57XFkMZAZmGlkssnb8FRi3Hf4kOgfa+pE=",
+      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta2/Flow_0.1.0-beta2_linux_amd64.AppImage"
+    }
+  },
+  "kind": "github-release",
+  "prerelease": true,
+  "repo": "Flow-Tube/Flow-Desktop",
+  "tagPrefix": "v",
+  "version": "0.1.0-beta2"
+}

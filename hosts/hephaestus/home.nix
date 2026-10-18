@@ -11,13 +11,13 @@ let
       version,
       addonId,
       url,
-      sha256,
+      hash,
       meta ? { },
     }:
     pkgs.stdenvNoCC.mkDerivation {
       inherit pname version meta;
       src = pkgs.fetchurl {
-        inherit url sha256;
+        inherit url hash;
       };
       dontUnpack = true;
       installPhase = ''
@@ -145,10 +145,12 @@ in
         extensions.packages = [
           (buildFirefoxXpiAddon {
             pname = "hister";
-            version = "0.30.0";
-            addonId = "{f0bda7ce-0cda-42dc-9ea8-126b20fed280}";
-            url = "https://addons.mozilla.org/firefox/downloads/file/4934117/hister-0.30.0.xpi";
-            sha256 = "sha256-PIXN+9Mt0AsKWUU6WgFa127UsOonB5y62hrtkuSesOM=";
+            inherit (lib.importJSON ./hister.pin.json)
+              version
+              addonId
+              url
+              hash
+              ;
             meta = {
               description = "Web history on steroids";
               homepage = "https://addons.mozilla.org/en-US/firefox/addon/hister/";
@@ -157,10 +159,12 @@ in
           })
           (buildFirefoxXpiAddon {
             pname = "bramble";
-            version = "1.23.0";
-            addonId = "firefox@bramble.app";
-            url = "https://addons.mozilla.org/firefox/downloads/file/4999297/bramble-1.23.0.xpi";
-            sha256 = "sha256-NZbkM4HNtyjjyv+hWAhINa9i3roYO32NE2rUdnbTZEk=";
+            inherit (lib.importJSON ./bramble.pin.json)
+              version
+              addonId
+              url
+              hash
+              ;
             meta = {
               description = "Local-first, encrypted password manager";
               homepage = "https://addons.mozilla.org/en-US/firefox/addon/bramble/";

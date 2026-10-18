@@ -1,0 +1,7 @@
+{
+  "hash": "sha256-oEKfWN5U1LI25vNvr/QZE2C8PQyIgBAGH/1YhUDoGr0=",
+  "host": "rp-nixos-01",
+  "kind": "caddy-plugin",
+  "module": "github.com/caddy-dns/desec",
+  "version": "v1.1.0"
+}

@@ -9,20 +9,25 @@
     profiles.default = {
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
-      extensions = with pkgs.vscode-extensions; [
-        jnoortheen.nix-ide
-        redhat.vscode-yaml
-        golang.go
-        oderwat.indent-rainbow
-        hashicorp.terraform
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "vscode-jsonnet";
-          publisher = "grafana";
-          version = "0.7.2";
-          sha256 = "sha256-Q8VzXzTdHo9h5+eCHHF1bPomPEbRsvouJcUfmFUDGMU=";
-        }
-      ];
+      extensions =
+        with pkgs.vscode-extensions;
+        [
+          jnoortheen.nix-ide
+          redhat.vscode-yaml
+          golang.go
+          oderwat.indent-rainbow
+          hashicorp.terraform
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            inherit (lib.importJSON ../common/vscode-jsonnet.pin.json)
+              name
+              publisher
+              version
+              hash
+              ;
+          }
+        ];
       keybindings = [
         {
           key = "ctrl+shift+q";
@@ -84,7 +89,7 @@
         "nix.serverSettings" = {
           nil = {
             formatting = {
-              command = [(lib.getExe pkgs.nixfmt)];
+              command = [ (lib.getExe pkgs.nixfmt) ];
             };
           };
         };

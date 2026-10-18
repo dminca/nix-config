@@ -106,6 +106,33 @@ Use the dedicated template in [`./hephaestus`](./hephaestus) and run the command
 
 Use the dedicated template in [`./rss-nixos-01`](./rss-nixos-01) and run the command shown in its README.
 
+### Bumping pinned sources and smoke testing
+
+Hand-pinned sources (release assets, Firefox/VS Code extensions, commit pins,
+the Caddy plugin) live in `<name>.pin.json` files next to the Nix file that
+reads them with `lib.importJSON`. A small Go tool (`scripts/pins`, run inside
+`nix develop`) bumps them; it only rewrites those JSON files. Flake inputs are
+separate: `just update` runs `nix flake update`.
+
+```sh
+just pins                      # list pins
+GITHUB_TOKEN=$(gh auth token) just pins-check   # report newer releases/commits (read-only)
+just pins-update [NAME...]     # bump version/rev/url/hash (all or NAMEs)
+just pins-test                 # offline Go tests of the updater
+just smoke                     # eval every host; fetch every pin natively; build ./pkgs
+just smoke-build HOST          # build HOST's full config (no activation); HOST must match this machine
+```
+
+- Releases follow the newest stable release, or the newest prerelease when the
+  pin has `"prerelease": true`; commit pins follow their `branch` head.
+- `just smoke` only proves evaluation and that every pinned hash/./pkgs package
+  builds on this machine; only `just smoke-build HOST` proves a host builds.
+- `caddy-plugin` hashes can only be computed/verified on the host's system
+  (x86_64-linux), e.g. `just pins-update caddy-desec` on hephaestus.
+- To add a pin: create `<name>.pin.json` with an existing `kind` (see
+  `scripts/pins/main.go`), read it with `lib.importJSON`, then run
+  `just pins-check NAME` and `just smoke`.
+
 ## Roadmap [completed] 🎉
 - [x] port all brew packages (all packages are listed in [Brewfile](./Brewfile)
 - [x] port dotfiles (zshrc, neovim etc.)

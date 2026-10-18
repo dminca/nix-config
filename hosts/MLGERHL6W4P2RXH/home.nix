@@ -11,13 +11,11 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "github-copilot-app" ];
   };
-  sofkaPopeyeArchive = pkgs.fetchurl {
-    url = "https://github.com/nklmilojevic/sofka-plugins/releases/download/popeye-v0.1.3/popeye-0.1.3-aarch64-apple-darwin.tar.zst";
-    hash = "sha256-GkpeSRHmkNbI6teVRWHNV31MVP94CVZHdtPaSCZFDx8=";
-  };
+  sofkaPopeyePin = lib.importJSON ./sofka-popeye.pin.json;
+  sofkaPopeyeArchive = pkgs.fetchurl { inherit (sofkaPopeyePin.assets.src) url hash; };
   sofkaPopeyePlugin = pkgs.stdenvNoCC.mkDerivation {
     pname = "sofka-popeye-plugin";
-    version = "0.1.3";
+    inherit (sofkaPopeyePin) version;
 
     src = sofkaPopeyeArchive;
 

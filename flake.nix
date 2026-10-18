@@ -224,6 +224,7 @@
             age
             nixfmt
             just
+            go
           ];
           SOPS_EDITOR = "nvim";
         };
@@ -232,6 +233,7 @@
             sops
             age
             nixfmt
+            go
           ];
           SOPS_EDITOR = "nvim";
         };

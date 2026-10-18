@@ -10,23 +10,18 @@
 }:
 let
   pname = "flow-tube";
-  version = "0.1.0-beta2";
-  baseUrl = "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v${version}";
+  # Bump with `just pins-update flow-tube`.
+  pin = lib.importJSON ./flow-tube.pin.json;
+  inherit (pin) version;
   meta = {
     description = "Privacy-first YouTube and YouTube Music desktop client";
     homepage = "https://github.com/Flow-Tube/Flow-Desktop";
     license = lib.licenses.gpl3Only;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-linux"
-    ];
+    platforms = builtins.attrNames pin.assets;
     mainProgram = pname;
   };
-  linuxSrc = fetchurl {
-    url = "${baseUrl}/Flow_${version}_linux_amd64.AppImage";
-    sha256 = "a48a1e46db1f167e7b5c590c6406661a592cb276fc1518b71dfe243a07dafa91";
-  };
+  linuxSrc = fetchurl { inherit (pin.assets.x86_64-linux) url hash; };
   appimageContents = appimageTools.extractType2 {
     inherit pname version;
     src = linuxSrc;
@@ -35,10 +30,7 @@ in
 if stdenvNoCC.hostPlatform.isDarwin then
   stdenvNoCC.mkDerivation {
     inherit pname version meta;
-    src = fetchurl {
-      url = "${baseUrl}/Flow_${version}_darwin_aarch64.dmg";
-      sha256 = "922c35eb3ca136d071534dddf27fedb58db9f2aab9d0d8265eafd2b3911c0742";
-    };
+    src = fetchurl { inherit (pin.assets.aarch64-darwin) url hash; };
     nativeBuildInputs = [
       undmg
       makeBinaryWrapper

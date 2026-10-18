@@ -1,0 +1,13 @@
+{
+  "assets": {
+    "src": {
+      "file": "popeye-{version}-aarch64-apple-darwin.tar.zst",
+      "hash": "sha256-GkpeSRHmkNbI6teVRWHNV31MVP94CVZHdtPaSCZFDx8=",
+      "url": "https://github.com/nklmilojevic/sofka-plugins/releases/download/popeye-v0.1.3/popeye-0.1.3-aarch64-apple-darwin.tar.zst"
+    }
+  },
+  "kind": "github-release",
+  "repo": "nklmilojevic/sofka-plugins",
+  "tagPrefix": "popeye-v",
+  "version": "0.1.3"
+}

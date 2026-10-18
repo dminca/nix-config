@@ -1,0 +1,8 @@
+{
+  "addonId": "firefox@bramble.app",
+  "hash": "sha256-NZbkM4HNtyjjyv+hWAhINa9i3roYO32NE2rUdnbTZEk=",
+  "kind": "amo",
+  "slug": "bramble",
+  "url": "https://addons.mozilla.org/firefox/downloads/file/4999297/bramble-1.23.0.xpi",
+  "version": "1.23.0"
+}

@@ -50,6 +50,7 @@ in
     style = "word-jump-only";
     enableWordJumpBindings = false;
   };
+  profiles.common.hunk.enable = true;
   programs.nvix.enable = true;
 
   home.username = "dminca";

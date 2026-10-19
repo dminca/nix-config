@@ -87,4 +87,6 @@ in
     enable = true;
     openrouter.enable = true;
   };
+
+  profiles.common.hunk.enable = true;
 }

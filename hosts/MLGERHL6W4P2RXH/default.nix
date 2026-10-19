@@ -10,4 +10,5 @@
   ];
 
   profiles.shell.zsh.enable = true;
+  profiles.common.hunk.enable = true;
 }

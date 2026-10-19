@@ -6,6 +6,7 @@
     ./zsh
     ./shell
     ./git
+    ./hunk
     ./st
     ./tmux
     ./wezterm

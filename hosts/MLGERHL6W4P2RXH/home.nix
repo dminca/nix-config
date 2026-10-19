@@ -181,6 +181,11 @@ in
     key = "MEMOS_ACCESS_TOKEN";
   };
 
+  sops.secrets.hunk = {
+    sopsFile = ./secrets/hunk.yaml;
+    key = "GH_TOKEN";
+  };
+
   home.sessionVariables = {
     MEMOS_BASE_URL = "https://notes.mrbl.dedyn.io";
     MEMOS_ACCESS_TOKEN = "$(cat ${config.sops.secrets.memos_access_token.path})";
@@ -190,6 +195,7 @@ in
     JIRA_PERSONAL_TOKEN = "$(cat ${config.sops.secrets.copilot_jira_personal_token.path})";
     UV_INDEX_PYPI_REMOTE_USERNAME = "$(cat ${config.sops.secrets.copilot_uv_index_pypi_remote_username.path})";
     UV_INDEX_PYPI_REMOTE_PASSWORD = "$(cat ${config.sops.secrets.copilot_uv_index_pypi_remote_password.path})";
+    GH_TOKEN = "$(cat ${config.sops.secrets.hunk.path})";
   };
 
   xdg.configFile."sofka/config.toml".text = ''

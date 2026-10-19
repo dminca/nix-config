@@ -88,7 +88,7 @@ in
 
     programs.delta = {
       enable = true;
-      enableGitIntegration = true;
+      enableGitIntegration = lib.mkDefault true;
     };
   };
 }

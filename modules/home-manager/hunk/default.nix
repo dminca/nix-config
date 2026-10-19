@@ -13,13 +13,16 @@ let
   hunk = unstablePkgs.hunk;
 in
 {
-  options.profiles.common.hunk.enable = lib.mkEnableOption "Hunk as the default Git difftool";
+  options.profiles.common.hunk.enable =
+    lib.mkEnableOption "Hunk as the default Git difftool and pager";
 
   config = lib.mkIf cfg.enable {
     home.packages = [ hunk ];
+    programs.delta.enableGitIntegration = false;
     programs.git = {
       enable = true;
       settings = {
+        core.pager = "${lib.getExe hunk} pager";
         diff.tool = "hunk";
         difftool = {
           prompt = false;

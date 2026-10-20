@@ -2,17 +2,17 @@
   "assets": {
     "aarch64-darwin": {
       "file": "ziggity-v{version}-aarch64-macos.tar.gz",
-      "hash": "sha256-/maqrnvlmwnBlNgBiBHVc6ORArnCIRqAOtAxizcftkk=",
-      "url": "https://github.com/simoarpe/ziggity/releases/download/v0.53.0/ziggity-v0.53.0-aarch64-macos.tar.gz"
+      "hash": "sha256-EXWQN+37GpE5AvA9JZIT3b6O8PnRhzYHPe5uW9Q+Xog=",
+      "url": "https://github.com/simoarpe/ziggity/releases/download/v0.54.0/ziggity-v0.54.0-aarch64-macos.tar.gz"
     },
     "x86_64-linux": {
       "file": "ziggity-v{version}-x86_64-linux-musl.tar.gz",
-      "hash": "sha256-GaKizDWJLVgERDILEv8AnwQzyW66Yoap5vDrl9URmGM=",
-      "url": "https://github.com/simoarpe/ziggity/releases/download/v0.53.0/ziggity-v0.53.0-x86_64-linux-musl.tar.gz"
+      "hash": "sha256-I4frh59RGQI7blRd2h/xNGGAu+A+iuyHmGaZp4wbYGg=",
+      "url": "https://github.com/simoarpe/ziggity/releases/download/v0.54.0/ziggity-v0.54.0-x86_64-linux-musl.tar.gz"
     }
   },
   "kind": "github-release",
   "repo": "simoarpe/ziggity",
   "tagPrefix": "v",
-  "version": "0.53.0"
+  "version": "0.54.0"
 }

@@ -85,6 +85,7 @@ in
         set -g base-index 1
         setw -g pane-base-index 1
         set -g pane-border-format " #P: #{pane_current_command} "
+        set -as terminal-features ',alacritty:RGB'
       '';
       terminal = "tmux-256color";
       historyLimit = 5000;

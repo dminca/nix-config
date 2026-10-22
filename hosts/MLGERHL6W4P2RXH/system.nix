@@ -5,6 +5,7 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.primaryUser = "mida4001";
   homelab.ziggity.enable = true;
+  homelab.bramble.enable = true;
   system.defaults.CustomUserPreferences = {
     "NSGlobalDomain" = {
       NSIdleDisplaySleepInterval = 0; # "Never"

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    bramble.url = "github:dminca/bramble/feat/aarch64-darwin-nix";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixvim = {
@@ -172,6 +173,7 @@
             specialArgs = { inherit inputs; };
             modules = [
               ./modules/ziggity
+              ./modules/bramble
               ./modules/radicle-backup
               ./modules/hermes-agent
               ./hosts/common/system.nix

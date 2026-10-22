@@ -1,5 +1,24 @@
 {
   "nodes": {
+    "bramble": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1792709516,
+        "narHash": "sha256-TlaywZSsll6a/W1CsSsSKhaoAC26N+Ke5J8DMytkmV0=",
+        "owner": "dminca",
+        "repo": "bramble",
+        "rev": "9936949dfd59ff348e1264e3eccba43fff395bd9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dminca",
+        "ref": "feat/aarch64-darwin-nix",
+        "repo": "bramble",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1792350552,
@@ -268,6 +287,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1786599213,
+        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -362,6 +397,7 @@
     },
     "root": {
       "inputs": {
+        "bramble": "bramble",
         "disko": "disko",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager_2",

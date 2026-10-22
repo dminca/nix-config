@@ -14,7 +14,7 @@
     enable = true;
     onActivation = {
       autoUpdate = true;
-      upgrade = true;
+      upgrade = false;
     };
     casks = [
       {

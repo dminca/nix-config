@@ -28,7 +28,7 @@
     enable = true;
     onActivation = {
       autoUpdate = true;
-      upgrade = true;
+      upgrade = false;
     };
     casks = [
       {
@@ -41,7 +41,6 @@
       }
       {
         name = "blender";
-        greedy = true;
       }
       {
         name = "anytype";

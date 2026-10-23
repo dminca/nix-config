@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ../../modules/home-manager/firefox
     ../../modules/home-manager/zed
     ../../modules/home-manager/flow-tube
   ];

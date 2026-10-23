@@ -33,10 +33,6 @@ let
   };
 in
 {
-  imports = [
-    ../../modules/home-manager/firefox
-  ];
-
   home.username = "mida4001";
   home.homeDirectory = "/Users/mida4001";
   home.stateVersion = "23.11";

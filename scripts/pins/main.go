@@ -12,6 +12,9 @@
 //	pins [-root DIR] check  [NAME...]   read-only; exit 1 on lookup errors
 //	pins [-root DIR] update [NAME...]   rewrite outdated pins; exit 1 on any failure
 //
+// Checks run up to four pins concurrently, then report in the original order.
+// List and update remain sequential.
+//
 // Kinds:
 //
 //	github-release      repo, tagPrefix, version, optional prerelease=true,
@@ -42,6 +45,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -538,6 +542,40 @@ func process(cmd, name, path string, stdout io.Writer) (err error) {
 	return nil
 }
 
+const maxConcurrentChecks = 4
+
+type checkResult struct {
+	output string
+	err    error
+}
+
+func checkPins(names []string, pins map[string]string) []checkResult {
+	results := make([]checkResult, len(names))
+	jobs := make(chan int)
+	workerCount := min(maxConcurrentChecks, len(names))
+	var workers sync.WaitGroup
+
+	for range workerCount {
+		workers.Add(1)
+		go func() {
+			defer workers.Done()
+			for pinIndex := range jobs {
+				name := names[pinIndex]
+				var output bytes.Buffer
+				err := process("check", name, pins[name], &output)
+				// Each job owns one result slot; workers never share output buffers.
+				results[pinIndex] = checkResult{output: output.String(), err: err}
+			}
+		}()
+	}
+	for pinIndex := range names {
+		jobs <- pinIndex
+	}
+	close(jobs)
+	workers.Wait()
+	return results
+}
+
 func run(args []string, stdout, stderr io.Writer) int {
 	fl := flag.NewFlagSet("pins", flag.ContinueOnError)
 	fl.SetOutput(stderr)
@@ -569,9 +607,21 @@ func run(args []string, stdout, stderr io.Writer) int {
 	if len(names) == 0 {
 		names = sortedKeys(pins)
 	}
+	var results []checkResult
+	if cmd == "check" {
+		results = checkPins(names, pins)
+	}
 	failed := 0
-	for _, name := range names {
-		if err := process(cmd, name, pins[name], stdout); err != nil {
+	for pinIndex, name := range names {
+		var err error
+		if cmd == "check" {
+			// Replay completed checks in selection order, not completion order.
+			fmt.Fprint(stdout, results[pinIndex].output)
+			err = results[pinIndex].err
+		} else {
+			err = process(cmd, name, pins[name], stdout)
+		}
+		if err != nil {
 			failed++
 			fmt.Fprintf(stderr, "%-26s ERROR       %v\n", name, err)
 		}

@@ -1,13 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
+	"sync"
 	"testing"
+	"time"
 )
 
 func rel(tag, published string, pre, draft bool, assets ...string) Release {
@@ -239,16 +244,280 @@ func TestFailuresLeaveFileUntouched(t *testing.T) {
 	}
 }
 
-func TestCheckNeverWrites(t *testing.T) {
+func TestCheckNeverWritesOrHashesAnyPinKind(t *testing.T) {
 	dir := t.TempDir()
-	path := write(t, dir, "a/app.pin.json", releasePin("1.0.0"))
-	before, _ := os.ReadFile(path)
-	stubReleases(t, func(string) (string, error) { t.Fatal("check must not hash"); return "", nil })
-	if rc := runIn(dir, "check"); rc != 0 {
-		t.Fatal(rc)
+	paths := []string{
+		write(t, dir, "app.pin.json", releasePin("1.0.0")),
+		writeAMOPin(t, dir, "addon", "1"),
+		write(t, dir, "commit.pin.json", Pin{
+			"kind": "github-commit", "owner": "o", "repo": "r", "branch": "main",
+			"rev": strings.Repeat("a", 40), "hash": "old",
+		}),
+		write(t, dir, "extension.pin.json", Pin{
+			"kind": "vscode-marketplace", "publisher": "test", "name": "extension",
+			"version": "1", "hash": "old",
+		}),
+		write(t, dir, "plugin.pin.json", Pin{
+			"kind": "caddy-plugin", "module": "github.com/test/plugin",
+			"version": "v1", "host": "test-host", "hash": "old",
+		}),
 	}
-	if after, _ := os.ReadFile(path); string(after) != string(before) {
-		t.Fatal("check wrote file")
+	before := make(map[string][]byte)
+	for _, path := range paths {
+		content, err := os.ReadFile(path)
+		if err != nil {
+			t.Fatal(err)
+		}
+		before[path] = content
+	}
+	releaseJSON, err := json.Marshal(releases)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fakeJSON(t, map[string]string{
+		"/releases?per_page=100&page=1": string(releaseJSON),
+		"/releases?per_page=100&page=2": "[]",
+		"/commits/main":                 `{"sha":"` + strings.Repeat("b", 40) + `"}`,
+		"/compare/":                     `{"status":"ahead"}`,
+		"/addon/addon/":                 `{"guid":"test@example","current_version":{"version":"2"}}`,
+		"/extensionquery":               `{"results":[{"extensions":[{"versions":[{"version":"2"}]}]}]}`,
+		"proxy.golang.org":              `{"Version":"v2"}`,
+	})
+	unexpectedHash := func(string) (string, error) {
+		t.Error("check must not fetch artifacts or calculate hashes")
+		return "", errors.New("unexpected hash calculation")
+	}
+	oldURL, oldGitHub, oldCaddy := prefetchURL, prefetchGitHub, caddyHash
+	t.Cleanup(func() { prefetchURL, prefetchGitHub, caddyHash = oldURL, oldGitHub, oldCaddy })
+	prefetchURL = unexpectedHash
+	prefetchGitHub = func(_, _, _ string) (string, error) { return unexpectedHash("") }
+	caddyHash = func(_, _ string) (string, error) { return unexpectedHash("") }
+
+	var stdout, stderr bytes.Buffer
+	if exitCode := run([]string{"-root", dir, "check"}, &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("check exited %d: %s", exitCode, &stderr)
+	}
+	if count := strings.Count(stdout.String(), "OUTDATED"); count != len(paths) {
+		t.Errorf("reported %d outdated pins; want all %d", count, len(paths))
+	}
+	for _, path := range paths {
+		after, err := os.ReadFile(path)
+		if err != nil || !bytes.Equal(after, before[path]) {
+			t.Errorf("check changed pin %s or made it unreadable: %v", path, err)
+		}
+	}
+}
+
+func TestCheckWithNoPinsSucceedsWithoutOutput(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	exitCode := run([]string{"-root", t.TempDir(), "check"}, &stdout, &stderr)
+	if exitCode != 0 || stdout.Len() != 0 || stderr.Len() != 0 {
+		t.Errorf("empty check: exit %d, stdout %q, stderr %q; want success without output", exitCode, &stdout, &stderr)
+	}
+}
+
+func writeAMOPin(t *testing.T, dir, name, version string) string {
+	t.Helper()
+	return write(t, dir, name+".pin.json", Pin{
+		"kind": "amo", "slug": name, "addonId": "test@example",
+		"version": version, "url": "old", "hash": "old",
+	})
+}
+
+func TestCheckRunsFourLookupsAtOnceAndFinishesQueuedPins(t *testing.T) {
+	dir := t.TempDir()
+	const pinCount = 12
+	for index := range pinCount {
+		writeAMOPin(t, dir, fmt.Sprintf("pin-%02d", index), "2")
+	}
+
+	var mutex sync.Mutex
+	active, peak, started := 0, 0, 0
+	firstBatchReady := make(chan struct{})
+	var releaseOnce sync.Once
+	t.Cleanup(func() { releaseOnce.Do(func() { close(firstBatchReady) }) })
+
+	old := getJSON
+	t.Cleanup(func() { getJSON = old })
+	getJSON = func(_ string, _ any, _ map[string]string, out any) error {
+		mutex.Lock()
+		active++
+		started++
+		peak = max(peak, active)
+		// Hold the first requests until four have started, proving overlap.
+		if started == 4 {
+			releaseOnce.Do(func() { close(firstBatchReady) })
+		}
+		mutex.Unlock()
+		defer func() {
+			mutex.Lock()
+			active--
+			mutex.Unlock()
+		}()
+
+		select {
+		case <-firstBatchReady:
+		case <-time.After(5 * time.Second):
+			releaseOnce.Do(func() { close(firstBatchReady) })
+			return errors.New("four concurrent lookups did not start")
+		}
+		return json.Unmarshal([]byte(`{"guid":"test@example","current_version":{"version":"2"}}`), out)
+	}
+
+	var stdout, stderr bytes.Buffer
+	exitCode := run([]string{"-root", dir, "check"}, &stdout, &stderr)
+	if exitCode != 0 {
+		t.Fatalf("check exited %d: %s", exitCode, &stderr)
+	}
+	if peak != 4 {
+		t.Errorf("peak concurrent lookups = %d; want exactly 4", peak)
+	}
+	if started != pinCount || active != 0 {
+		t.Errorf("started = %d, active = %d; want %d completed lookups", started, active, pinCount)
+	}
+	if lines := strings.Count(stdout.String(), "\n"); lines != pinCount {
+		t.Errorf("reported %d pins; want %d", lines, pinCount)
+	}
+}
+
+func TestCheckPreservesOutputOrderWhenLookupsFinishOutOfOrder(t *testing.T) {
+	for _, test := range []struct {
+		name     string
+		selected []string
+		want     []string
+	}{
+		{name: "alphabetical", want: []string{"alpha", "beta", "gamma"}},
+		{name: "one selected name", selected: []string{"gamma"}, want: []string{"gamma"}},
+		{name: "selected subset", selected: []string{"alpha", "gamma"}, want: []string{"alpha", "gamma"}},
+		{
+			name:     "selected names including duplicates",
+			selected: []string{"alpha", "gamma", "beta", "alpha"},
+			want:     []string{"alpha", "gamma", "beta", "alpha"},
+		},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			dir := t.TempDir()
+			paths := make(map[string]string)
+			before := make(map[string][]byte)
+			for _, name := range []string{"alpha", "beta", "gamma"} {
+				paths[name] = writeAMOPin(t, dir, name, "1")
+				before[name], _ = os.ReadFile(paths[name])
+			}
+
+			gammaFinished := make(chan struct{})
+			var releaseOnce sync.Once
+			t.Cleanup(func() { releaseOnce.Do(func() { close(gammaFinished) }) })
+			old := getJSON
+			t.Cleanup(func() { getJSON = old })
+			getJSON = func(url string, _ any, _ map[string]string, out any) error {
+				// Alpha is first in the output but must finish after gamma.
+				if strings.Contains(url, "/alpha/") {
+					select {
+					case <-gammaFinished:
+					case <-time.After(5 * time.Second):
+						return errors.New("gamma lookup did not finish before alpha")
+					}
+				}
+				err := json.Unmarshal([]byte(`{"guid":"test@example","current_version":{"version":"2"}}`), out)
+				if strings.Contains(url, "/gamma/") {
+					releaseOnce.Do(func() { close(gammaFinished) })
+				}
+				return err
+			}
+
+			var stdout, stderr bytes.Buffer
+			args := append([]string{"-root", dir, "check"}, test.selected...)
+			if exitCode := run(args, &stdout, &stderr); exitCode != 0 {
+				t.Fatalf("check exited %d: %s", exitCode, &stderr)
+			}
+			var expected bytes.Buffer
+			for _, name := range test.want {
+				fmt.Fprintf(&expected, "%-26s OUTDATED    1 -> 2\n", name)
+			}
+			if stdout.String() != expected.String() || stderr.Len() != 0 {
+				t.Errorf("unexpected report:\nstdout: %q\nstderr: %q\nwant: %q", &stdout, &stderr, &expected)
+			}
+			for name, path := range paths {
+				after, err := os.ReadFile(path)
+				if err != nil || !bytes.Equal(after, before[name]) {
+					t.Errorf("check changed pin %s or made it unreadable: %v", name, err)
+				}
+			}
+		})
+	}
+}
+
+func TestCheckReportsEveryFailureAndContinuesWithOtherPins(t *testing.T) {
+	dir := t.TempDir()
+	write(t, dir, "invalid.pin.json", Pin{"kind": "mystery"})
+	writeAMOPin(t, dir, "unreachable", "1")
+	writeAMOPin(t, dir, "current", "2")
+	writeAMOPin(t, dir, "outdated", "1")
+	fakeJSON(t, map[string]string{
+		"/current/":  `{"guid":"test@example","current_version":{"version":"2"}}`,
+		"/outdated/": `{"guid":"test@example","current_version":{"version":"2"}}`,
+	})
+
+	var stdout, stderr bytes.Buffer
+	exitCode := run([]string{"-root", dir, "check"}, &stdout, &stderr)
+	if exitCode != 1 {
+		t.Errorf("check exited %d; want 1 for failed lookups", exitCode)
+	}
+	expectedOutput := fmt.Sprintf("%-26s up to date  2\n%-26s OUTDATED    1 -> 2\n", "current", "outdated")
+	if stdout.String() != expectedOutput {
+		t.Errorf("successful pins were not reported correctly: %q", &stdout)
+	}
+	expectedErrors := fmt.Sprintf("%-26s ERROR       unsupported kind %q\n", "invalid", "mystery") +
+		fmt.Sprintf("%-26s ERROR       unexpected request https://addons.mozilla.org/api/v5/addons/addon/unreachable/\n", "unreachable") +
+		"2 pin(s) failed\n"
+	if stderr.String() != expectedErrors {
+		t.Errorf("errors = %q; want %q", &stderr, expectedErrors)
+	}
+}
+
+func TestListAndUpdateKeepSequentialBehavior(t *testing.T) {
+	dir := t.TempDir()
+	writeAMOPin(t, dir, "beta", "1")
+	writeAMOPin(t, dir, "alpha", "1")
+
+	var mutex sync.Mutex
+	var events []string
+	oldJSON, oldPrefetch := getJSON, prefetchURL
+	t.Cleanup(func() { getJSON, prefetchURL = oldJSON, oldPrefetch })
+	getJSON = func(url string, _ any, _ map[string]string, out any) error {
+		mutex.Lock()
+		events = append(events, "lookup "+url)
+		mutex.Unlock()
+		return json.Unmarshal([]byte(`{"guid":"test@example","current_version":{"version":"2","file":{"url":"asset","hash":"sha256:`+strings.Repeat("00", 32)+`"}}}`), out)
+	}
+	prefetchURL = func(url string) (string, error) {
+		mutex.Lock()
+		events = append(events, "hash "+url)
+		mutex.Unlock()
+		return sriFromPrefixed("sha256:" + strings.Repeat("00", 32))
+	}
+
+	var stdout, stderr bytes.Buffer
+	if exitCode := run([]string{"-root", dir, "list"}, &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("list exited %d: %s", exitCode, &stderr)
+	}
+	expectedList := fmt.Sprintf("%-26s %-19s %-14s alpha.pin.json\n", "alpha", "amo", "1") +
+		fmt.Sprintf("%-26s %-19s %-14s beta.pin.json\n", "beta", "amo", "1")
+	if stdout.String() != expectedList || len(events) != 0 {
+		t.Errorf("list must stay ordered and offline: output %q, requests %v", &stdout, events)
+	}
+
+	if exitCode := run([]string{"-root", dir, "update"}, &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("update exited %d: %s", exitCode, &stderr)
+	}
+	expectedEvents := []string{
+		"lookup https://addons.mozilla.org/api/v5/addons/addon/alpha/",
+		"hash asset",
+		"lookup https://addons.mozilla.org/api/v5/addons/addon/beta/",
+		"hash asset",
+	}
+	if !slices.Equal(events, expectedEvents) {
+		t.Errorf("update must finish each pin before starting the next: got %v; want %v", events, expectedEvents)
 	}
 }
 

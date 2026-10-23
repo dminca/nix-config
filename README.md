@@ -125,9 +125,14 @@ just smoke-build HOST          # build HOST's full config (no activation); HOST 
 
 - Releases follow the newest stable release, or the newest prerelease when the
   pin has `"prerelease": true`; commit pins follow their `branch` head.
+- `pins-check` checks up to four pins concurrently without downloading artifacts
+  or changing files. Results are buffered until all checks finish, then printed
+  alphabetically (or in the supplied NAME order). Slow or unreachable upstreams
+  can still delay the report; lookup failures remain explicit and return nonzero.
+  `pins-update` remains sequential.
 - `GITHUB_TOKEN` is optional for `pins-check` and `pins-update` (both call the
   GitHub API; unauthenticated limit is 60 requests/hour). Set it inline as above;
-  never echo it.
+  never echo it. Concurrent checks do not reduce the number of API requests.
 - `just smoke` needs flakes, network access to GitHub, AMO and the VS Code
   Marketplace, and new `*.pin.json` files `git add`ed. It proves evaluation and
   that pinned hashes/./pkgs build on this machine, and ends by naming any pin it

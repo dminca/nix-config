@@ -18,7 +18,7 @@
   profiles.common.tmux.launchOnTerminalOpen = true;
   profiles.common.st.enable = true;
   profiles.ai.hermes = {
-    enable = true;
+    enable = false;
     openrouter.enable = true;
     scanOnInstall = false;
   };

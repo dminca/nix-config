@@ -167,12 +167,12 @@ in
   };
 
   homelab.ai.hermes = {
-    enable = true;
+    enable = false;
     openrouter.enable = true;
   };
 
   homelab.ziggity.enable = true;
-  homelab.bramble.enable = true;
+  homelab.bramble.enable = false;
 
   home-manager = {
     useGlobalPkgs = true;

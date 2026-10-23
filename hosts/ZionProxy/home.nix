@@ -85,7 +85,7 @@ in
   };
   programs.direnv.enable = true;
   profiles.ai.hermes = {
-    enable = true;
+    enable = false;
     openrouter.enable = true;
   };
 

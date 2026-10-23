@@ -6,9 +6,9 @@
   system.primaryUser = "dminca";
 
   homelab.ziggity.enable = true;
-  homelab.bramble.enable = true;
+  homelab.bramble.enable = false;
   homelab.ai.hermes = {
-    enable = true;
+    enable = false;
     openrouter.enable = true;
   };
   homebrew = {

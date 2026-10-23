@@ -33,6 +33,7 @@ in
       isDefault = true;
       settings = {
         "extensions.autoDisableScopes" = 0;
+        "browser.startup.page" = 3;
       };
       extensions.packages = [
         (buildFirefoxXpiAddon {

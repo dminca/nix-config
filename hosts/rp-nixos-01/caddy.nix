@@ -34,6 +34,10 @@
     virtualHosts = {
       "*.mrbl.dedyn.io" = {
         extraConfig = ''
+          tls {
+            resolvers 1.1.1.1 8.8.8.8
+          }
+
           log {
             output stderr
             format json

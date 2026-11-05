@@ -200,6 +200,14 @@ in
 
   xdg.configFile."sofka/config.toml".text = ''
     favorite_namespaces = ["monitoring"]
+
+    [views."v1/pods:images"]
+    replace = true
+    columns = [
+      { name = "NAME", builtin = "NAME" },
+      { name = "IMAGE", path = "/spec/containers/0/image" },
+      { name = "TAG", path = "/spec/containers/0/image", format = "image-tag" },
+    ]
   '';
   xdg.configFile."sofka/plugins/popeye".source = sofkaPopeyePlugin;
 

@@ -37,6 +37,10 @@
         name = "libreoffice";
         greedy = true;
       }
+      {
+        name = "bramble";
+        greedy = true;
+      }
     ];
   };
 }

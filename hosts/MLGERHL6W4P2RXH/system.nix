@@ -18,15 +18,7 @@
   homebrew = {
     casks = [
       {
-        name = "visual-studio-code";
-        greedy = true;
-      }
-      {
         name = "krita";
-        greedy = true;
-      }
-      {
-        name = "orchard";
         greedy = true;
       }
       {

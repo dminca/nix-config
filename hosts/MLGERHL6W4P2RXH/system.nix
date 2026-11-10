@@ -33,10 +33,6 @@
         name = "bramble";
         greedy = true;
       }
-      {
-        name = "zed";
-        greedy = true;
-      }
     ];
   };
 }

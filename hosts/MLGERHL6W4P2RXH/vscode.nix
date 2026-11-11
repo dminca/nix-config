@@ -6,6 +6,16 @@
 {
   programs.vscode = {
     enable = true;
+    # Backport the Darwin ripgrep path fix until stable nixpkgs includes it.
+    package = pkgs.vscode.overrideAttrs (old: {
+      postPatch =
+        lib.replaceStrings
+          [ "Contents/Resources/app/node_modules/@vscode/ripgrep/bin/rg" ]
+          [
+            "Contents/Resources/app/node_modules.asar.unpacked/@vscode/ripgrep-universal/bin/darwin-arm64/rg"
+          ]
+          old.postPatch;
+    });
     profiles.default = {
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;

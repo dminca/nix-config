@@ -37,6 +37,7 @@ in
   home.homeDirectory = "/Users/mida4001";
   home.stateVersion = "23.11";
   programs.nvix.enable = true;
+  programs.nvix.backend = "native";
   home.packages = with pkgs; [
     #################
     # shell tooling #

@@ -50,16 +50,41 @@ let
     {
       bare = bareModules;
       core = coreModules;
-      full = coreModules ++ [ nvixPlugins.tex nvixPlugins.ai ];
+      full = coreModules ++ [
+        nvixPlugins.tex
+        nvixPlugins.ai
+      ];
     }
     .${cfg.package};
 
 in
 {
-  imports = [ inputs.nixvim.homeModules.nixvim ];
+  imports = [
+    inputs.nixvim.homeModules.nixvim
+    ./native.nix
+  ];
 
   options.programs.nvix = {
     enable = lib.mkEnableOption "the vendored nvix Neovim package";
+
+    backend = lib.mkOption {
+      type = lib.types.enum [
+        "nixvim"
+        "native"
+      ];
+      default = "nixvim";
+      description = "Neovim configuration backend. The native backend is an experimental migration.";
+    };
+
+    servers = lib.mkOption {
+      type = lib.types.attrsOf lib.types.bool;
+      default = { };
+      description = "Native backend server overrides: true enables, false disables a named server.";
+      example = {
+        marksman = false;
+        texlab = true;
+      };
+    };
 
     package = lib.mkOption {
       type = lib.types.enum [
@@ -90,7 +115,14 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (cfg.enable && cfg.backend == "nixvim") {
+    assertions = [
+      {
+        assertion = cfg.servers == { };
+        message = "programs.nvix.servers requires the native backend.";
+      }
+    ];
+
     programs.nixvim = lib.mkMerge [
       {
         enable = true;

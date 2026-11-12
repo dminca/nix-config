@@ -87,11 +87,28 @@ function M.setup()
   local legacy, treesitter = pcall(require, "nvim-treesitter.configs")
   if legacy then
     local guard = require("nvix").guard
+    local parser_directory = vim.fn.stdpath("data") .. "/treesitter"
+    vim.fn.mkdir(parser_directory .. "/parser", "p")
+    vim.opt.runtimepath:prepend(parser_directory)
+    local group = vim.api.nvim_create_augroup("nvix_treesitter", { clear = true })
+    local function install_parser()
+      local parsers = require("nvim-treesitter.parsers")
+      local lang = parsers.get_buf_lang()
+      if lang and parsers.get_parser_configs()[lang] then
+        -- Legacy auto_install can overlap builds in the same source directory.
+        require("nvim-treesitter.install").ensure_installed_sync({ lang })
+      end
+    end
+    if not guard or guard.writer then
+      vim.api.nvim_create_autocmd("FileType", { group = group, callback = install_parser })
+    end
     treesitter.setup({
+      parser_install_dir = parser_directory,
       highlight = { enable = true }, indent = { enable = true },
       incremental_selection = { enable = true },
-      auto_install = not guard or guard.writer,
+      auto_install = false,
     })
+    if not guard or guard.writer then install_parser() end
   else
     require("nvim-treesitter").setup()
     vim.api.nvim_create_autocmd("FileType", {

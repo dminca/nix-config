@@ -18,6 +18,7 @@ in
   home.homeDirectory = "/Users/dminca";
   home.stateVersion = "23.11";
   programs.nvix.enable = true;
+  programs.nvix.backend = "native";
   home.packages = with pkgs; [
     #################
     # shell tooling #

@@ -38,6 +38,10 @@
         name = "kde-connect";
         greedy = true;
       }
+      {
+        name = "bramble";
+        greedy = true;
+      }
     ];
   };
 }

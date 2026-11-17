@@ -2,18 +2,18 @@
   "assets": {
     "aarch64-darwin": {
       "file": "Flow_{version}_darwin_aarch64.dmg",
-      "hash": "sha256-HfMASJs/6dvdU2ia2nat4iZbp9ERGuyAjRGDHrRGgNY=",
-      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta3/Flow_0.1.0-beta3_darwin_aarch64.dmg"
+      "hash": "sha256-gGvx+Cab2ND8vLM+MSAAw9Axld4bFZMJctl6SjzWFjM=",
+      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta4/Flow_0.1.0-beta4_darwin_aarch64.dmg"
     },
     "x86_64-linux": {
       "file": "Flow_{version}_linux_amd64.AppImage",
-      "hash": "sha256-yELvU9nsbawhKqNniQ+lqvDNqzL39E4hblqjfxIZUQU=",
-      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta3/Flow_0.1.0-beta3_linux_amd64.AppImage"
+      "hash": "sha256-6pcj0t/kLkzAlBbfrA4reOfWQjZmvKOmUo/KeUXuamw=",
+      "url": "https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta4/Flow_0.1.0-beta4_linux_amd64.AppImage"
     }
   },
   "kind": "github-release",
   "prerelease": true,
   "repo": "Flow-Tube/Flow-Desktop",
   "tagPrefix": "v",
-  "version": "0.1.0-beta3"
+  "version": "0.1.0-beta4"
 }

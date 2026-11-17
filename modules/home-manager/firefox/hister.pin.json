@@ -1,8 +1,8 @@
 {
   "addonId": "{f0bda7ce-0cda-42dc-9ea8-126b20fed280}",
-  "hash": "sha256-z2TuAE9bdVOj/ARHPx+g3lfdcYiibPJYA8gGoL/mk2o=",
+  "hash": "sha256-WLLaiuw1QM56iJRRaU4R9/8Osuo5h1jjMLAt15eGj9g=",
   "kind": "amo",
   "slug": "hister",
-  "url": "https://addons.mozilla.org/firefox/downloads/file/5126445/hister-0.32.0.xpi",
-  "version": "0.32.0"
+  "url": "https://addons.mozilla.org/firefox/downloads/file/5257514/hister-0.33.0.xpi",
+  "version": "0.33.0"
 }

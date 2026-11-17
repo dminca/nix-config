@@ -6,7 +6,6 @@
   system.primaryUser = "dminca";
 
   homelab.ziggity.enable = true;
-  homelab.bramble.enable = false;
   homelab.ai.hermes = {
     enable = false;
     openrouter.enable = true;

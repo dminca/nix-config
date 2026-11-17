@@ -172,7 +172,6 @@ in
   };
 
   homelab.ziggity.enable = true;
-  homelab.bramble.enable = false;
 
   home-manager = {
     useGlobalPkgs = true;

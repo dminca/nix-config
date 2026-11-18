@@ -32,6 +32,10 @@
         name = "bramble";
         greedy = true;
       }
+      {
+        name = "spotify";
+        greedy = true;
+      }
     ];
   };
 }

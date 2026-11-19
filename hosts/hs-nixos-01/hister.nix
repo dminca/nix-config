@@ -21,7 +21,7 @@ in
     content = ''
       app:
         log_level: info
-        search_url: "https://google.com/search?q={query}"
+        search_url: "https://duckduckgo.com/?q={query}"
         open_results_on_new_tab: true
         user_handling: true
       server:

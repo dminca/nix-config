@@ -2,17 +2,17 @@
   "assets": {
     "aarch64-darwin": {
       "file": "rad-backup-aarch64-apple-darwin.tar.gz",
-      "hash": "sha256-ifh9S7yYl+x+ZnnM8yq6iMxt/ePXSg80phx44J5zYCQ=",
-      "url": "https://github.com/maninak/radicle-backup/releases/download/v0.4.2/rad-backup-aarch64-apple-darwin.tar.gz"
+      "hash": "sha256-l+6RBZ2Y1ohCC3TC+OJrFW5azM+p2b03Rw31POqu8MI=",
+      "url": "https://github.com/maninak/radicle-backup/releases/download/v0.5.0/rad-backup-aarch64-apple-darwin.tar.gz"
     },
     "x86_64-linux": {
       "file": "rad-backup-x86_64-unknown-linux-musl.tar.gz",
-      "hash": "sha256-9jqxAQemc23qZn6MgqaGl60OW4q1Bc2r1PWuFxKxcUw=",
-      "url": "https://github.com/maninak/radicle-backup/releases/download/v0.4.2/rad-backup-x86_64-unknown-linux-musl.tar.gz"
+      "hash": "sha256-XaS0ny0kviOwtnEgeuXGT80SBipxwzsBguj4bUZI6W4=",
+      "url": "https://github.com/maninak/radicle-backup/releases/download/v0.5.0/rad-backup-x86_64-unknown-linux-musl.tar.gz"
     }
   },
   "kind": "github-release",
   "repo": "maninak/radicle-backup",
   "tagPrefix": "v",
-  "version": "0.4.2"
+  "version": "0.5.0"
 }

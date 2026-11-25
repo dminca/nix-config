@@ -36,6 +36,10 @@
         name = "spotify";
         greedy = true;
       }
+      {
+        name = "zulip";
+        greedy = true;
+      }
     ];
   };
 }
